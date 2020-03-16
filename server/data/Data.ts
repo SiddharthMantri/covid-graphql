@@ -23,7 +23,6 @@ export const Data = {
       .then(result => result);
   },
   getTimeSeries(type) {
-    console.log(type);
     const key = `covid_data_${type}`;
     return cacheService
       .getCachedTimeSeriesData(key, () => axios.get(RAW_TIME_SERIES_DATA(type)))
