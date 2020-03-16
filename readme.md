@@ -57,7 +57,7 @@ I've also added TimeSeries data from JHU and that is available as
 ```graphql
 // time series type is required whereas countryRegion is optional
 {
-  timeSeries(type: "All" | "Confirmed" | "Deaths") {
+  timeSeries(type:  "Confirmed" | "Deaths" | "Recovered" ) {
     proviceState
     countryRegion
     lat
@@ -67,7 +67,7 @@ I've also added TimeSeries data from JHU and that is available as
       nums
     }
   }
-  timeSeries(type: "All" | "Confirmed" | "Deaths", countryRegion: "String") {
+  timeSeries(type:  "Confirmed" | "Deaths" | "Recovered", countryRegion: "String") {
     proviceState
     countryRegion
     lat
