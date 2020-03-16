@@ -1,5 +1,5 @@
 import NodeCache from "node-cache";
-import { transform } from "../utils";
+import { transformDateData } from "../utils";
 
 /**
  *
@@ -27,7 +27,7 @@ class Cache {
     return storeFunction()
       .then(result => {
         console.log(`Data loaded. Cached into ${key}`);
-        let transformed = transform(result.data);
+        let transformed = transformDateData(result.data);
         this.cache.set(key, transformed);
         return transformed;
       })

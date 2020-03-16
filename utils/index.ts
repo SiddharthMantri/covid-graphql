@@ -6,10 +6,10 @@ const parseCsv = string =>
     worker: false
   });
 
-export const transform = csvString => {
+export const transformDateData = csvString => {
   let json = parseCsv(csvString);
   let { data: array } = json;
-  let transformed = array.map(item => ({
+  return array.map(item => ({
     provinceState: item["Province/State"],
     countryRegion: item["Country/Region"],
     updated: item["Last Update"],
@@ -19,5 +19,10 @@ export const transform = csvString => {
     lat: item["Latitude"],
     lng: item["Longitude"]
   }));
-  return transformed;
+};
+
+export const transformTimeSeries = csvString => {
+  let json = parseCsv(csvString);
+  let { data: array } = json;
+  console.log(array);
 };

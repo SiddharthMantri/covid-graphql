@@ -6,7 +6,10 @@ const app = express();
 const port = 8080;
 
 const typeDefs = `
-    type Query { records(date: String): [Record] }
+    type Query { 
+      records(date: String): [Record], 
+      timeSeries(type: String): [TimeSeries] 
+    }
     type Record { 
       proviceState: String,
       countryRegion: String,
@@ -17,11 +20,24 @@ const typeDefs = `
       lat: String,
       lng: String
      }
+     type DateStat {
+       date: String
+       number: String
+     }
+     type TimeSeries {
+      proviceState: String,
+      countryRegion: String,
+      lat: String,
+      lng: String
+      data: [DateStat]
+     }
   `;
 const resolvers = {
   Query: {
     records: (obj: any, args: { date: string }, context: any, info: any) =>
-      DataLoader(args.date)
+      DataLoader.getDateDate(args.date),
+    timeSeries: (obj: any, args: { type: string }, context: any, info: any) =>
+      DataLoader.getTimeSeries(args.type)
   }
 };
 
