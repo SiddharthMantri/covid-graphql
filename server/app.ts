@@ -1,19 +1,9 @@
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import Data from "../data/Data";
-import dayjs from "dayjs";
+import { DataLoader } from "../data/Data";
 
 const app = express();
 const port = 8080;
-
-const DataLoader = (date = "") => {
-  if (date === "") {
-    date = dayjs()
-      .subtract(1, "day")
-      .format("MM-DD-YYYY");
-  }
-  return Data.getData(date).then((response: any) => response);
-};
 
 const typeDefs = `
     type Query { records(date: String): [Record] }
@@ -30,7 +20,7 @@ const typeDefs = `
   `;
 const resolvers = {
   Query: {
-    records: (obj: any, args: any, context: any, info: any) =>
+    records: (obj: any, args: { date: string }, context: any, info: any) =>
       DataLoader(args.date)
   }
 };

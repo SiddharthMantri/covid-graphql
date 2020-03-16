@@ -19,11 +19,14 @@ class Cache {
   get(key: string, storeFunction: any) {
     const value = this.cache.get(key);
     if (value) {
+      console.log(`Data for ${key} found.`);
       return Promise.resolve(value);
     }
 
+    console.log(`Data for ${key} not found. Requesting data from JHU repo`);
     return storeFunction()
       .then(result => {
+        console.log(`Data loaded. Cached into ${key}`);
         let transformed = transform(result.data);
         this.cache.set(key, transformed);
         return transformed;

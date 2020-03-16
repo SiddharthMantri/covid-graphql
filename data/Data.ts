@@ -1,5 +1,6 @@
 import Cache from "../cache";
 import axios from "axios";
+import dayjs from "dayjs";
 
 const HOUR = 60 * 60 * 1;
 
@@ -10,13 +11,21 @@ let cacheService = new Cache({
   ttlSeconds: HOUR
 });
 
-const Data = {
+export const Data = {
   getData(date) {
     const key = `covid_data_${date}`;
     return cacheService
       .get(key, () => axios.get(RAW_DATA(date)))
       .then(result => result);
   }
+};
+export const DataLoader = (date = ""): [] => {
+  if (date === "") {
+    date = dayjs()
+      .subtract(1, "day")
+      .format("MM-DD-YYYY");
+  }
+  return Data.getData(date).then((response: []) => response);
 };
 
 export default Data;
