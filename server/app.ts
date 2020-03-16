@@ -1,12 +1,18 @@
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import Data from "../data/Data";
+import dayjs from "dayjs";
 
 const app = express();
 const port = 8080;
 
-const DataLoader = (date = "03-15-2020") => {
-  return Data.getData(date).then(response => response);
+const DataLoader = (date = "") => {
+  if (date === "") {
+    date = dayjs()
+      .subtract(1, "day")
+      .format("MM-DD-YYYY");
+  }
+  return Data.getData(date).then((response: any) => response);
 };
 
 const typeDefs = `
@@ -23,18 +29,15 @@ const typeDefs = `
      }
   `;
 const resolvers = {
-  Query: { records: (obj, args, context, info) => DataLoader(args.date) }
+  Query: {
+    records: (obj: any, args: any, context: any, info: any) =>
+      DataLoader(args.date)
+  }
 };
 
 const server = new ApolloServer({
   typeDefs,
   resolvers
-});
-
-app.get("/data", (req, res) => {
-  Data.getData("03-15-2020").then(response => {
-    res.json(response);
-  });
 });
 
 server.applyMiddleware({ app });

@@ -13,6 +13,7 @@
   "dependencies": {
     "apollo-server-express": "^2.11.0",
     "axios": "^0.19.2",
+    "dayjs": "^1.8.23",
     "express": "^4.17.1",
     "graphql": "^14.6.0",
     "node-cache": "^5.1.0",

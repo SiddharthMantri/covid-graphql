@@ -1,12 +1,10 @@
 import NodeCache from "node-cache";
 import { transform } from "../utils";
 
-
-
 /**
- * 
+ *
  * Cache service code from https://medium.com/@danielsternlicht/caching-like-a-boss-in-nodejs-9bccbbc71b9b
- * 
+ *
  */
 class Cache {
   cache;
@@ -24,11 +22,13 @@ class Cache {
       return Promise.resolve(value);
     }
 
-    return storeFunction().then(result => {
-      let transformed = transform(result.data);
-      this.cache.set(key, transformed);
-      return transformed;
-    });
+    return storeFunction()
+      .then(result => {
+        let transformed = transform(result.data);
+        this.cache.set(key, transformed);
+        return transformed;
+      })
+      .catch(err => []);
   }
 
   del(keys: any) {
