@@ -5,7 +5,7 @@
 ### Data
 
 The data comes from the [2019 Novel Coronavirus (nCoV) Data Repository,
-by John Hopkins University](https://github.com/CSSEGISandData/2019-nCoV). It is retrieved, transformed and cached for one hour.
+by John Hopkins University](https://github.com/CSSEGISandData/2019-nCoV). It is retrieved, transformed and cached for one hour. Keep in mind, that this is only the CSSE data. WHO situation reports need to be added.
 
 ### Usage
 
@@ -52,7 +52,7 @@ The following queries can be run:
 
 ```
 
-I've also added TimeSeries data from JHU and that is available as
+TimeSeries data from JHU is also available as
 
 ```graphql
 // time series type is required whereas countryRegion is optional
