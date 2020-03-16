@@ -55,3 +55,6 @@ The following queries can be run:
 
 #### Contribute
 PRs are welcome. Feel free to add any and all datasets and points
+
+#### License
+MIT © [SiddharthMantri](https://github.com/SiddharthMantri)
