@@ -1,6 +1,7 @@
-import Cache from "../cache";
 import axios from "axios";
 import dayjs from "dayjs";
+import Cache from "../cache";
+import { DateRecord, TimeSeries } from "../types";
 
 const HOUR = 60 * 60 * 1;
 
@@ -18,27 +19,28 @@ export const Data = {
   getDataByDate(date) {
     const key = `covid_data_${date}`;
     return cacheService
-      .get(key, () => axios.get(RAW_DATE_DATA(date)))
+      .getCachedDateData(key, () => axios.get(RAW_DATE_DATA(date)))
       .then(result => result);
   },
   getTimeSeries(type) {
+    console.log(type);
     const key = `covid_data_${type}`;
     return cacheService
-      .get(key, () => axios.get(RAW_TIME_SERIES_DATA(type)))
+      .getCachedTimeSeriesData(key, () => axios.get(RAW_TIME_SERIES_DATA(type)))
       .then(result => result);
   }
 };
 export const DataLoader = {
-  getDateDate(date = "") {
+  getDateDate(date = ""): Promise<any> {
     if (date === "") {
       date = dayjs()
         .subtract(1, "day")
         .format("MM-DD-YYYY");
     }
-    return Data.getDataByDate(date).then((response: []) => response);
+    return Data.getDataByDate(date).then((response: DateRecord[]) => response);
   },
-  getTimeSeries(type = "") {
-    return Data.getTimeSeries(type).then((response: []) => response);
+  getTimeSeries(type = ""): Promise<any> {
+    return Data.getTimeSeries(type).then((response: TimeSeries[]) => response);
   }
 };
 

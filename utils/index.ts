@@ -24,5 +24,26 @@ export const transformDateData = csvString => {
 export const transformTimeSeries = csvString => {
   let json = parseCsv(csvString);
   let { data: array } = json;
-  console.log(array);
+  return array.map(item => {
+    let newItem = {
+      provinceState: item["Province/State"],
+      countryRegion: item["Country/Region"],
+      lat: item["Lat"],
+      lng: item["Long"]
+    };
+    let data = [];
+    Object.keys(item).forEach(key => {
+      if (
+        ["Province/State", "Country/Region", "Lat", "Long"].indexOf(
+          key
+        ) < 0
+      ) {
+        data.push({
+          date: key,
+          nums: item[key]
+        });
+      }
+    });
+    return { ...newItem, data };
+  });
 };

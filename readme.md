@@ -52,9 +52,38 @@ The following queries can be run:
 
 ```
 
+I've also added TimeSeries data from JHU and that is available as
+
+```graphql
+// time series type is required whereas countryRegion is optional
+{
+  timeSeries(type: "All" | "Confirmed" | "Deaths") {
+    proviceState
+    countryRegion
+    lat
+    lng
+    data {
+      date
+      nums
+    }
+  }
+  timeSeries(type: "All" | "Confirmed" | "Deaths", countryRegion: "String") {
+    proviceState
+    countryRegion
+    lat
+    lng
+    data {
+      date
+      nums
+    }
+  }
+}
+```
 
 #### Contribute
+
 PRs are welcome. Feel free to add any and all datasets and points
 
 #### License
+
 MIT © [SiddharthMantri](https://github.com/SiddharthMantri)

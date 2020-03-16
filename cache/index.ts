@@ -1,5 +1,5 @@
 import NodeCache from "node-cache";
-import { transformDateData } from "../utils";
+import { transformDateData, transformTimeSeries } from "../utils";
 
 /**
  *
@@ -16,7 +16,7 @@ class Cache {
     });
   }
 
-  get(key: string, storeFunction: any) {
+  getCachedDateData(key: string, storeFunction: any) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -28,6 +28,23 @@ class Cache {
       .then(result => {
         console.log(`Data loaded. Cached into ${key}`);
         let transformed = transformDateData(result.data);
+        this.cache.set(key, transformed);
+        return transformed;
+      })
+      .catch(err => []);
+  }
+  getCachedTimeSeriesData(key: string, storeFunction: any) {
+    const value = this.cache.get(key);
+    if (value) {
+      console.log(`Data for ${key} found.`);
+      return Promise.resolve(value);
+    }
+
+    console.log(`Data for ${key} not found. Requesting data from JHU repo`);
+    return storeFunction()
+      .then(result => {
+        console.log(`Data loaded. Cached into ${key}`);
+        let transformed = transformTimeSeries(result.data);
         this.cache.set(key, transformed);
         return transformed;
       })

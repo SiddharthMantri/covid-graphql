@@ -7,10 +7,10 @@ const port = 8080;
 
 const typeDefs = `
     type Query { 
-      records(date: String): [Record], 
-      timeSeries(type: String): [TimeSeries] 
+      records(date: String, countryRegion: String): [DateData], 
+      timeSeries(type: String!, countryRegion: String): [TimeSeries] 
     }
-    type Record { 
+    type DateData { 
       proviceState: String,
       countryRegion: String,
       updated: String,
@@ -22,7 +22,7 @@ const typeDefs = `
      }
      type DateStat {
        date: String
-       number: String
+       nums: String
      }
      type TimeSeries {
       proviceState: String,
@@ -34,10 +34,34 @@ const typeDefs = `
   `;
 const resolvers = {
   Query: {
-    records: (obj: any, args: { date: string }, context: any, info: any) =>
-      DataLoader.getDateDate(args.date),
-    timeSeries: (obj: any, args: { type: string }, context: any, info: any) =>
-      DataLoader.getTimeSeries(args.type)
+    records: (
+      obj: any,
+      args: { date: string; countryRegion: string },
+      context: any,
+      info: any
+    ) => {
+      let datedData = DataLoader.getDateDate(args.date);
+      if (args.countryRegion && args.countryRegion !== "") {
+        return datedData.then(data =>
+          data.filter(item => item.countryRegion === args.countryRegion)
+        );
+      }
+      return datedData;
+    },
+    timeSeries: (
+      obj: any,
+      args: { type: string; countryRegion: string },
+      context: any,
+      info: any
+    ) => {
+      let seriesData = DataLoader.getTimeSeries(args.type);
+      if (args.countryRegion && args.countryRegion !== "") {
+        return seriesData.then(data =>
+          data.filter(item => item.countryRegion === args.countryRegion)
+        );
+      }
+      return seriesData;
+    }
   }
 };
 
