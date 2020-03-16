@@ -22,7 +22,7 @@ The apollo client will be running at http://localhost:8080/graphql
 
 The following queries can be run:
 
-```json
+```graphql
 // defaults to current date minus 1
 {
   records{
