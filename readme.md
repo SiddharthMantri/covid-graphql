@@ -5,7 +5,7 @@
 ### Data
 
 The data comes from the [2019 Novel Coronavirus (nCoV) Data Repository,
-by John Hopkins University](https://github.com/CSSEGISandData/2019-nCoV). It is retrieved, transformeed and cached for one hour.
+by John Hopkins University](https://github.com/CSSEGISandData/2019-nCoV). It is retrieved, transformed and cached for one hour.
 
 ### Usage
 
