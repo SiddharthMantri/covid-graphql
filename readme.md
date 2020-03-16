@@ -10,7 +10,7 @@ by John Hopkins University](https://github.com/CSSEGISandData/2019-nCoV). It is 
 ### Usage
 
 ```sh
-git clone
+git clone https://github.com/SiddharthMantri/covid-graphql.git
 cd covid-graphql
 npm install
 npm run start:server
