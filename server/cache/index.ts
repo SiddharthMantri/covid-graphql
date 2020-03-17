@@ -1,5 +1,11 @@
 import NodeCache from "node-cache";
-import { transformDateData, transformTimeSeries } from "../utils";
+import {
+  transformDateData,
+  transformTimeSeries,
+  transformCountries
+} from "../utils";
+import { AxiosResponse, AxiosError } from "axios";
+import { DateRecord, TimeSeries, CountryRegion } from "../types";
 
 /**
  *
@@ -7,7 +13,7 @@ import { transformDateData, transformTimeSeries } from "../utils";
  *
  */
 class Cache {
-  cache;
+  cache: NodeCache;
   constructor({ ttlSeconds }: { ttlSeconds: number }) {
     this.cache = new NodeCache({
       stdTTL: ttlSeconds,
@@ -15,8 +21,7 @@ class Cache {
       useClones: false
     });
   }
-
-  getCachedDateData(key: string, storeFunction: any) {
+  getCachedDateData(key: string, storeFunction: Function) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -25,15 +30,15 @@ class Cache {
 
     console.log(`Data for ${key} not found. Requesting data from JHU repo`);
     return storeFunction()
-      .then(result => {
+      .then((result: AxiosResponse<any>) => {
         console.log(`Data loaded. Cached into ${key}`);
         let transformed = transformDateData(result.data);
         this.cache.set(key, transformed);
         return transformed;
       })
-      .catch(err => []);
+      .catch((err: AxiosError): DateRecord[] => []);
   }
-  getCachedTimeSeriesData(key: string, storeFunction: any) {
+  getCachedTimeSeriesData(key: string, storeFunction: Function) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -42,16 +47,34 @@ class Cache {
 
     console.log(`Data for ${key} not found. Requesting data from JHU repo`);
     return storeFunction()
-      .then(result => {
+      .then((result: AxiosResponse<any>) => {
         console.log(`Data loaded. Cached into ${key}`);
         let transformed = transformTimeSeries(result.data);
         this.cache.set(key, transformed);
         return transformed;
       })
-      .catch(err => []);
+      .catch((err: AxiosError): TimeSeries[] => []);
+  }
+  getCountries(key: string, storeFunction: Function) {
+    const value = this.cache.get(key);
+    if (value) {
+      console.log(`Data for ${key} found.`);
+      return Promise.resolve(value);
+    }
+    console.log(
+      `Data for ${key} not found. Requesting data from restCountries API`
+    );
+    return storeFunction()
+      .then((result: AxiosResponse<any>) => {
+        console.log(`Data loaded. Cached into ${key}`);
+        let transformed = transformCountries(result.data);
+        this.cache.set(key, transformed);
+        return transformed;
+      })
+      .catch((err: AxiosError): CountryRegion[] => []);
   }
 
-  del(keys: any) {
+  del(keys: string) {
     this.cache.del(keys);
   }
 

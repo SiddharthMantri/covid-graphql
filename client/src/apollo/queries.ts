@@ -1,0 +1,46 @@
+import { gql } from "apollo-boost";
+
+export const COUNTRIES = gql`
+  query Country($name: String) {
+    countryRegion(name: $name) {
+      name
+      region
+    }
+  }
+`;
+
+export const LOAD_COUNTRY_DATA = gql`
+  query AllDataByCountry($name: String) {
+    records(countryRegion: $name) {
+      countryRegion
+      confirmed
+      deaths
+      updated
+      recovered
+    }
+    confirmed: timeSeries(type: "Confirmed", countryRegion: $name) {
+      provinceState
+      countryRegion
+      data {
+        date
+        nums
+      }
+    }
+    recovered: timeSeries(type: "Recovered", countryRegion: $name) {
+      provinceState
+      countryRegion
+      data {
+        date
+        nums
+      }
+    }
+    deaths: timeSeries(type: "Deaths", countryRegion: $name) {
+      provinceState
+      countryRegion
+      data {
+        date
+        nums
+      }
+    }
+  }
+`;

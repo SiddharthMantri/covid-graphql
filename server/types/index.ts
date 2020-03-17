@@ -1,5 +1,5 @@
 export type DateRecord = {
-  proviceState: string;
+  provinceState: string;
   countryRegion: string;
   updated: string;
   confirmed: string;
@@ -13,9 +13,13 @@ export type DateStat = {
   nums: string;
 };
 export type TimeSeries = {
-  proviceState: string;
+  provinceState: string;
   countryRegion: string;
   lat: string;
   lng: string;
   data: DateStat[];
+};
+export type CountryRegion = {
+  name: String;
+  region: String;
 };

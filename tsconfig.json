@@ -10,7 +10,12 @@
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["es6", "dom", "dom.iterable", "esnext"],
+    "jsx": "react"
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx"]
 }
