@@ -80,6 +80,18 @@ TimeSeries data from JHU is also available as
 }
 ```
 
+
+### Dashboard UI
+
+Created a simple UI for the data. To run it - simply clone and run 
+```sh
+npm run dev
+```
+
+![Sample Dashboard query for Spain](UI_SS.PNG)
+
+I plan to include SSR and other improvements as I get time on the project. 
+
 #### Contribute
 
 PRs are welcome. Feel free to add any and all datasets and points

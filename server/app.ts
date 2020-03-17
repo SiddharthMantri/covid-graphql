@@ -1,6 +1,7 @@
-import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import { typeDefs, resolvers } from "./schema";
+import express from "express";
+import { resolvers, typeDefs } from "./schema";
+
 
 const app = express();
 const port = 8080;

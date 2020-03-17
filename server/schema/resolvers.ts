@@ -1,4 +1,5 @@
 import { DataLoader } from "../data/Data";
+import { TimeSeries, DateRecord } from "../types";
 
 export const resolvers = {
   Query: {
@@ -11,7 +12,9 @@ export const resolvers = {
       let datedData = DataLoader.getDateDate(args.date);
       if (args.countryRegion && args.countryRegion !== "") {
         return datedData.then(data =>
-          data.filter(item => item.countryRegion === args.countryRegion)
+          data.filter(
+            (item: DateRecord) => item.countryRegion === args.countryRegion
+          )
         );
       }
       return datedData;
@@ -25,10 +28,26 @@ export const resolvers = {
       let seriesData = DataLoader.getTimeSeries(args.type);
       if (args.countryRegion && args.countryRegion !== "") {
         return seriesData.then(data =>
-          data.filter(item => item.countryRegion === args.countryRegion)
+          data.filter(
+            (item: TimeSeries) => item.countryRegion === args.countryRegion
+          )
         );
       }
       return seriesData;
+    },
+    countryRegion: (
+      obj: any,
+      args: { name: string },
+      context: any,
+      info: any
+    ) => {
+      let countries = DataLoader.getCountries();
+      if (args.name && args.name !== "") {
+        return countries.then(data =>
+          data.filter((item: any) => item.name === args.name)
+        );
+      }
+      return countries;
     }
   }
 };
