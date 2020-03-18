@@ -1,11 +1,11 @@
 import { useLazyQuery } from "@apollo/react-hooks";
-import { Grid } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { COUNTRIES } from "../../apollo/queries";
 import CountrySearch from "../../components/CountrySearch";
 import DataChart from "../../components/DataChart";
@@ -57,6 +57,12 @@ const Home = () => {
       setCountries(countryData.countryRegion);
     }
   }, [countryData]);
+  let dataChart = useMemo(() => (
+    <DataChart
+      country={selectedCountry}
+      timeSeries={allCountryData.timeSeries}
+    />
+  ),[selectedCountry, allCountryData]);
   return (
     <DashboardContext.Provider
       value={{ selectedCountry, onSelectedCountryChange }}
@@ -72,28 +78,30 @@ const Home = () => {
         </AppBar>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <CountrySearch
-                selectedCountry={selectedCountry}
-                countries={countries}
-                onChange={onSelectedCountryChange}
-              />
+          <Container maxWidth="xl">
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <CountrySearch
+                  selectedCountry={selectedCountry}
+                  countries={countries}
+                  onChange={onSelectedCountryChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <DatePicker {...allCountryData.summary} />
+              </Grid>
+              <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
+              <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <DatePicker {...allCountryData.summary} />
+            <Grid container spacing={1} style={{ marginTop: "16px" }}>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <SummaryCard {...allCountryData.summary} />
+              </Grid>
+              <Grid item xs={12} sm={12} md={9} lg={9}>
+                {dataChart}
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
-            <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
-          </Grid>
-          <Grid container spacing={1} style={{ marginTop: "16px" }}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <SummaryCard {...allCountryData.summary} />
-            </Grid>
-            <Grid item xs={12} sm={12} md={9} lg={9}>
-              <DataChart timeSeries={allCountryData.timeSeries} />
-            </Grid>
-          </Grid>
+          </Container>
         </main>
       </div>
     </DashboardContext.Provider>
