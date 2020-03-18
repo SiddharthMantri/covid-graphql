@@ -1,28 +1,9 @@
-import React, { useMemo, useEffect, useState } from "react";
-import {
-  Card,
-  makeStyles,
-  CardContent,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction
-} from "@material-ui/core";
-import { TimeSeriesData } from "../../state/useDashboardState";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from "recharts";
-
-import { Chart } from "react-charts";
+import { Card, CardContent, makeStyles } from "@material-ui/core";
 import dayjs from "dayjs";
+import React, { useMemo } from "react";
+import { Chart } from "react-charts";
+import { TimeSeriesData } from "../../state/useDashboardState";
+
 
 const useStyles = makeStyles({
   root: {

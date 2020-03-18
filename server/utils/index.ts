@@ -64,3 +64,10 @@ export const transformCountries = (
       };
     }
   });
+
+export const transformCountriesFromRecords = (jsonData: DateRecord[]) => {
+  return jsonData.map(item => ({
+    name: item.countryRegion,
+    region: item.countryRegion
+  }));
+};

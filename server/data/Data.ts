@@ -31,7 +31,7 @@ export const Data = {
       .then((result: any) => result);
   },
   getCountries() {
-    const key = `covid_data_countries`;
+    const key = `covid_countries`;
     return cacheService
       .getCountries(key, () => axios.get(COUNTRY_ENDPOINT))
       .then((result: any) => result);

@@ -2,7 +2,8 @@ import NodeCache from "node-cache";
 import {
   transformDateData,
   transformTimeSeries,
-  transformCountries
+  transformCountries,
+  transformCountriesFromRecords
 } from "../utils";
 import { AxiosResponse, AxiosError } from "axios";
 import { DateRecord, TimeSeries, CountryRegion } from "../types";
@@ -33,7 +34,9 @@ class Cache {
       .then((result: AxiosResponse<any>) => {
         console.log(`Data loaded. Cached into ${key}`);
         let transformed = transformDateData(result.data);
+        let countries = transformCountriesFromRecords(transformed);
         this.cache.set(key, transformed);
+        this.cache.set("covid_countries", countries);
         return transformed;
       })
       .catch((err: AxiosError): DateRecord[] => []);
