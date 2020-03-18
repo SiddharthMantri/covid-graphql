@@ -1,28 +1,8 @@
-import React, { useMemo, useEffect, useState } from "react";
-import {
-  Card,
-  makeStyles,
-  CardContent,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction
-} from "@material-ui/core";
-import { TimeSeriesData } from "../../state/useDashboardState";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from "recharts";
-
-import { Chart } from "react-charts";
+import { Card, CardContent, makeStyles } from "@material-ui/core";
 import dayjs from "dayjs";
+import React, { useMemo } from "react";
+import { Chart } from "react-charts";
+import { TimeSeriesData } from "../../state/useDashboardState";
 
 const useStyles = makeStyles({
   root: {
@@ -45,8 +25,7 @@ const mapper = item =>
     y: dataItem.nums
   }));
 
-const DataChart = ({ timeSeries }: DataChartProps) => {
-  const classes = useStyles();
+const useDataChart = ({ timeSeries }: DataChartProps) => {
   const data = useMemo(() => {
     if (timeSeries && timeSeries.confirmed) {
       let conf = {
@@ -78,7 +57,12 @@ const DataChart = ({ timeSeries }: DataChartProps) => {
     }),
     []
   );
-  console.log(data);
+  return [data, axes, series];
+};
+
+const DataChart = ({ timeSeries }: DataChartProps) => {
+  const classes = useStyles();
+  const [data, axes, series] = useDataChart({ timeSeries });
   return (
     <Card className={classes.root}>
       <CardContent className={classes.root}>
