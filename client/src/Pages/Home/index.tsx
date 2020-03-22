@@ -1,5 +1,5 @@
 import { useLazyQuery } from "@apollo/react-hooks";
-import { Grid, Container } from "@material-ui/core";
+import { Grid, Container, LinearProgress } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +13,7 @@ import SummaryCard from "../../components/SummaryCard";
 import useDashboardState from "../..//state/useDashboardState";
 import { DashboardContext } from "../../state/DashboardContext";
 import DatePicker from "../../components/DatePicker";
+import ProvinceData from "../../components/ProvinceData";
 
 const drawerWidth = 240;
 
@@ -42,7 +43,8 @@ const Home = () => {
   const {
     selectedCountry,
     onSelectedCountryChange,
-    allCountryData
+    allCountryData,
+    loading: dataLoading
   } = useDashboardState();
 
   const [countries, setCountries] = useState([]);
@@ -53,16 +55,19 @@ const Home = () => {
     getCountries();
   }, []);
   useEffect(() => {
-    if (countryData && countryData.countryRegion) {
-      setCountries(countryData.countryRegion);
+    if (countryData && countryData.country) {
+      setCountries(countryData.country);
     }
   }, [countryData]);
-  let dataChart = useMemo(() => (
-    <DataChart
-      country={selectedCountry}
-      timeSeries={allCountryData.timeSeries}
-    />
-  ),[selectedCountry, allCountryData]);
+  let dataChart = useMemo(
+    () => (
+      <DataChart
+        country={selectedCountry}
+        timeSeries={allCountryData.timeSeries}
+      />
+    ),
+    [selectedCountry, allCountryData]
+  );
   return (
     <DashboardContext.Provider
       value={{ selectedCountry, onSelectedCountryChange }}
@@ -79,7 +84,7 @@ const Home = () => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Container maxWidth="xl">
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <CountrySearch
                   selectedCountry={selectedCountry}
@@ -93,14 +98,20 @@ const Home = () => {
               <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
               <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
             </Grid>
-            <Grid container spacing={1} style={{ marginTop: "16px" }}>
+            <Grid container spacing={2} style={{ marginTop: "16px" }}>
+              <Grid item xs={12}>
+                {dataLoading && <LinearProgress />}
+              </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <SummaryCard {...allCountryData.summary} />
               </Grid>
               <Grid item xs={12} sm={12} md={9} lg={9}>
-                {dataChart}
+                {/* {dataChart} */}
               </Grid>
             </Grid>
+            {allCountryData.regional && allCountryData.regional.length > 0 && (
+              <ProvinceData regional={allCountryData.regional} />
+            )}
           </Container>
         </main>
       </div>

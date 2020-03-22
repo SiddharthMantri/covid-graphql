@@ -2,9 +2,11 @@ import { gql } from "apollo-boost";
 
 export const COUNTRIES = gql`
   query Country($name: String) {
-    countryRegion(name: $name) {
+    country(name: $name) {
       name
-      region
+      regions {
+        name
+      }
     }
   }
 `;
@@ -13,6 +15,7 @@ export const LOAD_COUNTRY_DATA = gql`
   query AllDataByCountry($name: String) {
     records(countryRegion: $name) {
       countryRegion
+      provinceState
       confirmed
       deaths
       updated

@@ -23,3 +23,8 @@ export type CountryRegion = {
   name: String;
   region: String;
 };
+
+export type Country = {
+  name: string;
+  regions: Array<{ name: String }>;
+};

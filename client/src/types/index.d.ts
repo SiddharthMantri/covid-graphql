@@ -1,4 +1,4 @@
 export type CountryRegion = {
   name: string;
-  region: string;
+  regions: Array<{ name: string }>;
 };

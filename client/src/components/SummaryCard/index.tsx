@@ -21,27 +21,28 @@ type SummaryCardProps = {
   confirmed: number;
   deaths: number;
   recovered: number;
-  all?: number;
+  title?: string;
 };
 
 const SummaryCard = ({
   confirmed,
   deaths,
   recovered,
-  all
+  title = "Summary"
 }: SummaryCardProps) => {
   const classes = useStyles();
+  let all = confirmed + recovered + deaths;
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography variant="h6">Summary</Typography>
+        <Typography variant="h6">{title}</Typography>
         <List dense disablePadding>
           <ListItem disableGutters>
             <ListItemText
               primary={<Typography variant="body1">All</Typography>}
             />
             <ListItemSecondaryAction>
-              <Typography variant="body1">{all}</Typography>
+              {!isNaN(all) && <Typography variant="body1">{all}</Typography>}
             </ListItemSecondaryAction>
           </ListItem>
           <ListItem disableGutters>

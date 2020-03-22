@@ -8,31 +8,42 @@ export type TimeSeriesData = {
   data: Array<{ date: string; nums: number }>;
 };
 
-type CountryData = {
-  summary: {
-    countryRegion: string;
-    updated: string;
-    confirmed: number;
-    deaths: number;
-    recovered: number;
-    all?: number;
-  };
-  timeSeries: {
-    confirmed: TimeSeriesData[];
-    recovered: TimeSeriesData[];
-    deaths: TimeSeriesData[];
-  };
+export type Summary = {
+  countryRegion: string;
+  provinceState?: string;
+  updated: string;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  all?: number;
 };
 
-type useDashboardState = {
+export type TimeSeriesRecord = {
+  confirmed: TimeSeriesData[];
+  recovered: TimeSeriesData[];
+  deaths: TimeSeriesData[];
+};
+
+export type CountryData = {
+  summary: Summary;
+  regional?: Summary[];
+  timeSeries: TimeSeriesRecord;
+};
+
+export type useDashboardState = {
   selectedCountry: string;
   onSelectedCountryChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   allCountryData: CountryData;
   loading: boolean;
 };
 
-const COUNTRY_RENAMES = {
-  "Korea (Republic Of)": "South Korea"
+const sumReducer = (
+  array: Summary[],
+  key: "confirmed" | "deaths" | "recovered"
+) => {
+  return array.reduce((acc, next) => {
+    return acc + next[key];
+  }, 0);
 };
 
 const useDashboardState = (): useDashboardState => {
@@ -46,34 +57,36 @@ const useDashboardState = (): useDashboardState => {
   );
   const onSelectedCountryChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>): void => {
-      if (COUNTRY_RENAMES[e.target.value]) {
-        setSelectedCountry(COUNTRY_RENAMES[e.target.value]);
-      } else {
-        setSelectedCountry(e.target.value);
-      }
+      setSelectedCountry(e.target.value);
     },
     []
   );
   useEffect(() => {
     if (selectedCountry !== "") {
-      if (COUNTRY_RENAMES[selectedCountry]) {
-        getAllData(COUNTRY_RENAMES[selectedCountry]);
-      } else {
-        getAllData({ variables: { name: selectedCountry } });
-      }
+      getAllData({ variables: { name: selectedCountry } });
     }
   }, [selectedCountry]);
   useEffect(() => {
     if (allData) {
       let { records, confirmed, recovered, deaths } = allData;
       if (records && records.length > 0) {
-        let [summary] = records;
-        summary.all =
-          (summary.confirmed || 0) +
-          (summary.deaths || 0) +
-          (summary.records || 0);
+        let [cSum, rSum, dSum] = [
+          sumReducer(records, "confirmed"),
+          sumReducer(records, "recovered"),
+          sumReducer(records, "deaths")
+        ];
+        let all = cSum + rSum + dSum;
+        let summary = {
+          countryRegion: records[0].countryRegion,
+          updated: records[0].updated,
+          all,
+          confirmed: cSum,
+          deaths: dSum,
+          recovered: rSum
+        };
+        let regional = [...records];
         let timeSeries = { confirmed, recovered, deaths };
-        setCountryData({ ...allCountryData, summary, timeSeries });
+        setCountryData({ ...allCountryData, summary, timeSeries, regional });
       }
     }
   }, [allData]);

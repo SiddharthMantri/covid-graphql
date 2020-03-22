@@ -3,7 +3,9 @@ import {
   CardContent,
   makeStyles,
   Paper,
-  Typography
+  Typography,
+  Grid,
+  Select
 } from "@material-ui/core";
 import dayjs from "dayjs";
 import React, { useMemo } from "react";
@@ -97,11 +99,11 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
   const classes = useStyles();
   const [data, axes, series] = useDataChart({ country, timeSeries });
   return (
-    <Paper className={classes.root}>
-      <ErrorBoundary>
+    <Card className={classes.root}>
+      <CardContent className={classes.root}>
         <Chart data={data} axes={axes} series={series} tooltip dark />
-      </ErrorBoundary>
-    </Paper>
+      </CardContent>
+    </Card>
   );
 };
 export default DataChart;

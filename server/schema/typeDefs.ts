@@ -2,11 +2,14 @@ export const typeDefs = `
     type Query { 
       records(date: String, countryRegion: String): [DateData], 
       timeSeries(type: String!, countryRegion: String): [TimeSeries] 
-      countryRegion(name: String): [CountryRegion]
+      country(name: String): [Country]
     }
-    type CountryRegion {
+    type Region {
+      name: String
+    }
+    type Country {
       name: String,
-      region: String
+      regions: [Region]
     }
     type DateData { 
       provinceState: String,

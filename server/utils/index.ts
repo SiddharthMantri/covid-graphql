@@ -1,5 +1,11 @@
 import Papa from "papaparse";
-import { CountryRegion, TimeSeries, DateStat, DateRecord } from "../types";
+import {
+  CountryRegion,
+  TimeSeries,
+  DateStat,
+  DateRecord,
+  Country
+} from "../types";
 
 const parseCsv = (string: string) =>
   Papa.parse(string, {
@@ -48,19 +54,23 @@ export const transformTimeSeries = (csvString: string): TimeSeries[] => {
   });
 };
 
-export const transformCountries = (
-  jsonData: CountryRegion[]
-): CountryRegion[] =>
-  jsonData.map(item => {
-    if (item.name === "Korea (Republic of)") {
-      return {
-        name: "Korea, South",
-        region: item.region
-      };
-    } else {
-      return {
-        name: item.name,
-        region: item.region
-      };
+export const transformCountries = (csvString: string): Country[] => {
+  let dateRecords = transformDateData(csvString);
+  let countrySet = new Set(dateRecords.map(item => item.countryRegion));
+  let response = [...countrySet].sort().map(item => ({
+    name: item,
+    regions: []
+  }));
+  dateRecords.forEach(record => {
+    let object = response.find(item => item.name === record.countryRegion);
+    if (object && object.regions) {
+      if (record.provinceState && record.provinceState !== "") {
+        object.regions.push({
+          name: record.provinceState === null ? "" : record.provinceState
+        });
+      }
     }
   });
+  console.log(response);
+  return response;
+};

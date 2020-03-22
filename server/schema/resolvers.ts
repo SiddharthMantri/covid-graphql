@@ -35,7 +35,7 @@ export const resolvers = {
       }
       return seriesData;
     },
-    countryRegion: (
+    country: (
       obj: any,
       args: { name: string },
       context: any,

@@ -31,9 +31,12 @@ export const Data = {
       .then((result: any) => result);
   },
   getCountries() {
-    const key = `covid_data_countries`;
+    const key = "covid_data_countries";
+    let date = dayjs()
+      .subtract(1, "day")
+      .format("MM-DD-YYYY");
     return cacheService
-      .getCountries(key, () => axios.get(COUNTRY_ENDPOINT))
+      .getCountries(key, () => axios.get(RAW_DATE_DATA(date)))
       .then((result: any) => result);
   }
 };
