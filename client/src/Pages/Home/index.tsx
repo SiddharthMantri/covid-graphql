@@ -1,21 +1,11 @@
-import { useLazyQuery } from "@apollo/react-hooks";
-import { Grid, Container, LinearProgress } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import React, { useEffect, useState, useMemo } from "react";
-import { COUNTRIES, GET_GLOBAL_STATS } from "../../apollo/queries";
-import CountrySearch from "../../components/CountrySearch";
-import DataChart from "../../components/DataChart";
-import SummaryCard from "../../components/SummaryCard";
-import useDashboardState from "../..//state/useDashboardState";
-import { DashboardContext } from "../../state/DashboardContext";
-import DatePicker from "../../components/DatePicker";
-import ProvinceData from "../../components/ProvinceData";
 import { useQuery } from "@apollo/react-hooks";
+import { Container, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import { GlobalStats } from "../../../../shared";
+import { GET_GLOBAL_STATS } from "../../apollo/queries";
+import LabelCard from "../../components/LabelCard";
+import CountryList from "../../components/CountryList";
 
 const drawerWidth = 240;
 
@@ -54,16 +44,21 @@ const Home = () => {
           <Container maxWidth="xl">
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={3} lg={3}>
-                {globalData.confirmed}
+                <LabelCard type="confirmed" data={globalData.confirmed} />
               </Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3}></Grid>
-            </Grid>
-            <Grid container spacing={2} style={{ marginTop: "16px" }}>
-              <Grid item xs={12}></Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              <Grid item xs={12} sm={12} md={9} lg={9}></Grid>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <LabelCard type="deaths" data={globalData.deaths} />
+              </Grid>
+              <Grid item xs={12} sm={3} md={3} lg={3}>
+                <LabelCard type="recovered" data={globalData.recovered} />
+              </Grid>
+              <Grid item xs={12} sm={3} md={3} lg={3}>
+                <LabelCard type="active" data={globalData.active} />
+              </Grid>
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <CountryList type="active" data={globalData.active} />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6} lg={6}></Grid>
             </Grid>
           </Container>
         </main>

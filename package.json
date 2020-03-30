@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:server": "ts-node server/app.tsx",
+    "start:server": "ts-node server/app.ts",
     "start:client": "webpack-dev-server --mode development --open",
     "dev": "concurrently \"npm run start:server \" \"npm run start:client\"",
     "start": "ts-node server/app.ts"
