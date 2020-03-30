@@ -2,6 +2,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Cache from "../cache";
 import { DateRecord, TimeSeries } from "../types";
+import { DATE_FORMAT } from "../utils/constants";
 
 const HOUR = 60 * 60 * 1;
 
@@ -9,9 +10,7 @@ const RAW_DATE_DATA = (date: string) =>
   `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/${date}.csv`;
 
 const RAW_TIME_SERIES_DATA = (type: string) =>
-  `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-${type}.csv`;
-
-const COUNTRY_ENDPOINT = "https://restcountries.eu/rest/v2/all";
+  `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${type}_global.csv`;
 
 let cacheService = new Cache({
   ttlSeconds: HOUR
@@ -34,7 +33,7 @@ export const Data = {
     const key = "covid_data_countries";
     let date = dayjs()
       .subtract(1, "day")
-      .format("MM-DD-YYYY");
+      .format(DATE_FORMAT);
     return cacheService
       .getCountries(key, () => axios.get(RAW_DATE_DATA(date)))
       .then((result: any) => result);
@@ -45,7 +44,7 @@ export const DataLoader = {
     if (date === "") {
       date = dayjs()
         .subtract(1, "day")
-        .format("MM-DD-YYYY");
+        .format(DATE_FORMAT);
     }
     return Data.getDataByDate(date).then((response: DateRecord[]) => response);
   },

@@ -3,7 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const htmlPlugin = new HtmlWebpackPlugin({
   template: "./client/public/index.html"
 });
-module.exports = {
+
+const clientConfig = {
   entry: "./client/src/index.js",
   devtool: "inline-source-map",
   devServer: {
@@ -49,3 +50,6 @@ module.exports = {
   },
   plugins: [htmlPlugin]
 };
+
+
+module.exports = [clientConfig]

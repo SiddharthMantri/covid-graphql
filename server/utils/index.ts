@@ -18,14 +18,15 @@ export const transformDateData = (csvString: string): DateRecord[] => {
   let json = parseCsv(csvString);
   let { data: array } = json;
   return array.map(item => ({
-    provinceState: item["Province/State"],
-    countryRegion: item["Country/Region"],
-    updated: item["Last Update"],
+    provinceState: item["Province/State"] || item["Province_State"],
+    countryRegion: item["Country/Region"] || item["Country_Region"],
+    updated: item["Last Update"] || item["Last_Update"],
     confirmed: item["Confirmed"],
     deaths: item["Deaths"],
     recovered: item["Recovered"],
-    lat: item["Latitude"],
-    lng: item["Longitude"]
+    active: item["Active"],
+    lat: item["Latitude"] || item["Lat"],
+    lng: item["Longitude"] || item["Long_"]
   }));
 };
 

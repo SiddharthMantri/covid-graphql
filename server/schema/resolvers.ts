@@ -1,5 +1,6 @@
 import { DataLoader } from "../data/Data";
 import { TimeSeries, DateRecord } from "../types";
+import { Stats } from "../data/Stats";
 
 export const resolvers = {
   Query: {
@@ -35,12 +36,7 @@ export const resolvers = {
       }
       return seriesData;
     },
-    country: (
-      obj: any,
-      args: { name: string },
-      context: any,
-      info: any
-    ) => {
+    country: (obj: any, args: { name: string }, context: any, info: any) => {
       let countries = DataLoader.getCountries();
       if (args.name && args.name !== "") {
         return countries.then(data =>
@@ -48,6 +44,14 @@ export const resolvers = {
         );
       }
       return countries;
+    },
+    globalData: (
+      obj: any,
+      args: { name: string },
+      context: any,
+      info: any
+    ) => {
+      return Stats.getGlobalStats()
     }
   }
 };

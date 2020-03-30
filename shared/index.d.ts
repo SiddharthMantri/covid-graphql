@@ -29,3 +29,11 @@ export type Country = {
   name: string;
   regions: Array<{ name: String }>;
 };
+
+export type GlobalStats = {
+  updated: string;
+  recovered: number;
+  deaths: number;
+  confirmed: number;
+  active: number;
+};

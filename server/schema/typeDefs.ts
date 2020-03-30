@@ -3,6 +3,7 @@ export const typeDefs = `
       records(date: String, countryRegion: String): [DateData], 
       timeSeries(type: String!, countryRegion: String): [TimeSeries] 
       country(name: String): [Country]
+      globalData: GlobalData
     }
     type Region {
       name: String
@@ -18,6 +19,7 @@ export const typeDefs = `
       confirmed: Int,
       deaths: Int,
       recovered: Int,
+      active: Int,
       lat: String,
       lng: String
      }
@@ -31,5 +33,12 @@ export const typeDefs = `
       lat: String,
       lng: String
       data: [DateStat]
+     }
+     type GlobalData {
+      updated: String,
+      confirmed: Int,
+      deaths: Int,
+      recovered: Int,
+      active: Int,
      }
   `;

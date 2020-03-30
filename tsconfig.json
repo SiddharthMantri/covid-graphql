@@ -7,9 +7,11 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
+      "server": ["server/"],
+      "client": ["client/"]
     },
     "allowJs": true,
     "skipLibCheck": true,
