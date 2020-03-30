@@ -28,4 +28,6 @@ export type CountryRegion = {
 export type Country = {
   name: string;
   regions: Array<{ name: String }>;
+  lat: string;
+  lng: string;
 };

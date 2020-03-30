@@ -29,11 +29,18 @@ export const Stats = {
         acc.deaths += isNaN(parseInt(next.deaths, 10))
           ? 0
           : parseInt(next.deaths, 10);
-        acc.updated = next.updated
+        acc.updated = next.updated;
         return acc;
       }, result);
       return result;
     });
     return result;
+  },
+  async getAllCountryStats() {
+    const date = dayjs()
+      .subtract(1, "day")
+      .format(DATE_FORMAT);
+    await DataLoader.getDateDate(date).then((recs: DateRecord[]) => {});
+    return {};
   }
 };

@@ -11,6 +11,8 @@ export const typeDefs = `
     type Country {
       name: String,
       regions: [Region]
+      lat: Int
+      lng: Int
     }
     type DateData { 
       provinceState: String,

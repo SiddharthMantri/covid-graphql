@@ -60,18 +60,21 @@ export const transformCountries = (csvString: string): Country[] => {
   let countrySet = new Set(dateRecords.map(item => item.countryRegion));
   let response = [...countrySet].sort().map(item => ({
     name: item,
-    regions: []
+    regions: [],
+    lat: "",
+    lng: ""
   }));
   dateRecords.forEach(record => {
     let object = response.find(item => item.name === record.countryRegion);
     if (object && object.regions) {
       if (record.provinceState && record.provinceState !== "") {
+        object.lat = record.lat;
+        object.lng = record.lng;
         object.regions.push({
           name: record.provinceState === null ? "" : record.provinceState
         });
       }
     }
   });
-  console.log(response);
   return response;
 };
