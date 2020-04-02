@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState, useEffect } from "react";
 import useDashboardState from "../..//state/useDashboardState";
@@ -59,6 +59,12 @@ const Home = () => {
         <main className={classes.content}>
           <Container maxWidth="xl">
             <Grid container spacing={2}>
+              <Grid item xs={12} sm={9} md={9} lg={9}></Grid>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
+                <Typography variant="body2">
+                  Data as of: {globalData.updated}
+                </Typography>
+              </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <LabelCard type="confirmed" data={globalData.confirmed} />
               </Grid>

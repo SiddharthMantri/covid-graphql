@@ -1,4 +1,10 @@
-import { useState, useCallback, ChangeEvent, useEffect } from "react";
+import {
+  useState,
+  useCallback,
+  ChangeEvent,
+  useEffect,
+  useReducer
+} from "react";
 import { useLazyQuery, QueryLazyOptions } from "@apollo/react-hooks";
 import { LOAD_COUNTRY_DATA, GET_GLOBAL_STATS } from "../apollo/queries";
 import { GlobalStats, DateRecord } from "../../../shared";
@@ -65,15 +71,40 @@ const COLUMNS = [
   }
 ];
 
+const SET_SELECTED_COUNTRY = "dahboardState/SET_SELECTED_COUNTRY";
+const SET_COUNTRY_DATA = "dahboardState/SET_COUNTRY_DATA";
+const SET_GLOBAL_DATA = "dashboardState/SET_GLOBAL_DATA";
+const SET_COUNTRY_DATA_LIST = "dashboardState/SET_COUNTRY_DATA_LIST";
+
+const initialState = {
+  selectedCountry: "",
+  allCountryData: {} as CountryData,
+  globalData: {} as GlobalStats,
+  countryDataList: [] as DateRecord[]
+};
+const reducer = (
+  state = initialState,
+  action: { type: string; payload: any }
+) => {
+  switch (action.type) {
+    case SET_SELECTED_COUNTRY:
+      return { ...state, selectedCountry: action.payload.selectedCountry };
+    case SET_COUNTRY_DATA:
+      return { ...state, allCountryData: action.payload.allCountryData };
+    case SET_GLOBAL_DATA:
+      return { ...state, globalData: action.payload.globalData };
+    case SET_COUNTRY_DATA_LIST:
+      return { ...state, countryDataList: action.payload.countryDataList };
+    default:
+      return state;
+  }
+};
+
 const useDashboardState = (): useDashboardState => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [allCountryData, setCountryData] = useState<CountryData>(
-    {} as CountryData
-  );
-  const [globalData, setGlobalData] = useState<GlobalStats>({} as GlobalStats);
-  const [countryDataList, setCountryDataList] = useState<DateRecord[]>(
-    [] as DateRecord[]
-  );
+  const [
+    { selectedCountry, allCountryData, globalData, countryDataList },
+    dispatch
+  ] = useReducer(reducer, initialState);
 
   const [
     getGlobalStats,
@@ -85,7 +116,12 @@ const useDashboardState = (): useDashboardState => {
   );
   const onSelectedCountryChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>): void => {
-      setSelectedCountry(e.target.value);
+      dispatch({
+        type: SET_SELECTED_COUNTRY,
+        payload: {
+          selectedCountry: e.target.value
+        }
+      });
     },
     []
   );
@@ -99,10 +135,20 @@ const useDashboardState = (): useDashboardState => {
   }, []);
   useEffect(() => {
     if (globalStats && globalStats.globalData) {
-      setGlobalData({ ...globalStats.globalData });
+      dispatch({
+        type: SET_GLOBAL_DATA,
+        payload: {
+          globalData: { ...globalStats.globalData }
+        }
+      });
     }
     if (globalStats && globalStats.countryDataList) {
-      setCountryDataList([...globalStats.countryDataList]);
+      dispatch({
+        type: SET_COUNTRY_DATA_LIST,
+        payload: {
+          countryDataList: [...globalStats.countryDataList]
+        }
+      });
     }
   }, [globalStats]);
   return {
