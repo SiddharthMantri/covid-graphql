@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:server": "ts-node server/app.ts",
-    "start:client": "webpack-dev-server --mode development --open",
+    "start:client": "webpack-dev-server --env.dev --env.API_URL=http://localhost:8080/graphql --config webpack.config.js ",
     "dev": "concurrently \"npm run start:server \" \"npm run start:client\"",
-    "start": "ts-node server/app.ts",
-    "build:client": "webpack --mode production"
+    "start": "ts-node server/app.ts --env.production",
+    "build:client": "webpack  --env.production --env.API_URL=/graphql --mode production --config webpack.config.js"
   },
   "scarfSettings.enabled": false,
   "keywords": [],

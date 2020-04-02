@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Footer = () => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const classes = useStyles();
   return <div className={classes.root}></div>;
 };
