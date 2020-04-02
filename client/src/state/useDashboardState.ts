@@ -1,6 +1,7 @@
 import { useState, useCallback, ChangeEvent, useEffect } from "react";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { LOAD_COUNTRY_DATA } from "../apollo/queries";
+import { useLazyQuery, QueryLazyOptions } from "@apollo/react-hooks";
+import { LOAD_COUNTRY_DATA, GET_GLOBAL_STATS } from "../apollo/queries";
+import { GlobalStats, DateRecord } from "../../../shared";
 
 export type TimeSeriesData = {
   provinceState: string;
@@ -35,22 +36,49 @@ export type useDashboardState = {
   onSelectedCountryChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   allCountryData: CountryData;
   loading: boolean;
+  getGlobalStats: (options?: QueryLazyOptions<Record<string, any>>) => void;
+  globalData: GlobalStats;
+  countryDataList: DateRecord[];
+  COLUMNS: Array<{ Header: string; accessor: string; align?: string }>;
 };
 
-const sumReducer = (
-  array: Summary[],
-  key: "confirmed" | "deaths" | "recovered"
-) => {
-  return array.reduce((acc, next) => {
-    return acc + next[key];
-  }, 0);
-};
+const COLUMNS = [
+  {
+    Header: "Country",
+    accessor: "countryRegion",
+    align: "left"
+  },
+  {
+    Header: "Confirmed",
+    accessor: "confirmed",
+    align: "right"
+  },
+  {
+    Header: "Deaths",
+    accessor: "deaths",
+    align: "right"
+  },
+  {
+    Header: "Recovered",
+    accessor: "recovered",
+    align: "right"
+  }
+];
 
 const useDashboardState = (): useDashboardState => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [allCountryData, setCountryData] = useState<CountryData>(
     {} as CountryData
   );
+  const [globalData, setGlobalData] = useState<GlobalStats>({} as GlobalStats);
+  const [countryDataList, setCountryDataList] = useState<DateRecord[]>(
+    [] as DateRecord[]
+  );
+
+  const [
+    getGlobalStats,
+    { loading: globalLoading, data: globalStats }
+  ] = useLazyQuery(GET_GLOBAL_STATS);
 
   const [getAllData, { loading, data: allData }] = useLazyQuery(
     LOAD_COUNTRY_DATA
@@ -67,34 +95,25 @@ const useDashboardState = (): useDashboardState => {
     }
   }, [selectedCountry]);
   useEffect(() => {
-    if (allData) {
-      let { records, confirmed, recovered, deaths } = allData;
-      if (records && records.length > 0) {
-        let [cSum, rSum, dSum] = [
-          sumReducer(records, "confirmed"),
-          sumReducer(records, "recovered"),
-          sumReducer(records, "deaths")
-        ];
-        let all = cSum + rSum + dSum;
-        let summary = {
-          countryRegion: records[0].countryRegion,
-          updated: records[0].updated,
-          all,
-          confirmed: cSum,
-          deaths: dSum,
-          recovered: rSum
-        };
-        let regional = [...records];
-        let timeSeries = { confirmed, recovered, deaths };
-        setCountryData({ ...allCountryData, summary, timeSeries, regional });
-      }
+    getGlobalStats();
+  }, []);
+  useEffect(() => {
+    if (globalStats && globalStats.globalData) {
+      setGlobalData({ ...globalStats.globalData });
     }
-  }, [allData]);
+    if (globalStats && globalStats.countryDataList) {
+      setCountryDataList([...globalStats.countryDataList]);
+    }
+  }, [globalStats]);
   return {
     selectedCountry,
     onSelectedCountryChange,
     allCountryData,
-    loading
+    loading,
+    getGlobalStats,
+    globalData,
+    countryDataList,
+    COLUMNS
   };
 };
 export default useDashboardState;

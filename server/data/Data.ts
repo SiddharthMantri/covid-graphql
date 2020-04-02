@@ -40,7 +40,7 @@ export const Data = {
   }
 };
 export const DataLoader = {
-  getDateDate(date = ""): Promise<any> {
+  getDateData(date = ""): Promise<any> {
     if (date === "") {
       date = dayjs()
         .subtract(1, "day")

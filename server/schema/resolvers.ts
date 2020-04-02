@@ -10,7 +10,7 @@ export const resolvers = {
       context: any,
       info: any
     ) => {
-      let datedData = DataLoader.getDateDate(args.date);
+      let datedData = DataLoader.getDateData(args.date);
       if (args.countryRegion && args.countryRegion !== "") {
         return datedData.then(data =>
           data.filter(
@@ -45,13 +45,11 @@ export const resolvers = {
       }
       return countries;
     },
-    globalData: (
-      obj: any,
-      args: { name: string },
-      context: any,
-      info: any
-    ) => {
-      return Stats.getGlobalStats()
+    globalData: (obj: any, args: { name: string }, context: any, info: any) => {
+      return Stats.getGlobalStats();
+    },
+    countryDataList: () => {
+      return Stats.getAllCountryStats();
     }
   }
 };

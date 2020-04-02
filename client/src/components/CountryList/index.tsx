@@ -1,28 +1,123 @@
-import { Card, CardContent, makeStyles, Typography } from "@material-ui/core";
-import React from "react";
-import { blue, red, green, yellow } from "@material-ui/core/colors";
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel
+} from "@material-ui/core";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import React, { useMemo } from "react";
+import { DateRecord } from "../../../../shared";
+import { useTable, useSortBy } from "react-table";
 
 const useStyles = makeStyles(theme => ({
   root: {
     minWidth: "100%",
     maxHeight: "480px",
     minHeight: "480px",
-    overflowY: 'scroll'
+    overflowY: "scroll",
+    padding: "0px 0px 8px 0px"
+  },
+  cardContent: {
+    padding: "0px"
+  },
+  table: {
+    minWidth: "100%"
+  },
+  padded: {
+    padding: "16px 16px 8px 16px"
   }
 }));
 
 type CountryListProps = {
-  type: "recovered" | "confirmed" | "deaths" | "active";
-  data: number;
+  columns?: Array<{ Header: string; accessor: string }>;
+  data: DateRecord[];
 };
 
-const CountryList = ({ type, data }: CountryListProps) => {
+const RecordTable = ({ columns, data }: CountryListProps) => {
+  const sortBy = useMemo(() => [{ id: "confirmed", desc: true }], []);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        sortBy
+      }
+    },
+    useSortBy
+  );
+
+  return (
+    <TableContainer style={{ maxHeight: 416 }}>
+      <Table stickyHeader {...getTableProps()} size="small">
+        <TableHead>
+          {headerGroups.map(headerGroup => (
+            <TableRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <TableCell
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  align={column.align}
+                >
+                  <TableSortLabel
+                    active={column.isSorted}
+                    direction={column.isSortedDesc ? "desc" : "asc"}
+                  >
+                    {column.render("Header")}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableHead>
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      align={cell.column.align}
+                    >
+                      {cell.render("Cell")}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+const CountryList = ({ columns, data }: CountryListProps) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      <CardContent>
-        
-      </CardContent>
+      <div>
+        <CardContent className={classes.cardContent}>
+          <Typography variant="h6" id="tableTitle" className={classes.padded}>
+            Countries
+          </Typography>
+          <RecordTable columns={columns} data={data} />
+        </CardContent>
+      </div>
     </Card>
   );
 };

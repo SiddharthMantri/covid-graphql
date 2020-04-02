@@ -4,6 +4,7 @@ export const typeDefs = `
       timeSeries(type: String!, countryRegion: String): [TimeSeries] 
       country(name: String): [Country]
       globalData: GlobalData
+      countryDataList: [DateData]
     }
     type Region {
       name: String

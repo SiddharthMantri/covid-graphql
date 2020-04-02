@@ -1,11 +1,13 @@
-import { useQuery } from "@apollo/react-hooks";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { GlobalStats } from "../../../../shared";
-import { GET_GLOBAL_STATS } from "../../apollo/queries";
-import LabelCard from "../../components/LabelCard";
+import React, { useState, useEffect } from "react";
+import useDashboardState from "../..//state/useDashboardState";
 import CountryList from "../../components/CountryList";
+import LabelCard from "../../components/LabelCard";
+import { DashboardContext } from "../../state/DashboardContext";
+import { GlobalStats } from "../../../../shared";
+import MapContainer from "../../components/MapContainer";
+import DataChart from "../../components/DataChart";
 
 const drawerWidth = 240;
 
@@ -32,13 +34,27 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles();
-  const { loading, error, data } = useQuery(GET_GLOBAL_STATS);
-  let globalData = {} as GlobalStats;
-  if (loading) {
-    return null;
-  } else {
-    globalData = { ...data.globalData };
-    return (
+  const {
+    selectedCountry,
+    onSelectedCountryChange,
+    allCountryData,
+    loading: dataLoading,
+    globalData,
+    countryDataList,
+    COLUMNS
+  } = useDashboardState();
+
+  return (
+    <DashboardContext.Provider
+      value={{
+        selectedCountry,
+        onSelectedCountryChange,
+        allCountryData,
+        dataLoading,
+        globalData,
+        countryDataList
+      }}
+    >
       <div className={classes.root}>
         <main className={classes.content}>
           <Container maxWidth="xl">
@@ -56,14 +72,19 @@ const Home = () => {
                 <LabelCard type="active" data={globalData.active} />
               </Grid>
               <Grid item xs={12} sm={4} md={4} lg={4}>
-                <CountryList type="active" data={globalData.active} />
+                <CountryList data={countryDataList} columns={COLUMNS} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={6}></Grid>
+              <Grid item xs={12} sm={8} md={8} lg={8}>
+                <MapContainer />
+              </Grid>
+              <Grid item xs={12}>
+                <DataChart />
+              </Grid>
             </Grid>
           </Container>
         </main>
       </div>
-    );
-  }
+    </DashboardContext.Provider>
+  );
 };
 export default Home;

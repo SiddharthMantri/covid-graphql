@@ -1,9 +1,12 @@
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
+import path from "path";
 import { resolvers, typeDefs } from "./schema";
 
 const app = express();
 const port = process.env.PORT || 8080;
+
+app.use(express.static(path.join(__dirname, "client/build")));
 
 const server = new ApolloServer({
   typeDefs,
@@ -14,6 +17,4 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
-app.listen({ port }, () =>
-  console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`)
-);
+app.listen({ port }, () => console.log(`Server ready`));

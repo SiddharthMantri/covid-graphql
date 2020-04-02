@@ -2,12 +2,12 @@ export type DateRecord = {
   provinceState: string;
   countryRegion: string;
   updated: string;
-  confirmed: string;
-  deaths: string;
-  recovered: string;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
   lat: string;
   lng: string;
-  active: string;
+  active: number;
 };
 export type DateStat = {
   date: string;

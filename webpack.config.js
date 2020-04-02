@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 const htmlPlugin = new HtmlWebpackPlugin({
   template: "./client/public/index.html"
@@ -6,12 +7,16 @@ const htmlPlugin = new HtmlWebpackPlugin({
 
 const clientConfig = {
   entry: "./client/src/index.js",
+  output: {
+    path: path.resolve(__dirname, "server/client/build"),
+    filename: "index.js"
+  },
   devtool: "inline-source-map",
   devServer: {
     port: 9000
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: [".tsx", ".ts", ".js"]
   },
 
   module: {
@@ -51,5 +56,4 @@ const clientConfig = {
   plugins: [htmlPlugin]
 };
 
-
-module.exports = [clientConfig]
+module.exports = [clientConfig];

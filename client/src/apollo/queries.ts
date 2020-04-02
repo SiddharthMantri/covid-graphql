@@ -11,18 +11,25 @@ export const COUNTRIES = gql`
   }
 `;
 
-
 export const GET_GLOBAL_STATS = gql`
-  query GlobalStats{
-    globalData{
+  query GlobalStats {
+    globalData {
       updated
       confirmed
       recovered
       deaths
       active
     }
+    countryDataList {
+      countryRegion
+      confirmed
+      recovered
+      active
+      deaths
+      updated
+    }
   }
-`
+`;
 
 export const LOAD_COUNTRY_DATA = gql`
   query AllDataByCountry($name: String) {

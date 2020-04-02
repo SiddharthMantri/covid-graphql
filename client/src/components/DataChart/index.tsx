@@ -48,8 +48,8 @@ const useStyles = makeStyles({
 });
 
 type DataChartProps = {
-  country: string;
-  timeSeries: {
+  country?: string;
+  timeSeries?: {
     confirmed?: TimeSeriesData[];
     recovered?: TimeSeriesData[];
     deaths?: TimeSeriesData[];
@@ -69,7 +69,6 @@ const dataMapper = (data: TimeSeriesData[], type: string) => {
 };
 
 const useDataChart = ({ country, timeSeries }: DataChartProps) => {
-  console.log(timeSeries);
   const data = useMemo(() => {
     if (timeSeries && timeSeries.confirmed) {
       let conf = dataMapper(timeSeries.confirmed, "Confirmed");
