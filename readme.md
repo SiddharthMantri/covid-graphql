@@ -2,6 +2,11 @@
 
 > Apollo GraphQL server for retreiving Covid-19 Data by date
 
+### Heroku App
+
+The UI is deployed to [Heroku](http://covid-graphql.herokuapp.com/). It is a WIP
+
+
 ### Data
 
 The data comes from the [2019 Novel Coronavirus (nCoV) Data Repository,
