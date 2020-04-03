@@ -27,7 +27,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2  
     - run: git fetch  
-    - run: git checkout ci-branch
+    - run: git switch -c action-branch
     - run: git rebase master
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
