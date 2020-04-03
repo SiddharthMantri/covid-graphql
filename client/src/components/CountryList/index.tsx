@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
     minWidth: "100%",
     maxHeight: "480px",
     minHeight: "480px",
-    overflowY: "scroll",
     padding: "0px 0px 8px 0px"
   },
   cardContent: {
@@ -83,20 +82,17 @@ const RecordTable = ({ columns, data }: CountryListProps) => {
           ))}
         </TableHead>
         <TableBody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
+          {rows.map((row) => {
             prepareRow(row);
             return (
               <TableRow {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <TableCell
-                      {...cell.getCellProps()}
-                      align={cell.column.align}
-                    >
-                      {cell.render("Cell")}
-                    </TableCell>
-                  );
-                })}
+                {row.cells.map(cell => (
+                  <TableCell {...cell.getCellProps()} align={cell.column.align}>
+                    {isNaN(cell.value)
+                      ? cell.render("Cell")
+                      : new Intl.NumberFormat("en-US").format(cell.value)}
+                  </TableCell>
+                ))}
               </TableRow>
             );
           })}
