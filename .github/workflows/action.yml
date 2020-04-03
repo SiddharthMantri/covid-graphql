@@ -28,7 +28,7 @@ jobs:
     - uses: actions/checkout@v2  
     - run: git fetch  
     - run: git checkout ci-branch
-    - run: git merge master
+    - run: git rebase master
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
