@@ -3,10 +3,10 @@ import {
   useCallback,
   ChangeEvent,
   useEffect,
-  useReducer
+  useReducer,
 } from "react";
 import { useLazyQuery, QueryLazyOptions } from "@apollo/react-hooks";
-import { LOAD_COUNTRY_DATA, GET_GLOBAL_STATS } from "../apollo/queries";
+import { LOAD_TIME_SERIES, GET_GLOBAL_STATS } from "../apollo/queries";
 import { GlobalStats, DateRecord } from "../../../shared";
 
 export type TimeSeriesData = {
@@ -27,7 +27,6 @@ export type Summary = {
 
 export type TimeSeriesRecord = {
   confirmed: TimeSeriesData[];
-  recovered: TimeSeriesData[];
   deaths: TimeSeriesData[];
 };
 
@@ -46,41 +45,45 @@ export type useDashboardState = {
   globalData: GlobalStats;
   countryDataList: DateRecord[];
   COLUMNS: Array<{ Header: string; accessor: string; align?: string }>;
+  onClickCountry: (country: string) => void;
+  countryTimeSeries: TimeSeriesRecord;
 };
 
 const COLUMNS = [
   {
     Header: "Country",
     accessor: "countryRegion",
-    align: "left"
+    align: "left",
   },
   {
     Header: "Confirmed",
     accessor: "confirmed",
-    align: "right"
+    align: "right",
   },
   {
     Header: "Deaths",
     accessor: "deaths",
-    align: "right"
+    align: "right",
   },
   {
     Header: "Recovered",
     accessor: "recovered",
-    align: "right"
-  }
+    align: "right",
+  },
 ];
 
 const SET_SELECTED_COUNTRY = "dahboardState/SET_SELECTED_COUNTRY";
 const SET_COUNTRY_DATA = "dahboardState/SET_COUNTRY_DATA";
 const SET_GLOBAL_DATA = "dashboardState/SET_GLOBAL_DATA";
 const SET_COUNTRY_DATA_LIST = "dashboardState/SET_COUNTRY_DATA_LIST";
+const SET_COUNTRY_TIME_SERIES = "dashboardState/SET_COUNTRY_TIME_SERIES";
 
 const initialState = {
   selectedCountry: "",
   allCountryData: {} as CountryData,
   globalData: {} as GlobalStats,
-  countryDataList: [] as DateRecord[]
+  countryDataList: [] as DateRecord[],
+  countryTimeSeries: {} as TimeSeriesRecord,
 };
 const reducer = (
   state = initialState,
@@ -95,6 +98,8 @@ const reducer = (
       return { ...state, globalData: action.payload.globalData };
     case SET_COUNTRY_DATA_LIST:
       return { ...state, countryDataList: action.payload.countryDataList };
+    case SET_COUNTRY_TIME_SERIES:
+      return { ...state };
     default:
       return state;
   }
@@ -102,32 +107,44 @@ const reducer = (
 
 const useDashboardState = (): useDashboardState => {
   const [
-    { selectedCountry, allCountryData, globalData, countryDataList },
-    dispatch
+    {
+      selectedCountry,
+      allCountryData,
+      globalData,
+      countryDataList,
+      countryTimeSeries,
+    },
+    dispatch,
   ] = useReducer(reducer, initialState);
 
   const [
     getGlobalStats,
-    { loading: globalLoading, data: globalStats }
+    { loading: globalLoading, data: globalStats },
   ] = useLazyQuery(GET_GLOBAL_STATS);
 
-  const [getAllData, { loading, data: allData }] = useLazyQuery(
-    LOAD_COUNTRY_DATA
+  const [getTimeSeries, { loading, data: timeSeries }] = useLazyQuery(
+    LOAD_TIME_SERIES
   );
+
+  const onClickCountry = useCallback((country: string) => {
+    console.log(country);
+    getTimeSeries({ variables: { name: country } });
+  }, []);
+
   const onSelectedCountryChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>): void => {
       dispatch({
         type: SET_SELECTED_COUNTRY,
         payload: {
-          selectedCountry: e.target.value
-        }
+          selectedCountry: e.target.value,
+        },
       });
     },
     []
   );
   useEffect(() => {
     if (selectedCountry !== "") {
-      getAllData({ variables: { name: selectedCountry } });
+      getTimeSeries({ variables: { name: selectedCountry } });
     }
   }, [selectedCountry]);
   useEffect(() => {
@@ -138,19 +155,27 @@ const useDashboardState = (): useDashboardState => {
       dispatch({
         type: SET_GLOBAL_DATA,
         payload: {
-          globalData: { ...globalStats.globalData }
-        }
+          globalData: { ...globalStats.globalData },
+        },
       });
     }
     if (globalStats && globalStats.countryDataList) {
       dispatch({
         type: SET_COUNTRY_DATA_LIST,
         payload: {
-          countryDataList: [...globalStats.countryDataList]
-        }
+          countryDataList: [...globalStats.countryDataList],
+        },
       });
     }
   }, [globalStats]);
+  useEffect(() => {
+    dispatch({
+      type: SET_COUNTRY_TIME_SERIES,
+      payload: {
+        countryTimeSeries: { ...timeSeries },
+      },
+    });
+  }, [timeSeries]);
   return {
     selectedCountry,
     onSelectedCountryChange,
@@ -159,7 +184,9 @@ const useDashboardState = (): useDashboardState => {
     getGlobalStats,
     globalData,
     countryDataList,
-    COLUMNS
+    COLUMNS,
+    onClickCountry,
+    countryTimeSeries,
   };
 };
 export default useDashboardState;

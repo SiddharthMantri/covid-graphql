@@ -11,25 +11,25 @@ import DataChart from "../../components/DataChart";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 }));
 
 const Home = () => {
@@ -41,7 +41,9 @@ const Home = () => {
     loading: dataLoading,
     globalData,
     countryDataList,
-    COLUMNS
+    COLUMNS,
+    onClickCountry,
+    countryTimeSeries,
   } = useDashboardState();
 
   return (
@@ -52,7 +54,7 @@ const Home = () => {
         allCountryData,
         dataLoading,
         globalData,
-        countryDataList
+        countryDataList,
       }}
     >
       <div className={classes.root}>
@@ -78,13 +80,17 @@ const Home = () => {
                 <LabelCard type="active" data={globalData.active} />
               </Grid>
               <Grid item xs={12} sm={4} md={4} lg={4}>
-                <CountryList data={countryDataList} columns={COLUMNS} />
+                <CountryList
+                  onClickCountry={onClickCountry}
+                  data={countryDataList}
+                  columns={COLUMNS}
+                />
               </Grid>
               <Grid item xs={12} sm={8} md={8} lg={8}>
                 <MapContainer />
               </Grid>
               <Grid item xs={12}>
-                <DataChart />
+                <DataChart timeSeries={countryTimeSeries} />
               </Grid>
             </Grid>
           </Container>

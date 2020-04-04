@@ -31,17 +31,9 @@ export const GET_GLOBAL_STATS = gql`
   }
 `;
 
-export const LOAD_COUNTRY_DATA = gql`
-  query AllDataByCountry($name: String) {
-    records(countryRegion: $name) {
-      countryRegion
-      provinceState
-      confirmed
-      deaths
-      updated
-      recovered
-    }
-    confirmed: timeSeries(type: "Confirmed", countryRegion: $name) {
+export const LOAD_TIME_SERIES = gql`
+  query TimeSeries($name: String) {
+    confirmed: timeSeries(type: "confirmed", countryRegion: $name) {
       provinceState
       countryRegion
       data {
@@ -49,15 +41,7 @@ export const LOAD_COUNTRY_DATA = gql`
         nums
       }
     }
-    recovered: timeSeries(type: "Recovered", countryRegion: $name) {
-      provinceState
-      countryRegion
-      data {
-        date
-        nums
-      }
-    }
-    deaths: timeSeries(type: "Deaths", countryRegion: $name) {
+    deaths: timeSeries(type: "deaths", countryRegion: $name) {
       provinceState
       countryRegion
       data {

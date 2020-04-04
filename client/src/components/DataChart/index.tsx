@@ -5,12 +5,13 @@ import {
   Paper,
   Typography,
   Grid,
-  Select
+  Select,
 } from "@material-ui/core";
 import dayjs from "dayjs";
 import React, { useMemo } from "react";
-import { Chart } from "react-charts";
+import { ResponsiveLine } from "@nivo/line";
 import { TimeSeriesData } from "../../state/useDashboardState";
+
 interface ErrorState {
   hasError: boolean;
 }
@@ -42,28 +43,30 @@ class ErrorBoundary extends React.Component<{}, ErrorState> {
 const useStyles = makeStyles({
   root: {
     minWidth: "100%",
-    minHeight: "420px"
+    minHeight: "420px",
     // padding: "16px"
-  }
+  },
 });
 
 type DataChartProps = {
   country?: string;
   timeSeries?: {
     confirmed?: TimeSeriesData[];
-    recovered?: TimeSeriesData[];
     deaths?: TimeSeriesData[];
   };
 };
 
 const dataMapper = (data: TimeSeriesData[], type: string) => {
-  return data.map(item => {
+  return data.map((item) => {
+    let id = `${item.countryRegion}${
+      item.provinceState !== null ? `/${item.provinceState}` : null
+    }`;
     return {
-      label: `${type}_${item.provinceState}`,
-      datums: item.data.map(dataItem => ({
+      id,
+      data: item.data.map((dataItem) => ({
         x: dayjs(dataItem.date).toDate(),
-        y: dataItem.nums
-      }))
+        y: dataItem.nums,
+      })),
     };
   });
 };
@@ -72,36 +75,21 @@ const useDataChart = ({ country, timeSeries }: DataChartProps) => {
   const data = useMemo(() => {
     if (timeSeries && timeSeries.confirmed) {
       let conf = dataMapper(timeSeries.confirmed, "Confirmed");
-      let rec = dataMapper(timeSeries.recovered, "Recovered");
       let dth = dataMapper(timeSeries.deaths, "Deaths");
-      return [...conf, ...rec, ...dth];
+      return [...conf, ...dth];
     }
     return [];
   }, [timeSeries]);
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: "time", position: "bottom" },
-      { type: "linear", position: "left" }
-    ],
-    []
-  );
-  const series = React.useMemo(
-    () => ({
-      showPoints: true
-    }),
-    []
-  );
-  return [data, axes, series];
+  return [data];
 };
 
 const DataChart = ({ country, timeSeries }: DataChartProps) => {
   const classes = useStyles();
-  const [data, axes, series] = useDataChart({ country, timeSeries });
+  const [data] = useDataChart({ country, timeSeries });
+  console.log(data);
   return (
     <Card className={classes.root}>
-      <CardContent className={classes.root}>
-        <Chart data={data} axes={axes} series={series} tooltip dark />
-      </CardContent>
+      <CardContent className={classes.root}></CardContent>
     </Card>
   );
 };
