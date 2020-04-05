@@ -72,50 +72,18 @@ const COLUMNS = [
   },
 ];
 
-const SET_SELECTED_COUNTRY = "dahboardState/SET_SELECTED_COUNTRY";
-const SET_COUNTRY_DATA = "dahboardState/SET_COUNTRY_DATA";
-const SET_GLOBAL_DATA = "dashboardState/SET_GLOBAL_DATA";
-const SET_COUNTRY_DATA_LIST = "dashboardState/SET_COUNTRY_DATA_LIST";
-const SET_COUNTRY_TIME_SERIES = "dashboardState/SET_COUNTRY_TIME_SERIES";
-
-const initialState = {
-  selectedCountry: "",
-  allCountryData: {} as CountryData,
-  globalData: {} as GlobalStats,
-  countryDataList: [] as DateRecord[],
-  countryTimeSeries: {} as TimeSeriesRecord,
-};
-const reducer = (
-  state = initialState,
-  action: { type: string; payload: any }
-) => {
-  switch (action.type) {
-    case SET_SELECTED_COUNTRY:
-      return { ...state, selectedCountry: action.payload.selectedCountry };
-    case SET_COUNTRY_DATA:
-      return { ...state, allCountryData: action.payload.allCountryData };
-    case SET_GLOBAL_DATA:
-      return { ...state, globalData: action.payload.globalData };
-    case SET_COUNTRY_DATA_LIST:
-      return { ...state, countryDataList: action.payload.countryDataList };
-    case SET_COUNTRY_TIME_SERIES:
-      return { ...state };
-    default:
-      return state;
-  }
-};
-
 const useDashboardState = (): useDashboardState => {
-  const [
-    {
-      selectedCountry,
-      allCountryData,
-      globalData,
-      countryDataList,
-      countryTimeSeries,
-    },
-    dispatch,
-  ] = useReducer(reducer, initialState);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [allCountryData, setAllCountryData] = useState<CountryData>(
+    {} as CountryData
+  );
+  const [globalData, setGlobalData] = useState<GlobalStats>({} as GlobalStats);
+  const [countryDataList, setCountryDataList] = useState<DateRecord[]>(
+    [] as DateRecord[]
+  );
+  const [countryTimeSeries, setCountryTimeSeries] = useState<TimeSeriesRecord>(
+    {} as TimeSeriesRecord
+  );
 
   const [
     getGlobalStats,
@@ -127,18 +95,12 @@ const useDashboardState = (): useDashboardState => {
   );
 
   const onClickCountry = useCallback((country: string) => {
-    console.log(country);
     getTimeSeries({ variables: { name: country } });
   }, []);
 
   const onSelectedCountryChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>): void => {
-      dispatch({
-        type: SET_SELECTED_COUNTRY,
-        payload: {
-          selectedCountry: e.target.value,
-        },
-      });
+      setSelectedCountry(e.target.value);
     },
     []
   );
@@ -152,29 +114,14 @@ const useDashboardState = (): useDashboardState => {
   }, []);
   useEffect(() => {
     if (globalStats && globalStats.globalData) {
-      dispatch({
-        type: SET_GLOBAL_DATA,
-        payload: {
-          globalData: { ...globalStats.globalData },
-        },
-      });
+      setGlobalData({ ...globalStats.globalData });
     }
     if (globalStats && globalStats.countryDataList) {
-      dispatch({
-        type: SET_COUNTRY_DATA_LIST,
-        payload: {
-          countryDataList: [...globalStats.countryDataList],
-        },
-      });
+      setCountryDataList([...globalStats.countryDataList]);
     }
   }, [globalStats]);
   useEffect(() => {
-    dispatch({
-      type: SET_COUNTRY_TIME_SERIES,
-      payload: {
-        countryTimeSeries: { ...timeSeries },
-      },
-    });
+    setCountryTimeSeries({ ...timeSeries });
   }, [timeSeries]);
   return {
     selectedCountry,

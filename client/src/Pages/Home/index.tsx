@@ -87,10 +87,10 @@ const Home = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={8} md={8} lg={8}>
-                <MapContainer />
+                <DataChart timeSeries={countryTimeSeries} />
               </Grid>
               <Grid item xs={12}>
-                <DataChart timeSeries={countryTimeSeries} />
+                <MapContainer />
               </Grid>
             </Grid>
           </Container>

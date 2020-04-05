@@ -1,21 +1,7 @@
-import {
-  Card,
-  CardContent,
-  makeStyles,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from "@material-ui/core";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import { Card, CardContent, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography } from "@material-ui/core";
 import React, { useMemo } from "react";
+import { useSortBy, useTable } from "react-table";
 import { DateRecord } from "../../../../shared";
-import { useTable, useSortBy } from "react-table";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     "&:hover": {
       cursor: "pointer",
-      background: theme.palette.grey[400],
     },
   },
 }));
@@ -48,6 +33,7 @@ type CountryListProps = {
 };
 
 const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
+  const { tableRow } = useStyles();
   const sortBy = useMemo(() => [{ id: "confirmed", desc: true }], []);
   const {
     getTableProps,
@@ -97,6 +83,7 @@ const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
                 onClick={() => {
                   onClickCountry(row.original.countryRegion);
                 }}
+                className={tableRow}
               >
                 {row.cells.map((cell) => (
                   <TableCell {...cell.getCellProps()} align={cell.column.align}>
