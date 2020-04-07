@@ -1,24 +1,29 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const htmlPlugin = new HtmlWebpackPlugin({
-  template: "./client/public/index.html"
-});
+const clientConfig = (env, options) => {
+  let { mode } = options;
+  let devtool = mode === "production" ? false : "inline-source-map";
 
-const clientConfig = env => {
   return {
     entry: "./client/src/index.js",
     output: {
       path: path.resolve(__dirname, "server/client/build"),
-      filename: "index.js"
+      filename: "index.js",
     },
-    devtool: "inline-source-map",
+    devtool,
     devServer: {
-      port: 9000
+      contentBase: "./server/client/build",
+      hot: true,
+      inline: true,
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"]
+      extensions: [".tsx", ".ts", ".js"],
     },
 
     module: {
@@ -30,37 +35,42 @@ const clientConfig = env => {
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-react"],
-              plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]]
-            }
-          }
+              plugins: [
+                ["@babel/plugin-proposal-decorators", { legacy: true }],
+              ],
+            },
+          },
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"]
+          use: ["style-loader", "css-loader"],
         },
         {
           test: /\.ts(x?)$/,
           exclude: /node_modules/,
           use: [
             {
-              loader: "ts-loader"
-            }
-          ]
+              loader: "ts-loader",
+            },
+          ],
         },
         // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
         {
           enforce: "pre",
           test: /\.js$/,
-          loader: "source-map-loader"
-        }
-      ]
+          loader: "source-map-loader",
+        },
+      ],
     },
     plugins: [
-      htmlPlugin,
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: "./client/public/index.html",
+      }),
       new webpack.DefinePlugin({
-        "process.env.API_URL": JSON.stringify(env.API_URL)
-      })
-    ]
+        "process.env.API_URL": JSON.stringify(env.API_URL),
+      }),
+    ],
   };
 };
 

@@ -95,6 +95,7 @@ const useDashboardState = (): useDashboardState => {
   );
 
   const onClickCountry = useCallback((country: string) => {
+    setSelectedCountry(country);
     getTimeSeries({ variables: { name: country } });
   }, []);
 

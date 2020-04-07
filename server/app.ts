@@ -6,15 +6,21 @@ import { resolvers, typeDefs } from "./schema";
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, "client/build")));
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
-  playground: true
+  playground: true,
 });
 
 server.applyMiddleware({ app });
 
-app.listen({ port }, () => console.log(`Server ready`));
+
+app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", (req, res) => {
+  res.sendFile("index.html", {
+    root: path.join(__dirname, "client/build"),
+  });
+});
+
+app.listen({ port }, () => console.log(`Server ready at ${port}`));

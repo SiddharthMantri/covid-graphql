@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: "100%",
     maxHeight: "480px",
     minHeight: "480px",
-    overflowY: "scroll"
+    overflowY: "auto"
   },
   cardContent: {
     padding: "0px"
