@@ -35,7 +35,7 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   return (
     <div className={classes.root}>
       <main className={classes.content}>
-        {JSON.stringify(match)}+2
+        {/* {JSON.stringify(match)}+2 */}
       </main>
     </div>
   );

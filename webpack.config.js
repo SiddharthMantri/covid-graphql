@@ -15,12 +15,12 @@ const clientConfig = (env, options) => {
     output: {
       path: path.resolve(__dirname, "server/client/build"),
       filename: "index.js",
+      publicPath: "/",
     },
     devtool,
     devServer: {
-      contentBase: "./server/client/build",
-      hot: true,
-      inline: true,
+      port: 9000,
+      historyApiFallback: true,
     },
     resolve: {
       extensions: [".tsx", ".ts", ".js"],
@@ -63,6 +63,7 @@ const clientConfig = (env, options) => {
       ],
     },
     plugins: [
+      new webpack.HotModuleReplacementPlugin(),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: "./client/public/index.html",
@@ -74,4 +75,4 @@ const clientConfig = (env, options) => {
   };
 };
 
-module.exports = [clientConfig];
+module.exports = clientConfig;
