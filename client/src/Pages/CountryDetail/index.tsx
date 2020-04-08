@@ -31,11 +31,13 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
+  console.log("xxxs")
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <main className={classes.content}>
-        {/* {JSON.stringify(match)}+2 */}
+        ssdsd
+        {JSON.stringify(match)}+2
       </main>
     </div>
   );

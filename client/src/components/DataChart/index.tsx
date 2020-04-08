@@ -108,10 +108,13 @@ const dataMapper = (data: TimeSeriesData[], type: string, color?: string) => {
     return {
       id,
       color,
-      data: item.data.map((dataItem) => ({
-        x: dayjs(dataItem.date).format("YYYY-MM-DD"),
-        y: dataItem.nums,
-      })),
+      data: item.data
+        .filter((dataItem) => dataItem.nums !== 0)
+        .map((dataItem) => ({
+          x: dayjs(dataItem.date).format("YYYY-MM-DD"),
+          y: dataItem.nums,
+          // y: (255 * Math.log(dataItem.nums)) / 6,
+        })),
     };
   });
 };
@@ -189,9 +192,9 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
                   }}
                   xFormat="time:%Y-%m-%d"
                   yScale={{
-                    type: "linear",
+                    type: "log",
+                    base: 10,
                     max: "auto",
-                    min: "auto",
                   }}
                   colors={{ scheme: colorScheme }}
                   axisLeft={{

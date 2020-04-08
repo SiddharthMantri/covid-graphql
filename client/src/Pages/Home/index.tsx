@@ -47,56 +47,44 @@ const Home = () => {
   } = useDashboardState();
 
   return (
-    <DashboardContext.Provider
-      value={{
-        selectedCountry,
-        onSelectedCountryChange,
-        allCountryData,
-        dataLoading,
-        globalData,
-        countryDataList,
-      }}
-    >
-      <div className={classes.root}>
-        <main className={classes.content}>
-          <Container maxWidth="xl">
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={9} md={9} lg={9}></Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-              </Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <LabelCard type="confirmed" data={globalData.confirmed} />
-              </Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <LabelCard type="deaths" data={globalData.deaths} />
-              </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3}>
-                <LabelCard type="recovered" data={globalData.recovered} />
-              </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3}>
-                <LabelCard type="active" data={globalData.active} />
-              </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
-                <CountryList
-                  onClickCountry={onClickCountry}
-                  data={countryDataList}
-                  columns={COLUMNS}
-                />
-              </Grid>
-              <Grid item xs={12} sm={8} md={8} lg={8}>
-                <DataChart
-                  timeSeries={countryTimeSeries}
-                  country={selectedCountry}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <MapContainer />
-              </Grid>
+    <div className={classes.root}>
+      <main className={classes.content}>
+        <Container maxWidth="xl">
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={9} md={9} lg={9}></Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <LabelCard type="confirmed" data={globalData.confirmed} />
             </Grid>
-          </Container>
-        </main>
-      </div>
-    </DashboardContext.Provider>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <LabelCard type="deaths" data={globalData.deaths} />
+            </Grid>
+            <Grid item xs={12} sm={3} md={3} lg={3}>
+              <LabelCard type="recovered" data={globalData.recovered} />
+            </Grid>
+            <Grid item xs={12} sm={3} md={3} lg={3}>
+              <LabelCard type="active" data={globalData.active} />
+            </Grid>
+            <Grid item xs={12} sm={4} md={4} lg={4}>
+              <CountryList
+                onClickCountry={onClickCountry}
+                data={countryDataList}
+                columns={COLUMNS}
+              />
+            </Grid>
+            <Grid item xs={12} sm={8} md={8} lg={8}>
+              <DataChart
+                timeSeries={countryTimeSeries}
+                country={selectedCountry}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MapContainer />
+            </Grid>
+          </Grid>
+        </Container>
+      </main>
+    </div>
   );
 };
 export default Home;

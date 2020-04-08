@@ -5,12 +5,11 @@ import {
   makeStyles,
   Typography,
   createStyles,
+  CssBaseline,
 } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Home from "../../Pages/Home";
-import CountryDetail from "../../Pages/CountryDetail";
+import { Switch, Route } from "react-router-dom";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import Footer from "../Footer";
+import Routes from "../../routes/routes";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -38,6 +37,7 @@ const Wrapper = () => {
   const classes = useStyle();
   return (
     <>
+      <CssBaseline />
       <div className={classes.root}>
         <AppBar position="fixed">
           <Toolbar className={classes.toolbar} variant="dense">
@@ -55,16 +55,11 @@ const Wrapper = () => {
           </Toolbar>
         </AppBar>
         <div className={classes.toolBarOffset}></div>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/detail/:country" component={CountryDetail}>
-            </Route>
-          </Switch>
-        </Router>
-        <Footer />
+        <Switch>
+          {Routes.map((route) => (
+            <Route key={route.name} {...route} />
+          ))}
+        </Switch>
       </div>
     </>
   );

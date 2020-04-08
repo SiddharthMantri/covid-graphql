@@ -88,7 +88,7 @@ const useDashboardState = (): useDashboardState => {
   const [
     getGlobalStats,
     { loading: globalLoading, data: globalStats },
-  ] = useLazyQuery(GET_GLOBAL_STATS);
+  ] = useLazyQuery(GET_GLOBAL_STATS, { ssr: false });
 
   const [getTimeSeries, { loading, data: timeSeries }] = useLazyQuery(
     LOAD_TIME_SERIES
