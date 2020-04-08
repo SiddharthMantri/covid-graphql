@@ -61,22 +61,19 @@ const Home = () => {
         <main className={classes.content}>
           <Container maxWidth="xl">
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={9} md={9} lg={9}></Grid>
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-              </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <LabelCard type="confirmed" data={globalData.confirmed} />
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <LabelCard type="deaths" data={globalData.deaths} />
               </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3}>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
                 <LabelCard type="recovered" data={globalData.recovered} />
               </Grid>
-              <Grid item xs={12} sm={3} md={3} lg={3}>
+              <Grid item xs={12} sm={12} md={3} lg={3}>
                 <LabelCard type="active" data={globalData.active} />
               </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={12} md={12} lg={12}>
                 <CountryList
                   onClickCountry={onClickCountry}
                   data={countryDataList}
