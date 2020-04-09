@@ -73,7 +73,7 @@ const Home = () => {
               <Grid item xs={12} sm={12} md={3} lg={3}>
                 <LabelCard type="active" data={globalData.active} />
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12}>
+              <Grid item xs={12} sm={12} md={4} lg={4}>
                 <CountryList
                   onClickCountry={onClickCountry}
                   data={countryDataList}
@@ -85,9 +85,6 @@ const Home = () => {
                   timeSeries={countryTimeSeries}
                   country={selectedCountry}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <MapContainer />
               </Grid>
             </Grid>
           </Container>

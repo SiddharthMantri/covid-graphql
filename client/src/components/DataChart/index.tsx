@@ -7,12 +7,14 @@ import {
   Grid,
   ButtonGroup,
   Button,
+  Switch,
 } from "@material-ui/core";
 import { ResponsiveLine } from "@nivo/line";
 import dayjs from "dayjs";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, SetStateAction } from "react";
 import { TimeSeriesData } from "../../state/useDashboardState";
 import { Theme } from "@nivo/core";
+import { LogScale, LinearScale } from "@nivo/scales";
 interface ErrorState {
   hasError: boolean;
 }
@@ -108,10 +110,12 @@ const dataMapper = (data: TimeSeriesData[], type: string, color?: string) => {
     return {
       id,
       color,
-      data: item.data.map((dataItem) => ({
-        x: dayjs(dataItem.date).format("YYYY-MM-DD"),
-        y: dataItem.nums,
-      })),
+      data: item.data
+        .filter((dataItem) => dataItem.nums !== 0)
+        .map((dataItem) => ({
+          x: dayjs(dataItem.date).format("YYYY-MM-DD"),
+          y: dataItem.nums,
+        })),
     };
   });
 };
@@ -128,8 +132,13 @@ type useChartDataType = {
 const useDataChart = ({
   country,
   timeSeries,
-}: DataChartProps): [useChartDataType] => {
+}: DataChartProps): [
+  useChartDataType,
+  "log" | "linear",
+  React.Dispatch<SetStateAction<"log" | "linear">>
+] => {
   const [type, setType] = useState("deaths");
+  const [scale, setScale] = useState("log" as "log" | "linear");
   const handleClick = (e) => {
     setType(e.currentTarget.value);
   };
@@ -145,17 +154,30 @@ const useDataChart = ({
     }
     return [];
   }, [timeSeries]);
-  return [data];
+  return [data, scale, setScale];
 };
 
 const DataChart = ({ country, timeSeries }: DataChartProps) => {
   const classes = useStyles();
-  const [data] = useDataChart({ country, timeSeries });
-
+  const [data, scale, setScale] = useDataChart({ country, timeSeries });
+  let scaleType = {} as LogScale | LinearScale;
+  scaleType =
+    scale === "log"
+      ? {
+          type: "log",
+          base: 10,
+          max: "auto",
+        }
+      : {
+          type: "linear",
+          max: "auto",
+          min: "auto",
+        };
   const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const colorScheme = useMemo(() => (isDarkMode ? "nivo" : "dark2"), [
     isDarkMode,
   ]);
+  //@ts-ignore
   return (
     <Card className={classes.root}>
       <CardContent className={classes.root}>
@@ -167,6 +189,32 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
                   ? `Time series - Deaths - ${country}`
                   : ""}
               </Typography>
+            </Grid>
+            <Grid item container xs={12} md={6} lg={6}>
+              {country && country.length > 0 && (
+                <Typography component="div">
+                  <Grid
+                    component="label"
+                    container
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <Grid item>Linear Scale</Grid>
+                    <Grid item>
+                      <Switch
+                        checked={scale === "log"}
+                        onChange={() => {
+                          setScale((prevState) =>
+                            prevState === "log" ? "linear" : "log"
+                          );
+                        }}
+                        name="checkedC"
+                      />
+                    </Grid>
+                    <Grid item>Log Scale</Grid>
+                  </Grid>
+                </Typography>
+              )}
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -188,11 +236,7 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
                     precision: "day",
                   }}
                   xFormat="time:%Y-%m-%d"
-                  yScale={{
-                    type: "linear",
-                    max: "auto",
-                    min: "auto",
-                  }}
+                  yScale={scaleType}
                   colors={{ scheme: colorScheme }}
                   axisLeft={{
                     legend: "Datum",
