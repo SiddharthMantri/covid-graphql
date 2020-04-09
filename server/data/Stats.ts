@@ -106,22 +106,22 @@ export const Stats = {
       confirmed: {
         number: result.confirmed,
         change: result.confirmed - res2.confirmed,
-        perc: ((result.confirmed - res2.confirmed) / res2.confirmed)*100,
+        perc: ((result.confirmed - res2.confirmed) / res2.confirmed) * 100,
       },
       active: {
         number: result.active,
         change: result.active - res2.active,
-        perc: ((result.active - res2.active) / res2.active)*100,
+        perc: ((result.active - res2.active) / res2.active) * 100,
       },
       recovered: {
         number: result.recovered,
         change: result.recovered - res2.recovered,
-        perc: ((result.recovered - res2.recovered) / res2.recovered)*100,
+        perc: ((result.recovered - res2.recovered) / res2.recovered) * 100,
       },
       deaths: {
         number: result.deaths,
         change: result.deaths - res2.deaths,
-        perc: ((result.deaths - res2.deaths) / res2.deaths)*100,
+        perc: ((result.deaths - res2.deaths) / res2.deaths) * 100,
       },
     };
 
