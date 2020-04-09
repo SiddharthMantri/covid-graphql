@@ -14,11 +14,32 @@ export const COUNTRIES = gql`
 export const GET_GLOBAL_STATS = gql`
   query GlobalStats {
     globalData {
-      updated
       confirmed
       recovered
       deaths
       active
+    }
+    globalStatsWithChange {
+      confirmed {
+        number
+        perc
+        change
+      }
+      recovered {
+        number
+        perc
+        change
+      }
+      deaths {
+        number
+        perc
+        change
+      }
+      active {
+        number
+        perc
+        change
+      }
     }
     countryDataList {
       countryRegion

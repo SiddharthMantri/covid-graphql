@@ -138,7 +138,7 @@ const useDataChart = ({
   React.Dispatch<SetStateAction<"log" | "linear">>
 ] => {
   const [type, setType] = useState("deaths");
-  const [scale, setScale] = useState("log" as "log" | "linear");
+  const [scale, setScale] = useState("linear" as "log" | "linear");
   const handleClick = (e) => {
     setType(e.currentTarget.value);
   };
@@ -228,7 +228,7 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
                     top: 20,
                     right: 60,
                     bottom: 20,
-                    left: 60,
+                    left: 40,
                   }}
                   xScale={{
                     type: "time",

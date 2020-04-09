@@ -37,3 +37,16 @@ export type GlobalStats = {
   confirmed: number;
   active: number;
 };
+
+export type ChangeStat = {
+  number: number;
+  change: number;
+  perc: number;
+};
+
+export type GlobalChangeStat = {
+  active: ChangeStat;
+  deaths: ChangeStat;
+  confirmed: ChangeStat;
+  recovered: ChangeStat;
+};

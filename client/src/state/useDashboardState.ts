@@ -7,7 +7,7 @@ import {
 } from "react";
 import { useLazyQuery, QueryLazyOptions } from "@apollo/react-hooks";
 import { LOAD_TIME_SERIES, GET_GLOBAL_STATS } from "../apollo/queries";
-import { GlobalStats, DateRecord } from "../../../shared";
+import { GlobalStats, DateRecord, GlobalChangeStat } from "../../../shared";
 
 export type TimeSeriesData = {
   provinceState: string;
@@ -42,7 +42,7 @@ export type useDashboardState = {
   allCountryData: CountryData;
   loading: boolean;
   getGlobalStats: (options?: QueryLazyOptions<Record<string, any>>) => void;
-  globalData: GlobalStats;
+  globalData: GlobalChangeStat;
   countryDataList: DateRecord[];
   COLUMNS: Array<{ Header: string; accessor: string; align?: string }>;
   onClickCountry: (country: string) => void;
@@ -77,7 +77,9 @@ const useDashboardState = (): useDashboardState => {
   const [allCountryData, setAllCountryData] = useState<CountryData>(
     {} as CountryData
   );
-  const [globalData, setGlobalData] = useState<GlobalStats>({} as GlobalStats);
+  const [globalData, setGlobalData] = useState<GlobalChangeStat>(
+    {} as GlobalChangeStat
+  );
   const [countryDataList, setCountryDataList] = useState<DateRecord[]>(
     [] as DateRecord[]
   );
@@ -115,7 +117,7 @@ const useDashboardState = (): useDashboardState => {
   }, []);
   useEffect(() => {
     if (globalStats && globalStats.globalData) {
-      setGlobalData({ ...globalStats.globalData });
+      setGlobalData({ ...globalStats.globalStatsWithChange });
     }
     if (globalStats && globalStats.countryDataList) {
       setCountryDataList([...globalStats.countryDataList]);
