@@ -4,11 +4,7 @@
   "description": "",
   "scripts": {
     "dev:server": "ts-node tools/scripts/development",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:client": "webpack-dev-server --env.dev --env.API_URL=http://localhost:8080/graphql --config webpack.conf.js ",
-    "dev": "concurrently \"npm run dev:server \" \"npm run start:client\"",
-    "start:test": "ts-node server/app.ts --env.production",
-    "start": "ts-node tools/scripts/start/index.ts",
+    "start": "ts-node src/server/server.tsx --env.production",
     "start:server": "ts-node tools/scripts/start/index.ts",
     "build:client": "NODE_ENV=production ts-node tools/scripts/build"
   },
