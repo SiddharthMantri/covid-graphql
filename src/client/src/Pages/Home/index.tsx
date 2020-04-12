@@ -1,12 +1,10 @@
 import { Container, Grid, NoSsr } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import useDashboardState from "../../state/useDashboardState";
 import CountryList from "../../components/CountryList";
 import DataChart from "../../components/DataChart";
 import LabelCard from "../../components/LabelCard";
-import MapContainer from "../../components/MapContainer";
-import useStyleReset from "../../../../shared/components/StyleReset";
+import useDashboardState from "../../state/useDashboardState";
 
 const drawerWidth = 240;
 
@@ -32,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Home = () => {
-  useStyleReset();
   const classes = useStyles();
   const {
     selectedCountry,
