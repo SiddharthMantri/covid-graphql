@@ -10,8 +10,8 @@
     "baseUrl": "./",
     "paths": {
       "*": ["node_modules/*"],
-      "server": ["server/"],
-      "client": ["client/"]
+      "server": ["src/server"],
+      "client": ["src/client"]
     },
     "allowJs": true,
     "skipLibCheck": true,
