@@ -3,21 +3,20 @@ import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
-const resPath = pth => path.join(__dirname, pth);
-
 export const clientConfig = {
-  entry: [
-    "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000",
-    resPath("../../src/client/index.tsx")
-  ],
-  plugins: [new CleanWebpackPlugin(), new webpack.HotModuleReplacementPlugin()],
+  entry: {
+    main: [
+      "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000",
+      "../../src/client/index.tsx"
+    ]
+  },
   output: {
-    path: path.join(__dirname, "../../src/server/build"),
-    publicPath: "/bundle",
-    filename: "main.js"
+    path: path.resolve(__dirname, "../../src/server/build"),
+    publicPath: "/",
+    filename: "[name].js"
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js", ".json"]
   },
   mode: "development",
   target: "web",
@@ -27,6 +26,10 @@ export const clientConfig = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, "../../src/client/"),
+          path.resolve(__dirname, "../../src/shared/")
+        ],
         use: {
           loader: "babel-loader",
           options: {
@@ -37,11 +40,16 @@ export const clientConfig = {
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         use: ["style-loader", "css-loader"]
       },
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, "../../src/client/"),
+          path.resolve(__dirname, "../../src/shared/")
+        ],
         use: [
           {
             loader: "ts-loader"
@@ -49,7 +57,8 @@ export const clientConfig = {
         ]
       }
     ]
-  }
+  },
+  plugins: [new webpack.HotModuleReplacementPlugin()]
 };
 
 export const serverConfig = {
@@ -60,7 +69,17 @@ export const serverConfig = {
   },
   externals: [nodeExternals()],
   entry: {
-    "server.tsx": path.resolve(__dirname, "src/server/server.tsx")
+    server: "./src/server/server.tsx"
+  },
+  plugins: [new CleanWebpackPlugin(), new webpack.HotModuleReplacementPlugin()],
+  output: {
+    path: path.join(__dirname, "dist"),
+    publicPath: "/",
+    filename: "server.js"
+  },
+  node: {
+    __dirname: false, // if you don't put this is, __dirname
+    __filename: false // and __filename return blank or /
   },
   module: {
     rules: [
@@ -89,9 +108,5 @@ export const serverConfig = {
         ]
       }
     ]
-  },
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name]"
   }
 };

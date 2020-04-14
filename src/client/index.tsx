@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./src/App";
 
-ReactDOM.hydrate(<App />, document.getElementById("root"));
+// @ts-ignore
+const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
+renderMethod(<App />, document.getElementById("root"));
 
 // @ts-ignore
 if (module.hot) {

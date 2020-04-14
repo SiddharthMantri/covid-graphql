@@ -1,10 +1,12 @@
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { Container, Grid, NoSsr } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import CountryList from "../../components/CountryList";
-import DataChart from "../../components/DataChart";
-import LabelCard from "../../components/LabelCard";
-import useDashboardState from "../../state/useDashboardState";
+import React, { useCallback, useEffect, useState } from "react";
+import CountryList from "../../../../shared/components/CountryList";
+import DataChart from "../../../../shared/components/DataChart";
+import LabelCard from "../../../../shared/components/LabelCard";
+import { DateRecord, GlobalChangeStat, TimeSeriesRecord } from "../../../../shared/index";
+import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../../apollo/queries";
 
 const drawerWidth = 240;
 
@@ -28,20 +30,68 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: theme.mixins.toolbar
 }));
+const COLUMNS = [
+  {
+    Header: "Country",
+    accessor: "countryRegion",
+    align: "left"
+  },
+  {
+    Header: "Confirmed",
+    accessor: "confirmed",
+    align: "right"
+  },
+  {
+    Header: "Deaths",
+    accessor: "deaths",
+    align: "right"
+  },
+  {
+    Header: "Recovered",
+    accessor: "recovered",
+    align: "right"
+  }
+];
 
 const Home = () => {
   const classes = useStyles();
-  const {
-    selectedCountry,
-    onSelectedCountryChange,
-    allCountryData,
-    loading: dataLoading,
-    globalData,
-    countryDataList,
-    COLUMNS,
-    onClickCountry,
-    countryTimeSeries
-  } = useDashboardState();
+
+  const [globalData, setGlobalData] = useState<GlobalChangeStat>(
+    {} as GlobalChangeStat
+  );
+  const [countryDataList, setCountryDataList] = useState<DateRecord[]>(
+    [] as DateRecord[]
+  );
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [countryTimeSeries, setCountryTimeSeries] = useState<TimeSeriesRecord>(
+    {} as TimeSeriesRecord
+  );
+
+  const { loading: gLoad, error, data: globalStats } = useQuery(
+    GET_GLOBAL_STATS
+  );
+
+  const [getTimeSeries, { loading: tsLoad, data: timeSeries }] = useLazyQuery(
+    LOAD_TIME_SERIES
+  );
+
+  const onClickCountry = useCallback((countryRegion: string) => {
+    setSelectedCountry(countryRegion);
+    getTimeSeries({ variables: { name: countryRegion } });
+  }, []);
+
+  useEffect(() => {
+    if (globalStats) {
+      setGlobalData({ ...globalStats.getStatsWithChange });
+      setCountryDataList([...globalStats.countryDataList]);
+    }
+  }, [globalStats]);
+
+  useEffect(() => {
+    if(timeSeries){
+      setCountryTimeSeries({...timeSeries})
+    }
+  }, [timeSeries]);
 
   return (
     <div className={classes.root}>

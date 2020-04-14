@@ -50,3 +50,7 @@ export type GlobalChangeStat = {
   confirmed: ChangeStat;
   recovered: ChangeStat;
 };
+export type TimeSeriesRecord = {
+  confirmed: TimeSeriesData[];
+  deaths: TimeSeriesData[];
+};

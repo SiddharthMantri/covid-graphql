@@ -5,7 +5,7 @@ export const typeDefs = `
       country(name: String): [Country]
       globalData: GlobalData
       countryDataList: [DateData]
-      globalStatsWithChange: GlobalDataWithChange
+      getStatsWithChange(countryRegion: String): GlobalDataWithChange
     }
     type Region {
       name: String
