@@ -18,7 +18,7 @@ by John Hopkins University](https://github.com/CSSEGISandData/2019-nCoV). It is 
 git clone https://github.com/SiddharthMantri/covid-graphql.git
 cd covid-graphql
 npm install
-npm run start:server
+npm run dev
 ```
 
 The apollo client will be running at http://localhost:8080/graphql
@@ -92,10 +92,6 @@ Created a simple UI for the data. To run it - simply clone and run
 ```sh
 npm run dev
 ```
-
-![Sample Dashboard query for Spain](https://raw.githubusercontent.com/SiddharthMantri/covid-graphql/master/UI_SS.png)
-
-I plan to include SSR and other improvements as I get time on the project.
 
 #### Contribute
 
