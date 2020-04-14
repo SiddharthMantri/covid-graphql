@@ -7,7 +7,7 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
-import { CountryRegion } from "../../types";
+import { CountryRegion } from "../../../client/src/types";
 
 const useStyles = makeStyles({
   root: {

@@ -1,13 +1,7 @@
-import {
-  useState,
-  useCallback,
-  ChangeEvent,
-  useEffect,
-  useReducer,
-} from "react";
-import { useLazyQuery, QueryLazyOptions } from "@apollo/react-hooks";
-import { LOAD_TIME_SERIES, GET_GLOBAL_STATS } from "../apollo/queries";
-import { GlobalStats, DateRecord, GlobalChangeStat } from "../../../shared";
+import { QueryLazyOptions, useLazyQuery } from "@apollo/react-hooks";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { DateRecord, GlobalChangeStat, TimeSeriesRecord } from "../../../shared";
+import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../apollo/queries";
 
 export type TimeSeriesData = {
   provinceState: string;
@@ -25,10 +19,7 @@ export type Summary = {
   all?: number;
 };
 
-export type TimeSeriesRecord = {
-  confirmed: TimeSeriesData[];
-  deaths: TimeSeriesData[];
-};
+
 
 export type CountryData = {
   summary: Summary;
@@ -39,7 +30,6 @@ export type CountryData = {
 export type useDashboardState = {
   selectedCountry: string;
   onSelectedCountryChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  allCountryData: CountryData;
   loading: boolean;
   getGlobalStats: (options?: QueryLazyOptions<Record<string, any>>) => void;
   globalData: GlobalChangeStat;
@@ -53,30 +43,27 @@ const COLUMNS = [
   {
     Header: "Country",
     accessor: "countryRegion",
-    align: "left",
+    align: "left"
   },
   {
     Header: "Confirmed",
     accessor: "confirmed",
-    align: "right",
+    align: "right"
   },
   {
     Header: "Deaths",
     accessor: "deaths",
-    align: "right",
+    align: "right"
   },
   {
     Header: "Recovered",
     accessor: "recovered",
-    align: "right",
-  },
+    align: "right"
+  }
 ];
 
 const useDashboardState = (): useDashboardState => {
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [allCountryData, setAllCountryData] = useState<CountryData>(
-    {} as CountryData
-  );
   const [globalData, setGlobalData] = useState<GlobalChangeStat>(
     {} as GlobalChangeStat
   );
@@ -87,18 +74,22 @@ const useDashboardState = (): useDashboardState => {
     {} as TimeSeriesRecord
   );
 
+  const [countryStat, setCountryStat] = useState<GlobalChangeStat>(
+    {} as GlobalChangeStat
+  );
+
   const [
     getGlobalStats,
-    { loading: globalLoading, data: globalStats },
-  ] = useLazyQuery(GET_GLOBAL_STATS, { ssr: false });
+    { loading: globalLoading, data: globalStats }
+  ] = useLazyQuery(GET_GLOBAL_STATS);
 
   const [getTimeSeries, { loading, data: timeSeries }] = useLazyQuery(
     LOAD_TIME_SERIES
   );
 
-  const onClickCountry = useCallback((country: string) => {
-    setSelectedCountry(country);
-    getTimeSeries({ variables: { name: country } });
+  const onClickCountry = useCallback((countryRegion: string) => {
+    setSelectedCountry(countryRegion);
+    getTimeSeries({ variables: { name: countryRegion } });
   }, []);
 
   const onSelectedCountryChange = useCallback(
@@ -117,7 +108,7 @@ const useDashboardState = (): useDashboardState => {
   }, []);
   useEffect(() => {
     if (globalStats && globalStats.globalData) {
-      setGlobalData({ ...globalStats.globalStatsWithChange });
+      setGlobalData({ ...globalStats.getStatsWithChange });
     }
     if (globalStats && globalStats.countryDataList) {
       setCountryDataList([...globalStats.countryDataList]);
@@ -126,17 +117,19 @@ const useDashboardState = (): useDashboardState => {
   useEffect(() => {
     setCountryTimeSeries({ ...timeSeries });
   }, [timeSeries]);
+  useEffect(() => {
+    setCountryStat({ ...countryStat });
+  }, [countryStat]);
   return {
     selectedCountry,
     onSelectedCountryChange,
-    allCountryData,
     loading,
     getGlobalStats,
     globalData,
     countryDataList,
     COLUMNS,
     onClickCountry,
-    countryTimeSeries,
+    countryTimeSeries
   };
 };
 export default useDashboardState;

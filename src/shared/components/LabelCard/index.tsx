@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { blue, red, green, yellow } from "@material-ui/core/colors";
-import { ChangeStat } from "../../../../shared/index";
+import { ChangeStat } from "../../index";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 

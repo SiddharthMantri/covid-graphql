@@ -1,29 +1,41 @@
-import { Card, CardContent, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  Typography
+} from "@material-ui/core";
 import React, { useMemo } from "react";
 import { useSortBy, useTable } from "react-table";
-import { DateRecord } from "../../../../shared";
+import { DateRecord } from "../..";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     minWidth: "100%",
     maxHeight: "480px",
     minHeight: "480px",
-    padding: "0px 0px 8px 0px",
+    padding: "0px 0px 8px 0px"
   },
   cardContent: {
-    padding: "0px",
+    padding: "0px"
   },
   table: {
-    minWidth: "100%",
+    minWidth: "100%"
   },
   padded: {
-    padding: "16px 16px 8px 16px",
+    padding: "16px 16px 8px 16px"
   },
   tableRow: {
     "&:hover": {
-      cursor: "pointer",
-    },
-  },
+      cursor: "pointer"
+    }
+  }
 }));
 
 type CountryListProps = {
@@ -40,14 +52,14 @@ const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow,
+    prepareRow
   } = useTable(
     {
       columns,
       data,
       initialState: {
-        sortBy,
-      },
+        sortBy
+      }
     },
     useSortBy
   );
@@ -56,9 +68,9 @@ const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
     <TableContainer style={{ maxHeight: 416 }}>
       <Table stickyHeader {...getTableProps()} size="small">
         <TableHead>
-          {headerGroups.map((headerGroup) => (
+          {headerGroups.map(headerGroup => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+              {headerGroup.headers.map(column => (
                 <TableCell
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   align={column.align}
@@ -75,7 +87,7 @@ const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
           ))}
         </TableHead>
         <TableBody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map(row => {
             prepareRow(row);
             return (
               <TableRow
@@ -85,7 +97,7 @@ const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
                 }}
                 className={tableRow}
               >
-                {row.cells.map((cell) => (
+                {row.cells.map(cell => (
                   <TableCell {...cell.getCellProps()} align={cell.column.align}>
                     {isNaN(cell.value)
                       ? cell.render("Cell")

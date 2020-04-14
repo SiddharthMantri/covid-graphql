@@ -1,24 +1,14 @@
-import {
-  Card,
-  CardContent,
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  Grid,
-  ButtonGroup,
-  Button,
-  Switch
-} from "@material-ui/core";
+import { Card, CardContent, Grid, makeStyles, Switch, Typography, useMediaQuery } from "@material-ui/core";
 import { ResponsiveLine } from "@nivo/line";
-import dayjs from "dayjs";
-import React, { useMemo, useState, SetStateAction } from "react";
-import { TimeSeriesData } from "../../state/useDashboardState";
-import { Theme } from "@nivo/core";
-import { LogScale, LinearScale } from "@nivo/scales";
+import { LinearScale, LogScale } from "@nivo/scales";
+import React, { useMemo } from "react";
+import { TimeSeriesData } from "../../../client/src/state/useDashboardState";
+import { legends, theme, useDataChart } from "./chartUtil";
 interface ErrorState {
   hasError: boolean;
 }
-type DataChartProps = {
+export type DataChartProps = {
+  separate?: boolean;
   country?: string;
   timeSeries?: {
     confirmed?: TimeSeriesData[];
@@ -49,49 +39,6 @@ class ErrorBoundary extends React.Component<{}, ErrorState> {
     return this.props.children;
   }
 }
-const theme = {
-  background: "transparent",
-  axis: {
-    domain: {
-      line: {}
-    },
-    ticks: {
-      line: {},
-      text: {}
-    },
-    legend: {
-      text: {}
-    }
-  },
-  grid: {
-    line: {
-      color: "black"
-    }
-  },
-  legends: {
-    text: {
-      color: "white"
-    }
-  },
-  labels: {
-    text: {
-      color: "white"
-    }
-  },
-  markers: {
-    lineColor: "black"
-  },
-  dots: {
-    text: {
-      color: "black"
-    }
-  },
-  tooltip: {
-    container: {
-      color: "black"
-    }
-  }
-};
 
 const useStyles = makeStyles({
   root: {
@@ -102,64 +49,15 @@ const useStyles = makeStyles({
   }
 });
 
-const dataMapper = (data: TimeSeriesData[], type: string, color?: string) => {
-  return data.map(item => {
-    let id = `${type}/${item.countryRegion}${
-      item.provinceState !== null ? `/${item.provinceState}` : ""
-    }`;
-    return {
-      id,
-      color,
-      data: item.data
-        .filter(dataItem => dataItem.nums !== 0)
-        .map(dataItem => ({
-          x: dayjs(dataItem.date).format("YYYY-MM-DD"),
-          y: dataItem.nums
-        }))
-    };
-  });
-};
 
-type useChartDataType = {
-  id: string;
-  color: string;
-  data: {
-    x: string;
-    y: number;
-  }[];
-}[];
 
-const useDataChart = ({
+const DataChart = ({
   country,
-  timeSeries
-}: DataChartProps): [
-  useChartDataType,
-  "log" | "linear",
-  React.Dispatch<SetStateAction<"log" | "linear">>
-] => {
-  const [type, setType] = useState("deaths");
-  const [scale, setScale] = useState("linear" as "log" | "linear");
-  const handleClick = e => {
-    setType(e.currentTarget.value);
-  };
-  const data = useMemo(() => {
-    if (timeSeries && timeSeries.confirmed) {
-      let conf = dataMapper(
-        timeSeries.confirmed,
-        "Confirmed",
-        `hsl(218, 100%, 50%)`
-      );
-      let dth = dataMapper(timeSeries.deaths, "Deaths", `hsl(2, 100%, 50%)`);
-      return [...dth];
-    }
-    return [];
-  }, [timeSeries]);
-  return [data, scale, setScale];
-};
-
-const DataChart = ({ country, timeSeries }: DataChartProps) => {
+  timeSeries,
+  separate = false
+}: DataChartProps) => {
   const classes = useStyles();
-  const [data, scale, setScale] = useDataChart({ country, timeSeries });
+  const [data, scale, setScale] = useDataChart({ country, timeSeries, separate });
   let scaleType = {} as LogScale | LinearScale;
   scaleType =
     scale === "log"
@@ -176,8 +74,7 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
   const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const colorScheme = useMemo(() => (isDarkMode ? "nivo" : "dark2"), [
     isDarkMode
-  ]);
-  //@ts-ignore
+  ]);  
   return (
     <Card className={classes.root}>
       <CardContent className={classes.root}>
@@ -250,32 +147,7 @@ const DataChart = ({ country, timeSeries }: DataChartProps) => {
                   pointSize={8}
                   enableSlices={false}
                   useMesh={true}
-                  legends={[
-                    {
-                      anchor: "top",
-                      direction: "row",
-                      justify: false,
-                      translateX: 300,
-                      translateY: -20,
-                      itemsSpacing: 20,
-                      itemDirection: "left-to-right",
-                      itemWidth: 120,
-                      itemHeight: 20,
-                      itemOpacity: 0.75,
-                      symbolSize: 12,
-                      symbolShape: "circle",
-                      symbolBorderColor: "rgba(0, 0, 0, .5)",
-                      effects: [
-                        {
-                          on: "hover",
-                          style: {
-                            itemBackground: "rgba(0, 0, 0, .03)",
-                            itemOpacity: 1
-                          }
-                        }
-                      ]
-                    }
-                  ]}
+                  legends={legends}
                 />
               </ErrorBoundary>
             </div>
