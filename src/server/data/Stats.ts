@@ -21,7 +21,7 @@ export const Stats = {
         acc.recovered += isNaN(next.recovered) ? 0 : next.recovered;
         acc.active += isNaN(next.active) ? 0 : next.active;
         acc.deaths += isNaN(next.deaths) ? 0 : next.deaths;
-        acc.updated = next.updated;
+        acc.updated = next.updated && next.updated !== ""  ? next.updated : "";
         return acc;
       }, result);
       return result;
@@ -88,7 +88,7 @@ export const Stats = {
         acc.recovered += isNaN(next.recovered) ? 0 : next.recovered;
         acc.active += isNaN(next.active) ? 0 : next.active;
         acc.deaths += isNaN(next.deaths) ? 0 : next.deaths;
-        acc.updated = next.updated;
+        acc.updated = next.updated && next.updated !== "" ? next.updated : "";
         return acc;
       }, result);
       return result;

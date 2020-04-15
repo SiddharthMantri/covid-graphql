@@ -1,17 +1,15 @@
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { getMarkupFromTree } from "@apollo/react-ssr";
 import { ServerStyleSheets, ThemeProvider } from "@material-ui/core/styles";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import ApolloClient from "apollo-client";
-import { SchemaLink } from "apollo-link-schema";
+import { SchemaLink } from "@apollo/link-schema";
+import { ApolloServer } from "apollo-server-express";
+import { makeExecutableSchema } from "graphql-tools";
 import React from "react";
-import { renderToString } from "react-dom/server";
+import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import { StaticRouter, StaticRouterContext } from "react-router";
 import Wrapper from "../../shared/components/Wrapper";
 import { theme } from "../../shared/theme/theme";
-import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { resolvers, typeDefs } from "../schema";
-import { ApolloServer } from "apollo-server-express";
 
 export const apolloServer = new ApolloServer({
   typeDefs,
@@ -31,11 +29,16 @@ export const AppTree = ({ client, theme, req, context }) => (
   </ApolloProvider>
 );
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
-addMockFunctionsToSchema({
-  schema,
-  preserveResolvers: true
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+  logger: {
+    log: e => {
+      console.log("Error in code", e);
+    }
+  }
 });
+
 export const Html = ({
   content,
   state,
@@ -47,11 +50,11 @@ export const Html = ({
 }) => (
   <html>
     <head>
-      <style id="jss-server-side" dangerouslySetInnerHTML={{ __html: css }} />
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
       <title>COVID-19 Data tracker based on JHU Data</title>
+      <style id="jss-server-side" dangerouslySetInnerHTML={{ __html: css }} />
     </head>
     <body>
       <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
@@ -69,11 +72,13 @@ export const Html = ({
 );
 
 export const expressRenderer = (req, res) => {
+  const cache = new InMemoryCache();
   const sheets = new ServerStyleSheets();
+
   const client = new ApolloClient({
     ssrMode: true,
     link: new SchemaLink({ schema }),
-    cache: new InMemoryCache()
+    cache
   });
   const context = {} as StaticRouterContext;
 

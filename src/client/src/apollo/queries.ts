@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from '@apollo/client';
 
 export const COUNTRIES = gql`
   query Country($name: String) {
@@ -13,13 +13,7 @@ export const COUNTRIES = gql`
 
 export const GET_GLOBAL_STATS = gql`
   query GlobalStats {
-    globalData {
-      confirmed
-      recovered
-      deaths
-      active
-    }
-    getStatsWithChange {
+    globalStatsWithChange {
       confirmed {
         number
         perc
@@ -74,7 +68,7 @@ export const LOAD_TIME_SERIES = gql`
 `;
 export const GET_COUNTRY_DATA = gql`
   query GlobalStats($name: String) {
-    getStatsWithChange(countryRegion: $name) {
+    globalStatsWithChange(countryRegion: $name) {
       confirmed {
         number
         perc

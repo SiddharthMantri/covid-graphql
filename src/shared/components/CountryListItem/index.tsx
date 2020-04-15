@@ -6,7 +6,6 @@ import {
   ListItemSecondaryAction
 } from "@material-ui/core";
 import { ChangeStat } from "../../../shared";
-
 const LABELS = {
   recovered: "Recovered",
   confirmed: "Confirmed",

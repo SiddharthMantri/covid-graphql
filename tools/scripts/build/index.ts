@@ -3,7 +3,7 @@ import nodeExternals from "webpack-node-externals";
 import TerserPlugin from "terser-webpack-plugin";
 import path from "path";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 const buildConfig = {
   mode: "production",
   entry: "./src/client/index.tsx",
@@ -17,8 +17,10 @@ const buildConfig = {
   },
   devtool: false,
   target: "web",
-  // externals: [nodeExternals()],
   optimization: {
+    splitChunks: {
+      chunks: "all"
+    },
     minimize: true,
     minimizer: [
       new TerserPlugin({
@@ -72,7 +74,7 @@ const buildConfig = {
       }
     ]
   },
-  plugins: [new CleanWebpackPlugin()]
+  plugins: [new CleanWebpackPlugin(), new BundleAnalyzerPlugin()]
 };
 
 // @ts-ignore

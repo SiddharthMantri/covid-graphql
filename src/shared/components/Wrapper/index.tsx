@@ -12,6 +12,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Routes from "../../routes/routes";
 import useStyleReset from "../StyleReset";
+import Footer from "../Footer";
 
 const useStyle = makeStyles(theme =>
   createStyles({
@@ -35,7 +36,7 @@ const useStyle = makeStyles(theme =>
       minHeight: "64px"
     },
     typographyLink: {
-      textDecoration: 'none',
+      textDecoration: "none",
       color: theme.palette.primary.contrastText
     }
   })
@@ -47,11 +48,15 @@ const Wrapper = () => {
   return (
     <>
       <CssBaseline />
-      {/* <NoSsr> */}
       <div className={classes.root}>
         <AppBar position="fixed">
           <Toolbar className={classes.toolbar} variant="dense">
-            <Typography variant="h5" component={Link} to="/" className={classes.typographyLink}>
+            <Typography
+              variant="h5"
+              component={Link}
+              to="/"
+              className={classes.typographyLink}
+            >
               Covid-19 Tracker
             </Typography>
             <div className={classes.grow}></div>
@@ -77,7 +82,7 @@ const Wrapper = () => {
           ))}
         </Switch>
       </div>
-      {/* </NoSsr> */}
+      <Footer />
     </>
   );
 };

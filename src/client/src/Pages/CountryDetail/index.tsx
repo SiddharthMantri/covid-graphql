@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import {
   Card,
   CardContent,
@@ -65,7 +65,7 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   }: {
     loading: boolean;
     data: Partial<{
-      getStatsWithChange: GlobalChangeStat;
+      globalStatsWithChange: GlobalChangeStat;
       confirmed: TimeSeries[];
       deaths: TimeSeries[];
     }>;
@@ -93,15 +93,15 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
                         <>
                           <CountryListItem
                             type="confirmed"
-                            data={data.getStatsWithChange.confirmed}
+                            data={data.globalStatsWithChange.confirmed}
                           />
                           <CountryListItem
                             type="deaths"
-                            data={data.getStatsWithChange.deaths}
+                            data={data.globalStatsWithChange.deaths}
                           />
                           <CountryListItem
                             type="active"
-                            data={data.getStatsWithChange.active}
+                            data={data.globalStatsWithChange.active}
                           />
                         </>
                       ) : null}
@@ -116,22 +116,6 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
                       Time since update - 
                     </Typography>
                     <List className={classes.list}>
-                      {data ? (
-                        <>
-                          <CountryListItem
-                            type="confirmed"
-                            data={data.getStatsWithChange.confirmed}
-                          />
-                          <CountryListItem
-                            type="deaths"
-                            data={data.getStatsWithChange.deaths}
-                          />
-                          <CountryListItem
-                            type="active"
-                            data={data.getStatsWithChange.active}
-                          />
-                        </>
-                      ) : null}
                     </List>
                   </CardContent>
                 </Card>
