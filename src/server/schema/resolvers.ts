@@ -45,13 +45,10 @@ export const resolvers = {
       }
       return countries;
     },
-    globalData: (obj: any, args: { name: string }, context: any, info: any) => {
-      return Stats.getGlobalStats();
-    },
     countryDataList: () => {
       return Stats.getAllCountryStats();
     },
-    getStatsWithChange: (
+    globalStatsWithChange: (
       obj: any,
       args: { countryRegion: string },
       context: any,

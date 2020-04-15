@@ -1,10 +1,11 @@
-import ApolloClient from "apollo-boost";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+
 const uri = process.env.API_URL;
+const link = new HttpLink({ uri });
 
 const client = new ApolloClient({
-  uri,
-  // @ts-ignore
-  cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
+  link,
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+  ssrMode: true
 });
 export default client;

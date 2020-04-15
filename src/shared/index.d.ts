@@ -54,3 +54,10 @@ export type TimeSeriesRecord = {
   confirmed: TimeSeriesData[];
   deaths: TimeSeriesData[];
 };
+declare global {
+  interface Window {
+    __APOLLO_STATE__: any;
+  }
+}
+
+window.__APOLLO_STATE__ = window.__APOLLO_STATE__ || {};

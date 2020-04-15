@@ -1,11 +1,15 @@
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { Container, Grid, NoSsr } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import CountryList from "../../../../shared/components/CountryList";
 import DataChart from "../../../../shared/components/DataChart";
 import LabelCard from "../../../../shared/components/LabelCard";
-import { DateRecord, GlobalChangeStat, TimeSeriesRecord } from "../../../../shared/index";
+import {
+  DateRecord,
+  GlobalChangeStat,
+  TimeSeriesRecord
+} from "../../../../shared/index";
 import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../../apollo/queries";
 
 const drawerWidth = 240;
@@ -66,7 +70,6 @@ const Home = () => {
   const [countryTimeSeries, setCountryTimeSeries] = useState<TimeSeriesRecord>(
     {} as TimeSeriesRecord
   );
-
   const { loading: gLoad, error, data: globalStats } = useQuery(
     GET_GLOBAL_STATS
   );
@@ -82,14 +85,14 @@ const Home = () => {
 
   useEffect(() => {
     if (globalStats) {
-      setGlobalData({ ...globalStats.getStatsWithChange });
+      setGlobalData({ ...globalStats.globalStatsWithChange });
       setCountryDataList([...globalStats.countryDataList]);
     }
   }, [globalStats]);
 
   useEffect(() => {
-    if(timeSeries){
-      setCountryTimeSeries({...timeSeries})
+    if (timeSeries) {
+      setCountryTimeSeries({ ...timeSeries });
     }
   }, [timeSeries]);
 

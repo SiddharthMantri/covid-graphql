@@ -1,4 +1,4 @@
-import { QueryLazyOptions, useLazyQuery } from "@apollo/react-hooks";
+import { QueryLazyOptions, useLazyQuery } from "@apollo/client";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { DateRecord, GlobalChangeStat, TimeSeriesRecord } from "../../../shared";
 import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../apollo/queries";
@@ -108,7 +108,7 @@ const useDashboardState = (): useDashboardState => {
   }, []);
   useEffect(() => {
     if (globalStats && globalStats.globalData) {
-      setGlobalData({ ...globalStats.getStatsWithChange });
+      setGlobalData({ ...globalStats.globalStatsWithChange });
     }
     if (globalStats && globalStats.countryDataList) {
       setCountryDataList([...globalStats.countryDataList]);

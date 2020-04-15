@@ -23,7 +23,7 @@ const port = process.env.PORT || 8080;
 const compiler = webpack(clientConfig);
 const app = http.createServer(server);
 let currentServer = server;
-apolloServer.applyMiddleware({ app: server });
+
 
 server.use(
   webpackDevMiddleware(compiler, {
@@ -46,8 +46,9 @@ server.use(
     log: false
   })
 );
-
+apolloServer.applyMiddleware({ app: server });
 server.use(expressRenderer);
+
 
 app.listen({ port }, () =>
   console.log(`Server ready at http://localhost:${port}`)

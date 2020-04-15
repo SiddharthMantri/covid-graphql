@@ -3,9 +3,8 @@ export const typeDefs = `
       records(date: String, countryRegion: String): [DateData], 
       timeSeries(type: String!, countryRegion: String): [TimeSeries] 
       country(name: String): [Country]
-      globalData: GlobalData
       countryDataList: [DateData]
-      getStatsWithChange(countryRegion: String): GlobalDataWithChange
+      globalStatsWithChange(countryRegion: String): GlobalDataWithChange
     }
     type Region {
       name: String

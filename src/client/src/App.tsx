@@ -3,9 +3,8 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import Wrapper from "../../shared/components/Wrapper";
 import { theme } from "../../shared/theme/theme";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/client";
 import client from "./apollo/createClient";
-
 const App = () => (
   <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>

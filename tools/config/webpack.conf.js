@@ -16,7 +16,7 @@ export const clientConfig = {
     filename: "[name].js"
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".json"]
+    extensions: ["*", ".mjs", ".tsx", ".ts", ".js", ".json"]
   },
   mode: "development",
   target: "web",
@@ -27,8 +27,8 @@ export const clientConfig = {
         test: /\.js$/,
         exclude: /node_modules/,
         include: [
-          path.resolve(__dirname, "../../src/client/"),
-          path.resolve(__dirname, "../../src/shared/")
+          path.resolve(__dirname, "../../src/"),
+          // path.resolve(__dirname, "../../src/")
         ],
         use: {
           loader: "babel-loader",
@@ -47,14 +47,19 @@ export const clientConfig = {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
         include: [
-          path.resolve(__dirname, "../../src/client/"),
-          path.resolve(__dirname, "../../src/shared/")
+          path.resolve(__dirname, "../../src/"),
+          // path.resolve(__dirname, "../../src/shared/")
         ],
         use: [
           {
             loader: "ts-loader"
           }
         ]
+      },
+      {
+        test: /\.mjs$/,
+        exclude: /node_modules/,
+        type: "javascript/auto"
       }
     ]
   },
