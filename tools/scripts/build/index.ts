@@ -18,9 +18,6 @@ const buildConfig = {
   devtool: false,
   target: "web",
   optimization: {
-    splitChunks: {
-      chunks: "all"
-    },
     minimize: true,
     minimizer: [
       new TerserPlugin({
