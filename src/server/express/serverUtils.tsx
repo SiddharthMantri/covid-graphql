@@ -16,7 +16,7 @@ export const apolloServer = new ApolloServer({
   resolvers,
   introspection: true,
   playground: true,
-  uploads: false
+  uploads: false,
 });
 
 export const AppTree = ({ client, theme, req, context }) => (
@@ -33,16 +33,16 @@ const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
   logger: {
-    log: e => {
+    log: (e) => {
       console.log("Error in code", e);
-    }
-  }
+    },
+  },
 });
 
 export const Html = ({
   content,
   state,
-  css
+  css,
 }: {
   content: string;
   state: any;
@@ -51,7 +51,10 @@ export const Html = ({
   <html>
     <head>
       <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width"
+      />
       <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
       <title>COVID-19 Data tracker based on JHU Data</title>
       <style id="jss-server-side" dangerouslySetInnerHTML={{ __html: css }} />
@@ -63,7 +66,7 @@ export const Html = ({
           __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(
             /</g,
             "\\u003c"
-          )};`
+          )};`,
         }}
       />
       <script src="/main.js" />
@@ -78,7 +81,7 @@ export const expressRenderer = (req, res) => {
   const client = new ApolloClient({
     ssrMode: true,
     link: new SchemaLink({ schema }),
-    cache
+    cache,
   });
   const context = {} as StaticRouterContext;
 
@@ -86,9 +89,9 @@ export const expressRenderer = (req, res) => {
     tree: sheets.collect(
       <AppTree theme={theme} client={client} context={context} req={req} />
     ),
-    renderFunction: renderToString
+    renderFunction: renderToString,
   })
-    .then(markup => {
+    .then((markup) => {
       res.status(200);
       const css = sheets.toString();
       const state = client.extract();
@@ -96,7 +99,7 @@ export const expressRenderer = (req, res) => {
 
       if (context.url) {
         res.writeHead(301, {
-          Location: context.url
+          Location: context.url,
         });
         res.end();
       } else {
@@ -104,7 +107,7 @@ export const expressRenderer = (req, res) => {
         res.end();
       }
     })
-    .catch(e => {
+    .catch((e) => {
       console.error("RENDERING ERROR:", e); // eslint-disable-line no-console
       res.status(500);
       res.end("");
