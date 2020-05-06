@@ -1,5 +1,5 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { Container, Grid, NoSsr } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import CountryList from "../../../../shared/components/CountryList";
@@ -8,53 +8,53 @@ import LabelCard from "../../../../shared/components/LabelCard";
 import {
   DateRecord,
   GlobalChangeStat,
-  TimeSeriesRecord
+  TimeSeriesRecord,
 } from "../../../../shared/index";
 import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../../apollo/queries";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 }));
 const COLUMNS = [
   {
     Header: "Country",
     accessor: "countryRegion",
-    align: "left"
+    align: "left",
   },
   {
     Header: "Confirmed",
     accessor: "confirmed",
-    align: "right"
+    align: "right",
   },
   {
     Header: "Deaths",
     accessor: "deaths",
-    align: "right"
+    align: "right",
   },
   {
     Header: "Recovered",
     accessor: "recovered",
-    align: "right"
-  }
+    align: "right",
+  },
 ];
 
 const Home = () => {
@@ -114,21 +114,17 @@ const Home = () => {
               <LabelCard type="active" data={globalData.active} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
-              <NoSsr>
-                <CountryList
-                  onClickCountry={onClickCountry}
-                  data={countryDataList}
-                  columns={COLUMNS}
-                />
-              </NoSsr>
+              <CountryList
+                onClickCountry={onClickCountry}
+                data={countryDataList}
+                columns={COLUMNS}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={8} lg={8}>
-              <NoSsr>
-                <DataChart
-                  timeSeries={countryTimeSeries}
-                  country={selectedCountry}
-                />
-              </NoSsr>
+              <DataChart
+                timeSeries={countryTimeSeries}
+                country={selectedCountry}
+              />
             </Grid>
           </Grid>
         </Container>
