@@ -12,7 +12,7 @@ export const resolvers = {
     ) => {
       let datedData = DataLoader.getDateData(args.date);
       if (args.countryRegion && args.countryRegion !== "") {
-        return datedData.then(data =>
+        return datedData.then((data) =>
           data.filter(
             (item: DateRecord) => item.countryRegion === args.countryRegion
           )
@@ -28,7 +28,23 @@ export const resolvers = {
     ) => {
       let seriesData = DataLoader.getTimeSeries(args.type);
       if (args.countryRegion && args.countryRegion !== "") {
-        return seriesData.then(data =>
+        return seriesData.then((data) =>
+          data.filter(
+            (item: TimeSeries) => item.countryRegion === args.countryRegion
+          )
+        );
+      }
+      return seriesData;
+    },
+    dailySeries: (
+      obj: any,
+      args: { type: string; countryRegion: string },
+      context: any,
+      info: any
+    ) => {
+      let seriesData = DataLoader.getDailySeries(args.type);
+      if (args.countryRegion && args.countryRegion !== "") {
+        return seriesData.then((data) =>
           data.filter(
             (item: TimeSeries) => item.countryRegion === args.countryRegion
           )
@@ -39,7 +55,7 @@ export const resolvers = {
     country: (obj: any, args: { name: string }, context: any, info: any) => {
       let countries = DataLoader.getCountries();
       if (args.name && args.name !== "") {
-        return countries.then(data =>
+        return countries.then((data) =>
           data.filter((item: any) => item.name === args.name)
         );
       }
@@ -55,6 +71,6 @@ export const resolvers = {
       info: any
     ) => {
       return Stats.getGlobalStatsWithChange(args.countryRegion);
-    }
-  }
+    },
+  },
 };

@@ -6,7 +6,7 @@ import {
   Typography,
   createStyles,
   CssBaseline,
-  NoSsr
+  NoSsr,
 } from "@material-ui/core";
 import { Switch, Route, Link } from "react-router-dom";
 import GitHubIcon from "@material-ui/icons/GitHub";
@@ -14,31 +14,31 @@ import Routes from "../../routes/routes";
 import useStyleReset from "../StyleReset";
 import Footer from "../Footer";
 
-const useStyle = makeStyles(theme =>
+const useStyle = makeStyles((theme) =>
   createStyles({
     title: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     root: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     toolbar: {
-      padding: "0px 48px"
+      padding: "0px 48px",
     },
     grow: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     icon: {
       textDecoration: "none",
-      color: theme.palette.primary.contrastText
+      color: theme.palette.primary.contrastText,
     },
     toolBarOffset: {
-      minHeight: "64px"
+      minHeight: "64px",
     },
     typographyLink: {
       textDecoration: "none",
-      color: theme.palette.primary.contrastText
-    }
+      color: theme.palette.primary.contrastText,
+    },
   })
 );
 
@@ -73,11 +73,11 @@ const Wrapper = () => {
         </AppBar>
         <div
           style={{
-            minHeight: "64px"
+            minHeight: "64px",
           }}
         ></div>
         <Switch>
-          {Routes.map(route => (
+          {Routes.map((route) => (
             <Route key={route.name} {...route} />
           ))}
         </Switch>

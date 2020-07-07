@@ -2,6 +2,7 @@ export const typeDefs = `
     type Query { 
       records(date: String, countryRegion: String): [DateData], 
       timeSeries(type: String!, countryRegion: String): [TimeSeries] 
+      dailySeries(type: String!, countryRegion: String): [TimeSeries]
       country(name: String): [Country]
       countryDataList: [DateData]
       globalStatsWithChange(countryRegion: String): GlobalDataWithChange

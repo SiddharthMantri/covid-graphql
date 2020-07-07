@@ -11,7 +11,7 @@ export type DateRecord = {
 };
 export type DateStat = {
   date: string;
-  nums: string;
+  nums: number;
 };
 export type TimeSeries = {
   provinceState: string;

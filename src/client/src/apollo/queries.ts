@@ -48,7 +48,7 @@ export const GET_GLOBAL_STATS = gql`
 
 export const LOAD_TIME_SERIES = gql`
   query TimeSeries($name: String) {
-    confirmed: timeSeries(type: "confirmed", countryRegion: $name) {
+    confirmed: dailySeries(type: "confirmed", countryRegion: $name) {
       provinceState
       countryRegion
       data {
@@ -56,7 +56,7 @@ export const LOAD_TIME_SERIES = gql`
         nums
       }
     }
-    deaths: timeSeries(type: "deaths", countryRegion: $name) {
+    deaths: dailySeries(type: "deaths", countryRegion: $name) {
       provinceState
       countryRegion
       data {
