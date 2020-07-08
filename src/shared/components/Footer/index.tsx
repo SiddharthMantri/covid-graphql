@@ -10,7 +10,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
   padded: {
-    padding: "32px !important"
+    padding: "64px !important"
   }
 }));
 
@@ -19,8 +19,8 @@ const Footer = () => {
   return (
     <>
       <Divider></Divider>
-      <Container maxWidth="lg" className={classes.padded}>
-        <Grid container spacing={2}>
+      <Container maxWidth="xl" className={classes.padded}>
+        <Grid container spacing={3}>
           <Typography variant="body1">Sources: </Typography>
           {"    "}
           <Typography

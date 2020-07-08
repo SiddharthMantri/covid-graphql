@@ -54,7 +54,7 @@ const COLUMNS = [
     Header: "Recovered",
     accessor: "recovered",
     align: "right",
-  },
+  }
 ];
 
 const Home = () => {
@@ -124,6 +124,7 @@ const Home = () => {
               <DataChart
                 timeSeries={countryTimeSeries}
                 country={selectedCountry}
+                detailLink={true}
               />
             </Grid>
           </Grid>

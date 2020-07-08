@@ -1,4 +1,4 @@
-import { DataLoader } from "../data/Data";
+import Data, { DataLoader } from "../data/Data";
 import { TimeSeries, DateRecord } from "../types";
 import { Stats } from "../data/Stats";
 
@@ -72,5 +72,6 @@ export const resolvers = {
     ) => {
       return Stats.getGlobalStatsWithChange(args.countryRegion);
     },
+    cacheStats: () => Data.getCacheStats(),
   },
 };

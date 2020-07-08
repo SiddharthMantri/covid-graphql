@@ -6,6 +6,7 @@ export const typeDefs = `
       country(name: String): [Country]
       countryDataList: [DateData]
       globalStatsWithChange(countryRegion: String): GlobalDataWithChange
+      cacheStats: CacheStats
     }
     type Region {
       name: String
@@ -55,5 +56,12 @@ export const typeDefs = `
       deaths: ChangeStat,
       recovered: ChangeStat,
       active: ChangeStat
+     }
+     type CacheStats {
+      hits: Int
+      misses: Int
+      keys: Int
+      ksize: Int
+      vsize: Int
      }
   `;

@@ -94,6 +94,10 @@ class Cache {
       .catch((err: AxiosError): CountryRegion[] => []);
   }
 
+  getCacheStats() {
+    return this.cache.getStats();
+  }
+
   del(keys: string) {
     this.cache.del(keys);
   }

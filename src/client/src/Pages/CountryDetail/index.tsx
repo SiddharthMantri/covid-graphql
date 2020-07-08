@@ -6,13 +6,17 @@ import {
   Grid,
   List,
   makeStyles,
-  Typography
+  Typography,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core";
 import * as H from "history";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { GlobalChangeStat, TimeSeries } from "../../../../../src/shared";
 import CountryListItem from "../../../../../src/shared/components/CountryListItem";
-import { GET_COUNTRY_DATA } from "../../apollo/queries";
+import { GET_COUNTRY_DATA, LOAD_TIME_SERIES } from "../../apollo/queries";
+import DataChart from "../../../../../src/shared/components/DataChart";
+import { TimeSeriesData } from "../../state/useDashboardState";
 
 type TParams = { country: string };
 interface Props extends RouteComponentProps<TParams> {}
@@ -30,38 +34,49 @@ export interface match<P> {
   url: string;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
   card: {
-    minWidth: "100%"
+    minWidth: "100%",
   },
   toolbar: theme.mixins.toolbar,
   typography: {
-    textAlign: "center"
+    textAlign: "center",
   },
   list: {
     paddingLeft: "0px",
-    paddingRight: "0px"
-  }
+    paddingRight: "0px",
+  },
 }));
 const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   const classes = useStyles();
   const {
-    params: { country }
+    params: { country },
   } = match;
+  const variables = {
+    name: country,
+  };
+
+  const [chartData, setChartData] = useState(
+    {} as {
+      confirmed?: TimeSeriesData[];
+      deaths?: TimeSeriesData[];
+    }
+  );
+
   const {
     loading,
     data,
-    error
+    error,
   }: {
     loading: boolean;
     data: Partial<{
@@ -71,10 +86,33 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
     }>;
     error?: any;
   } = useQuery(GET_COUNTRY_DATA, {
-    variables: {
-      name: country
-    }
+    variables,
   });
+
+  const { data: dailyData, error: dailyError } = useQuery(LOAD_TIME_SERIES, {
+    variables,
+  });
+
+  const ListItems = [
+    {
+      name: "Confirmed Cases Time Series",
+    },
+    {
+      name: "Confirmed Cases Daily",
+    },
+    {
+      name: "Deaths Time Series",
+    },
+    {
+      name: "Deaths Daily",
+    },
+  ];
+
+  useEffect(() => {
+    if (dailyData && dailyData.deaths) {
+      setChartData(dailyData);
+    }
+  }, [dailyData]);
 
   return (
     <div className={classes.root}>
@@ -112,14 +150,23 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
               <Grid item xs={12} sm={12}>
                 <Card className={classes.card}>
                   <CardContent>
-                    <Typography variant="h5">
-                      Time since update - 
-                    </Typography>
-                    <List className={classes.list}>
+                    <List className={classes.list} dense>
+                      {ListItems.map((item, index) => (
+                        <ListItem key={index} disableGutters>
+                          <ListItemText primary={item.name} />
+                        </ListItem>
+                      ))}
                     </List>
                   </CardContent>
                 </Card>
               </Grid>
+            </Grid>
+            <Grid item container xs={12} sm={12} lg={9} md={9}>
+              <DataChart
+                country={country}
+                timeSeries={chartData}
+                showLog={false}
+              />
             </Grid>
           </Grid>
         </Container>

@@ -31,9 +31,7 @@ export const Data = {
   },
   getCountries() {
     const key = "covid_data_countries";
-    let date = dayjs()
-      .subtract(1, "day")
-      .format(DATE_FORMAT);
+    let date = dayjs().subtract(1, "day").format(DATE_FORMAT);
     return cacheService
       .getCountries(key, () => axios.get(RAW_DATE_DATA(date)))
       .then((result: any) => result);
@@ -44,13 +42,14 @@ export const Data = {
       .getCachedDailySeries(key, () => axios.get(RAW_TIME_SERIES_DATA(type)))
       .then((result: any) => result);
   },
+  getCacheStats() {
+    return cacheService.getCacheStats();
+  },
 };
 export const DataLoader = {
   getDateData(date = ""): Promise<any> {
     if (date === "") {
-      date = dayjs()
-        .subtract(1, "day")
-        .format(DATE_FORMAT);
+      date = dayjs().subtract(1, "day").format(DATE_FORMAT);
     }
     return Data.getDataByDate(date).then((response: DateRecord[]) => response);
   },
@@ -62,6 +61,9 @@ export const DataLoader = {
   },
   getDailySeries(type = ""): Promise<any> {
     return Data.getDailySeries(type).then((response: any[]) => response);
+  },
+  getCacheStats() {
+    return Data.getCacheStats();
   },
 };
 

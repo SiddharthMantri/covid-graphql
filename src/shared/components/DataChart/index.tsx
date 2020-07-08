@@ -1,4 +1,13 @@
-import { Card, CardContent, Grid, makeStyles, Switch, Typography, useMediaQuery } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Grid,
+  makeStyles,
+  Switch,
+  Typography,
+  useMediaQuery,
+  Link,
+} from "@material-ui/core";
 import { ResponsiveLine } from "@nivo/line";
 import { LinearScale, LogScale } from "@nivo/scales";
 import React, { useMemo } from "react";
@@ -14,6 +23,8 @@ export type DataChartProps = {
     confirmed?: TimeSeriesData[];
     deaths?: TimeSeriesData[];
   };
+  showLog?: boolean;
+  detailLink?: boolean;
 };
 class ErrorBoundary extends React.Component<{}, ErrorState> {
   constructor(props) {
@@ -44,37 +55,41 @@ const useStyles = makeStyles({
   root: {
     minWidth: "100%",
     minHeight: "480px",
-    height: "480px"
+    height: "480px",
     // padding: "16px"
-  }
+  },
 });
-
-
 
 const DataChart = ({
   country,
   timeSeries,
-  separate = false
+  separate = false,
+  showLog,
+  detailLink,
 }: DataChartProps) => {
   const classes = useStyles();
-  const [data, scale, setScale] = useDataChart({ country, timeSeries, separate });
+  const [data, scale, setScale] = useDataChart({
+    country,
+    timeSeries,
+    separate,
+  });
   let scaleType = {} as LogScale | LinearScale;
   scaleType =
     scale === "log"
       ? {
           type: "log",
           base: 10,
-          max: "auto"
+          max: "auto",
         }
       : {
           type: "linear",
           max: "auto",
-          min: "auto"
+          min: "auto",
         };
   const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const colorScheme = useMemo(() => (isDarkMode ? "nivo" : "dark2"), [
-    isDarkMode
-  ]);  
+    isDarkMode,
+  ]);
   return (
     <Card className={classes.root}>
       <CardContent className={classes.root}>
@@ -83,33 +98,51 @@ const DataChart = ({
             <Grid item xs={12} md={6} lg={6}>
               <Typography variant="h6">
                 {country && country.length > 0
-                  ? `Time series - Deaths - ${country}`
+                  ? `Daily - Deaths - ${country}`
                   : ""}
               </Typography>
             </Grid>
             <Grid item container xs={12} md={6} lg={6}>
               {country && country.length > 0 && (
                 <Typography component="div">
-                  <Grid
-                    component="label"
-                    container
-                    alignItems="center"
-                    spacing={1}
-                  >
-                    <Grid item>Linear Scale</Grid>
-                    <Grid item>
-                      <Switch
-                        checked={scale === "log"}
-                        onChange={() => {
-                          setScale(prevState =>
-                            prevState === "log" ? "linear" : "log"
-                          );
-                        }}
-                        name="checkedC"
-                      />
+                  {showLog ? (
+                    <Grid
+                      component="label"
+                      container
+                      alignItems="center"
+                      spacing={1}
+                    >
+                      <Grid item>Linear Scale</Grid>
+                      <Grid item>
+                        <Switch
+                          checked={scale === "log"}
+                          onChange={() => {
+                            setScale((prevState) =>
+                              prevState === "log" ? "linear" : "log"
+                            );
+                          }}
+                          name="checkedC"
+                        />
+                      </Grid>
+                      <Grid item>Log Scale</Grid>
                     </Grid>
-                    <Grid item>Log Scale</Grid>
-                  </Grid>
+                  ) : null}
+                  {detailLink ? (
+                    <Grid
+                      component="label"
+                      container
+                      alignItems="center"
+                      spacing={1}
+                      style={{
+                        paddingTop: "8px",
+                        textAlign: "right",
+                      }}
+                    >
+                      <Link href={`/country/${country}`}>
+                        View details for {country}
+                      </Link>
+                    </Grid>
+                  ) : null}
                 </Typography>
               )}
             </Grid>
@@ -125,23 +158,23 @@ const DataChart = ({
                     top: 20,
                     right: 60,
                     bottom: 20,
-                    left: 40
+                    left: 40,
                   }}
                   xScale={{
                     type: "time",
                     format: "%Y-%m-%d",
-                    precision: "day"
+                    precision: "day",
                   }}
                   xFormat="time:%Y-%m-%d"
                   yScale={scaleType}
                   colors={{ scheme: colorScheme }}
                   axisLeft={{
-                    legend: "Datum"
+                    legend: "Datum",
                   }}
                   axisBottom={{
                     format: "%b %d",
                     tickValues: "every 5 day",
-                    legend: "Dates"
+                    legend: "Dates",
                   }}
                   enablePointLabel={true}
                   pointSize={8}
