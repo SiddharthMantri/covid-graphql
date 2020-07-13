@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(1),
-    width: "100%"
+    width: "100%",
   },
   toolbar: theme.mixins.toolbar,
 }));
@@ -109,10 +109,10 @@ const Home = () => {
               <LabelCard type="deaths" data={globalData.deaths} />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard type="recovered" data={globalData.recovered} />
+              <LabelCard type="active" data={globalData.active} />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard type="active" data={globalData.active} />
+              <LabelCard type="recovered" data={globalData.recovered} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <CountryList
