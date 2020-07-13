@@ -54,7 +54,7 @@ const COLUMNS = [
     Header: "Recovered",
     accessor: "recovered",
     align: "right",
-  }
+  },
 ];
 
 const Home = () => {

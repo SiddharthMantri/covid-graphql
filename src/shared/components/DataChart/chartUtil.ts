@@ -8,44 +8,44 @@ export const theme = {
   background: "transparent",
   axis: {
     domain: {
-      line: {}
+      line: {},
     },
     ticks: {
       line: {},
-      text: {}
+      text: {},
     },
     legend: {
-      text: {}
-    }
+      text: {},
+    },
   },
   grid: {
     line: {
-      color: "black"
-    }
+      color: "black",
+    },
   },
   legends: {
     text: {
-      color: "white"
-    }
+      color: "white",
+    },
   },
   labels: {
     text: {
-      color: "white"
-    }
+      color: "white",
+    },
   },
   markers: {
-    lineColor: "black"
+    lineColor: "black",
   },
   dots: {
     text: {
-      color: "black"
-    }
+      color: "black",
+    },
   },
   tooltip: {
     container: {
-      color: "black"
-    }
-  }
+      color: "black",
+    },
+  },
 };
 export const legends: LegendProps[] = [
   {
@@ -67,15 +67,15 @@ export const legends: LegendProps[] = [
         on: "hover",
         style: {
           itemBackground: "rgba(0, 0, 0, .03)",
-          itemOpacity: 1
-        }
-      }
-    ]
-  }
+          itemOpacity: 1,
+        },
+      },
+    ],
+  },
 ];
 
 const dataMapper = (data: TimeSeriesData[], type: string, color?: string) => {
-  return data.map(item => {
+  return data.map((item) => {
     let id = `${type}/${item.countryRegion}${
       item.provinceState !== null ? `/${item.provinceState}` : ""
     }`;
@@ -83,11 +83,11 @@ const dataMapper = (data: TimeSeriesData[], type: string, color?: string) => {
       id,
       color,
       data: item.data
-        .filter(dataItem => dataItem.nums !== 0)
-        .map(dataItem => ({
+        .filter((dataItem) => dataItem.nums !== 0)
+        .map((dataItem) => ({
           x: dayjs(dataItem.date).format("YYYY-MM-DD"),
-          y: dataItem.nums
-        }))
+          y: dataItem.nums,
+        })),
     };
   });
 };
@@ -104,7 +104,7 @@ type useChartDataType = {
 export const useDataChart = ({
   country,
   timeSeries,
-  separate = false
+  separate = false,
 }: DataChartProps): [
   useChartDataType,
   "log" | "linear",

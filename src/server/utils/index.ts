@@ -113,7 +113,10 @@ export const transformDailySeries = (csvString: string): TimeSeries[] => {
       const prevDataRow = dataObject.data[k - 1];
       let objectRow = {} as DateStat;
       objectRow.date = dataRow.date;
-      objectRow.nums = dataRow.nums - prevDataRow.nums;
+      objectRow.nums =
+        dataRow.nums - prevDataRow.nums > -1
+          ? dataRow.nums - prevDataRow.nums
+          : 0;
       calculatedData.push(objectRow);
     }
     dataObject.data = calculatedData;

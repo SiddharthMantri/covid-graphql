@@ -1,6 +1,10 @@
 import { QueryLazyOptions, useLazyQuery } from "@apollo/client";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { DateRecord, GlobalChangeStat, TimeSeriesRecord } from "../../../shared";
+import {
+  DateRecord,
+  GlobalChangeStat,
+  TimeSeriesRecord,
+} from "../../../shared";
 import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../apollo/queries";
 
 export type TimeSeriesData = {
@@ -18,8 +22,6 @@ export type Summary = {
   recovered: number;
   all?: number;
 };
-
-
 
 export type CountryData = {
   summary: Summary;
@@ -43,23 +45,23 @@ const COLUMNS = [
   {
     Header: "Country",
     accessor: "countryRegion",
-    align: "left"
+    align: "left",
   },
   {
     Header: "Confirmed",
     accessor: "confirmed",
-    align: "right"
+    align: "right",
   },
   {
     Header: "Deaths",
     accessor: "deaths",
-    align: "right"
+    align: "right",
   },
   {
     Header: "Recovered",
     accessor: "recovered",
-    align: "right"
-  }
+    align: "right",
+  },
 ];
 
 const useDashboardState = (): useDashboardState => {
@@ -80,7 +82,7 @@ const useDashboardState = (): useDashboardState => {
 
   const [
     getGlobalStats,
-    { loading: globalLoading, data: globalStats }
+    { loading: globalLoading, data: globalStats },
   ] = useLazyQuery(GET_GLOBAL_STATS);
 
   const [getTimeSeries, { loading, data: timeSeries }] = useLazyQuery(
@@ -129,7 +131,7 @@ const useDashboardState = (): useDashboardState => {
     countryDataList,
     COLUMNS,
     onClickCountry,
-    countryTimeSeries
+    countryTimeSeries,
   };
 };
 export default useDashboardState;

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const COUNTRIES = gql`
   query Country($name: String) {
@@ -108,4 +108,3 @@ export const GET_COUNTRY_DATA = gql`
     }
   }
 `;
-

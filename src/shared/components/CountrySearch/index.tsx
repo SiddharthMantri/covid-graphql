@@ -5,15 +5,15 @@ import {
   CardContent,
   Typography,
   Select,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import { CountryRegion } from "../../../client/src/types";
 
 const useStyles = makeStyles({
   root: {
     minWidth: "100%",
-    minHeight: "100px"
-  }
+    minHeight: "100px",
+  },
 });
 
 type CountrySearchProps = {
@@ -28,7 +28,7 @@ type CountrySearchProps = {
 const CountrySearch = ({
   countries,
   onChange,
-  selectedCountry
+  selectedCountry,
 }: CountrySearchProps) => {
   const classes = useStyles();
   return (

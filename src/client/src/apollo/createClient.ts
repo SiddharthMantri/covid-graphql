@@ -6,6 +6,6 @@ const link = new HttpLink({ uri });
 const client = new ApolloClient({
   link,
   cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
-  ssrMode: true
+  ssrMode: true,
 });
 export default client;

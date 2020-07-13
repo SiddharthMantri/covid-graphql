@@ -1,0 +1,56 @@
+{
+    "settings": {
+      "react": {
+        "version": "detect"
+      },
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+      },
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true,
+      "es6": true
+    },
+    "plugins": ["prettier", "react-hooks", "@typescript-eslint"],
+    "extends": [
+      "airbnb",
+      "prettier",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react-hooks/recommended"
+    ],
+    "rules": {
+      "prettier/prettier": ["error"],
+      "react/jsx-filename-extension": [
+        "error",
+        {
+          "extensions": [
+            ".js", ".tsx"
+          ]
+        }
+      ],
+      "import/no-extraneous-dependencies": 0,
+      "import/extensions": ["error", { ts: "never", tsx: "never" }]
+    },
+    "overrides": [
+      {
+        // Disable the typescript rule for JS files
+        "files": ["*.js"],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": "off"
+        }
+      }
+    ]
+  }

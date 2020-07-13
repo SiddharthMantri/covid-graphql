@@ -3,14 +3,14 @@ import {
   ListItem,
   ListItemText,
   Typography,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
 } from "@material-ui/core";
 import { ChangeStat } from "../../../shared";
 const LABELS = {
   recovered: "Recovered",
   confirmed: "Confirmed",
   deaths: "Deaths",
-  active: "Active"
+  active: "Active",
 };
 
 type CountryListItemProps = {

@@ -5,13 +5,13 @@ import {
   Grid,
   Typography,
   makeStyles,
-  Link
+  Link,
 } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   padded: {
-    padding: "64px !important"
-  }
+    padding: "64px !important",
+  },
 }));
 
 const Footer = () => {
