@@ -1,5 +1,5 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { getMarkupFromTree } from "@apollo/react-ssr";
+import { getMarkupFromTree } from "@apollo/client/react/ssr";
 import { ServerStyleSheets, ThemeProvider } from "@material-ui/core/styles";
 import { SchemaLink } from "@apollo/link-schema";
 import { ApolloServer } from "apollo-server-express";
