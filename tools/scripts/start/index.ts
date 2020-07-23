@@ -1,16 +1,15 @@
-import server from "../../../src/server/server";
-import {
-  apolloServer,
-  expressRenderer
-} from "../../../src/server/express/serverUtils";
-
+import expressServer from "../../../src/server";
 
 const port = process.env.PORT || 8080;
 
-apolloServer.applyMiddleware({ app: server });
+const startServer = () => {
+  const server = expressServer({
+    mode: "production",
+    config: {},
+  });
+  server.listen({ port }, () =>
+    console.log(`Server ready at http://localhost:${port}`)
+  );
+};
 
-server.use(expressRenderer);
-
-server.listen({ port }, () =>
-  console.log(`Server ready at http://localhost:${port}`)
-);
+startServer();

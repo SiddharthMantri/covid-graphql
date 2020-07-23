@@ -7,16 +7,16 @@ export const clientConfig = {
   entry: {
     main: [
       "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000",
-      "../../src/client/index.tsx"
-    ]
+      path.resolve(__dirname, "../../src/client/index.tsx"),
+    ],
   },
   output: {
-    path: path.resolve(__dirname, "../../src/server/build"),
+    path: path.join(__dirname, "dist"),
     publicPath: "/",
-    filename: "[name].js"
+    filename: "[name].js",
   },
   resolve: {
-    extensions: ["*", ".mjs", ".tsx", ".ts", ".js", ".json"]
+    extensions: [".tsx", ".ts", ".js"],
   },
   mode: "development",
   target: "web",
@@ -26,65 +26,57 @@ export const clientConfig = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        include: [
-          path.resolve(__dirname, "../../src/"),
-          // path.resolve(__dirname, "../../src/")
-        ],
         use: {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-react"],
-            plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]]
-          }
-        }
+            plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
+          },
+        },
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        include: [
-          path.resolve(__dirname, "../../src/"),
-          // path.resolve(__dirname, "../../src/shared/")
-        ],
         use: [
           {
-            loader: "ts-loader"
-          }
-        ]
+            loader: "ts-loader",
+          },
+        ],
       },
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
-        test: /\.mjs$/,
-        exclude: /node_modules/,
-        type: "javascript/auto"
-      }
-    ]
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader",
+      },
+    ],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 };
 
 export const serverConfig = {
   mode: "development",
   target: "node",
   node: {
-    __dirname: false
+    __dirname: false,
   },
   externals: [nodeExternals()],
   entry: {
-    server: "./src/server/server.tsx"
+    server: "./src/server/server.tsx",
   },
   plugins: [new CleanWebpackPlugin(), new webpack.HotModuleReplacementPlugin()],
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: "/",
-    filename: "server.js"
+    filename: "server.js",
   },
   node: {
     __dirname: false, // if you don't put this is, __dirname
-    __filename: false // and __filename return blank or /
+    __filename: false, // and __filename return blank or /
   },
   module: {
     rules: [
@@ -95,23 +87,23 @@ export const serverConfig = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-react"],
-            plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]]
-          }
-        }
+            plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
+          },
+        },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
         use: [
           {
-            loader: "ts-loader"
-          }
-        ]
-      }
-    ]
-  }
+            loader: "ts-loader",
+          },
+        ],
+      },
+    ],
+  },
 };
