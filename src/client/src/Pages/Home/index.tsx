@@ -9,6 +9,7 @@ import {
   DateRecord,
   GlobalChangeStat,
   TimeSeriesRecord,
+  ChangeStat,
 } from "../../../../shared/index";
 import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../../apollo/queries";
 
@@ -60,6 +61,7 @@ const COLUMNS = [
 
 const Home = () => {
   const classes = useStyles();
+  const tempValue = {} as ChangeStat;
 
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countryTimeSeries, setCountryTimeSeries] = useState<TimeSeriesRecord>(
@@ -92,25 +94,25 @@ const Home = () => {
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <LabelCard
                 type="confirmed"
-                data={globalStats?.globalStatsWithChange?.confirmed || {}}
+                data={globalStats?.globalStatsWithChange?.confirmed}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <LabelCard
                 type="deaths"
-                data={globalStats?.globalStatsWithChange?.deaths || {}}
+                data={globalStats?.globalStatsWithChange?.deaths}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <LabelCard
                 type="active"
-                data={globalStats?.globalStatsWithChange?.active || {}}
+                data={globalStats?.globalStatsWithChange?.active}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <LabelCard
                 type="recovered"
-                data={globalStats?.globalStatsWithChange?.recovered || {}}
+                data={globalStats?.globalStatsWithChange?.recovered}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>

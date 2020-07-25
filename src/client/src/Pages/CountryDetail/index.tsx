@@ -9,6 +9,8 @@ import {
   Typography,
   ListItem,
   ListItemText,
+  Breadcrumbs,
+  Link,
 } from "@material-ui/core";
 import * as H from "history";
 import React, { useState, useEffect } from "react";
@@ -17,6 +19,7 @@ import CountryListItem from "../../../../../src/shared/components/CountryListIte
 import { GET_COUNTRY_DATA, LOAD_TIME_SERIES } from "../../apollo/queries";
 import DataChart from "../../../../../src/shared/components/DataChart";
 import { TimeSeriesData } from "../../state/useDashboardState";
+import LabelCard from "../../../../shared/components/LabelCard";
 
 type TParams = { country: string };
 interface Props extends RouteComponentProps<TParams> {}
@@ -57,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: "0px",
   },
 }));
+
 const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   const classes = useStyles();
   const {
@@ -118,34 +122,41 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
       <main className={classes.content}>
         <Container maxWidth="xl">
           <Grid container spacing={2}>
-            <Grid item container xs={12} sm={12} md={3} lg={3} spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography variant="h5">
-                      {country} - at a glance
-                    </Typography>
-                    <List className={classes.list}>
-                      {data ? (
-                        <>
-                          <CountryListItem
-                            type="confirmed"
-                            data={data.globalStatsWithChange.confirmed}
-                          />
-                          <CountryListItem
-                            type="deaths"
-                            data={data.globalStatsWithChange.deaths}
-                          />
-                          <CountryListItem
-                            type="active"
-                            data={data.globalStatsWithChange.active}
-                          />
-                        </>
-                      ) : null}
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
+            <Grid item xs={12}>
+              <Breadcrumbs aria-label="nav-breadcrumb">
+                <Link color="inherit" href="/">
+                  Home
+                </Link>
+              </Breadcrumbs>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h4">{country} - at a glance</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <LabelCard
+                type="confirmed"
+                data={data?.globalStatsWithChange?.confirmed}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <LabelCard
+                type="deaths"
+                data={data?.globalStatsWithChange?.deaths}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <LabelCard
+                type="active"
+                data={data?.globalStatsWithChange?.active}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <LabelCard
+                type="recovered"
+                data={data?.globalStatsWithChange?.recovered}
+              />
+            </Grid>
+            <Grid item container xs={12} sm={12} md={3} lg={3}>
               <Grid item xs={12} sm={12}>
                 <Card className={classes.card}>
                   <CardContent>
