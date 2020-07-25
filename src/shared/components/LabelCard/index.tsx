@@ -48,8 +48,8 @@ const LabelCard = ({ type, data }: LabelCardProps) => {
   const numFormat = data
     ? new Intl.NumberFormat("en-US").format(data.number)
     : 0;
-  const percChange = data ? data.perc.toFixed(3) : 0;
-  const changeFormat = data
+  const percChange = data && data.perc? data.perc.toFixed(3) : 0;
+  const changeFormat = data && data.change
     ? new Intl.NumberFormat("en-US").format(data.change)
     : 0;
   return (

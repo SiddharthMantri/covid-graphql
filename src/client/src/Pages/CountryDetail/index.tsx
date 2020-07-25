@@ -88,14 +88,13 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
     variables,
   });
 
-  const onTypeClick = (type) => {
+  const onTypeClick = (type) => () => {
     setChartType(type);
   };
 
   const ListItems = [
     {
       name: "Confirmed Cases Time Series",
-      onClick: onTypeClick("confirmed"),
     },
     {
       name: "Confirmed Cases Daily",

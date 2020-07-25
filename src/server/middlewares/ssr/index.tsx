@@ -84,7 +84,7 @@ const ssr = (req, res, next) => {
       const html = <Html content={markup} state={state} css={css} />;
 
       if (context.url) {
-        res.writeHead(302, {
+        res.writeHead(301, {
           Location: context.url,
         });
         res.end();

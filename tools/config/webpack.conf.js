@@ -11,7 +11,7 @@ export const clientConfig = {
     ],
   },
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "../../src/server/dist"),
     publicPath: "/",
     filename: "[name].js",
   },

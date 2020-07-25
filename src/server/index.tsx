@@ -16,6 +16,9 @@ const expressServer = ({ mode, config }: ServerArgs) => {
   app.use(express.static(path.join(__dirname, "build")));
 
   if (mode === "development") {
+    // @ts-ignore
+    config.entry.main[1] = path.resolve(__dirname, "../client/index.tsx");
+    config.output.path = path.resolve(__dirname, "./build");
     const compiler = webpack(config);
     app.use(
       webpackDevMiddleware(compiler, {

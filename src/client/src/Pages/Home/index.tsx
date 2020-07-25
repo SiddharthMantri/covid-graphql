@@ -61,12 +61,6 @@ const COLUMNS = [
 const Home = () => {
   const classes = useStyles();
 
-  const [globalData, setGlobalData] = useState<GlobalChangeStat>(
-    {} as GlobalChangeStat
-  );
-  const [countryDataList, setCountryDataList] = useState<DateRecord[]>(
-    [] as DateRecord[]
-  );
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countryTimeSeries, setCountryTimeSeries] = useState<TimeSeriesRecord>(
     {} as TimeSeriesRecord
@@ -85,13 +79,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (globalStats) {
-      setGlobalData({ ...globalStats.globalStatsWithChange });
-      setCountryDataList([...globalStats.countryDataList]);
-    }
-  }, [globalStats]);
-
-  useEffect(() => {
     if (timeSeries) {
       setCountryTimeSeries({ ...timeSeries });
     }
@@ -103,21 +90,33 @@ const Home = () => {
         <Container maxWidth="xl">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard type="confirmed" data={globalData.confirmed} />
+              <LabelCard
+                type="confirmed"
+                data={globalStats?.globalStatsWithChange?.confirmed || {}}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard type="deaths" data={globalData.deaths} />
+              <LabelCard
+                type="deaths"
+                data={globalStats?.globalStatsWithChange?.deaths || {}}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard type="active" data={globalData.active} />
+              <LabelCard
+                type="active"
+                data={globalStats?.globalStatsWithChange?.active || {}}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard type="recovered" data={globalData.recovered} />
+              <LabelCard
+                type="recovered"
+                data={globalStats?.globalStatsWithChange?.recovered || {}}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <CountryList
                 onClickCountry={onClickCountry}
-                data={countryDataList}
+                data={globalStats?.countryDataList}
                 columns={COLUMNS}
               />
             </Grid>

@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "ts-node-dev tools/scripts/development",
-    "start:server": "ts-node src/server/server.tsx --env.production",
+    "start:server": "ts-node tools/scripts/start/index.ts --env.production",
     "start": "ts-node tools/scripts/start/index.ts",
     "build:client": "NODE_ENV=production ts-node tools/scripts/build",
     "lint": "eslint '**/*.{js,ts,tsx}' --max-warnings 20",
