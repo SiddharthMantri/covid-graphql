@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useMemo } from "react";
-import { useSortBy, useTable } from "react-table";
+import { useSortBy, useTable, useFilters } from "react-table";
 import { DateRecord } from "../..";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ type CountryListProps = {
   onClickCountry: (country: string) => void;
 };
 
-const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
+const RecordTable = ({ columns, data = [], onClickCountry }: CountryListProps) => {
   const { tableRow } = useStyles();
   const sortBy = useMemo(() => [{ id: "confirmed", desc: true }], []);
   const {
@@ -61,6 +61,7 @@ const RecordTable = ({ columns, data, onClickCountry }: CountryListProps) => {
         sortBy,
       },
     },
+    useFilters,
     useSortBy
   );
 

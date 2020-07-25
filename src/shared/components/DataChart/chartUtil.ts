@@ -105,6 +105,7 @@ export const useDataChart = ({
   country,
   timeSeries,
   separate = false,
+  showType = "deaths",
 }: DataChartProps): [
   useChartDataType,
   "log" | "linear",
@@ -114,13 +115,18 @@ export const useDataChart = ({
   const [scale, setScale] = useState("linear" as "log" | "linear");
   const data = useMemo(() => {
     if (timeSeries && timeSeries.confirmed) {
-      let conf = dataMapper(
-        timeSeries.confirmed,
-        "Confirmed",
-        `hsl(218, 100%, 50%)`
-      );
-      let dth = dataMapper(timeSeries.deaths, "Deaths", `hsl(2, 100%, 50%)`);
-      return [...dth];
+      let response = [] as useChartDataType;
+
+      if (showType === "deaths") {
+        response = dataMapper(timeSeries.deaths, "Deaths", `hsl(2, 100%, 50%)`);
+      } else {
+        response = dataMapper(
+          timeSeries.confirmed,
+          "Confirmed",
+          `hsl(218, 100%, 50%)`
+        );
+      }
+      return [...response];
     }
     return [];
   }, [timeSeries]);

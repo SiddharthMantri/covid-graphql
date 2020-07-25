@@ -25,6 +25,7 @@ export type DataChartProps = {
   };
   showLog?: boolean;
   detailLink?: boolean;
+  showType?: "deaths" | "confirmed";
 };
 class ErrorBoundary extends React.Component<{}, ErrorState> {
   constructor(props) {

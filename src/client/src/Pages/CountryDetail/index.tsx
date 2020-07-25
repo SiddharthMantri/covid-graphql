@@ -65,6 +65,7 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   const variables = {
     name: country,
   };
+  const [chartType, setChartType] = useState<"deaths" | "confirmed">("deaths");
 
   const [chartData, setChartData] = useState(
     {} as {
@@ -73,25 +74,23 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
     }
   );
 
-  const {
-    loading,
-    data,
-    error,
-  }: {
-    loading: boolean;
-    data: Partial<{
+  const { loading, data, error } = useQuery<
+    Partial<{
       globalStatsWithChange: GlobalChangeStat;
       confirmed: TimeSeries[];
       deaths: TimeSeries[];
-    }>;
-    error?: any;
-  } = useQuery(GET_COUNTRY_DATA, {
+    }>
+  >(GET_COUNTRY_DATA, {
     variables,
   });
 
   const { data: dailyData, error: dailyError } = useQuery(LOAD_TIME_SERIES, {
     variables,
   });
+
+  const onTypeClick = (type) => () => {
+    setChartType(type);
+  };
 
   const ListItems = [
     {
@@ -166,6 +165,7 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
                 country={country}
                 timeSeries={chartData}
                 showLog={false}
+                showType={chartType}
               />
             </Grid>
           </Grid>
