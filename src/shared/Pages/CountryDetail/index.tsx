@@ -13,12 +13,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as H from "history";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GlobalChangeStat, TimeSeries } from "../../../shared";
 import { GET_COUNTRY_DATA, LOAD_TIME_SERIES } from "../../apollo/queries";
 import DataChart from "../../components/DataChart";
 import LabelCard from "../../components/LabelCard";
-import { TimeSeriesData } from "../../state/useDashboardState";
+import { TimeSeriesData } from "../../types";
 
 type TParams = { country: string };
 interface Props extends RouteComponentProps<TParams> {}
@@ -69,13 +69,6 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
     name: country,
   };
   const [chartType, setChartType] = useState<"deaths" | "confirmed">("deaths");
-
-  const [chartData, setChartData] = useState(
-    {} as {
-      confirmed?: TimeSeriesData[];
-      deaths?: TimeSeriesData[];
-    }
-  );
 
   const { loading, data, error } = useQuery<
     Partial<{

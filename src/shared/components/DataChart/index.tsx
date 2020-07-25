@@ -11,8 +11,8 @@ import {
 import { ResponsiveLine } from "@nivo/line";
 import { LinearScale, LogScale } from "@nivo/scales";
 import React, { useMemo } from "react";
-import { TimeSeriesData } from "../../state/useDashboardState";
 import { legends, theme, useDataChart } from "./chartUtil";
+import { TimeSeriesData } from "../../types";
 interface ErrorState {
   hasError: boolean;
 }
@@ -57,7 +57,6 @@ const useStyles = makeStyles({
     minWidth: "100%",
     minHeight: "480px",
     height: "480px",
-    // padding: "16px"
   },
 });
 

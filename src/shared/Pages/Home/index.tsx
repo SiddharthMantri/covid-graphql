@@ -56,19 +56,14 @@ const COLUMNS = [
 
 const Home = () => {
   const classes = useStyles();
-  const tempValue = {} as ChangeStat;
 
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countryTimeSeries, setCountryTimeSeries] = useState<TimeSeriesRecord>(
     {} as TimeSeriesRecord
   );
-  const { loading: gLoad, error, data: globalStats } = useQuery(
-    GET_GLOBAL_STATS
-  );
+  const { data: globalStats } = useQuery(GET_GLOBAL_STATS);
 
-  const [getTimeSeries, { loading: tsLoad, data: timeSeries }] = useLazyQuery(
-    LOAD_TIME_SERIES
-  );
+  const [getTimeSeries, { data: timeSeries }] = useLazyQuery(LOAD_TIME_SERIES);
 
   const onClickCountry = useCallback((countryRegion: string) => {
     setSelectedCountry(countryRegion);
