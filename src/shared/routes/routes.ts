@@ -1,5 +1,5 @@
-import Home from "../../client/src/Pages/Home";
-import CountryDetail from "../../client/src/Pages/CountryDetail";
+import Home from "../Pages/Home";
+import CountryDetail from "../Pages/CountryDetail";
 
 const Routes = [
   {

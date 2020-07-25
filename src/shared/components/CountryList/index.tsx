@@ -44,7 +44,11 @@ type CountryListProps = {
   onClickCountry: (country: string) => void;
 };
 
-const RecordTable = ({ columns, data = [], onClickCountry }: CountryListProps) => {
+const RecordTable = ({
+  columns,
+  data = [],
+  onClickCountry,
+}: CountryListProps) => {
   const { tableRow } = useStyles();
   const sortBy = useMemo(() => [{ id: "confirmed", desc: true }], []);
   const {

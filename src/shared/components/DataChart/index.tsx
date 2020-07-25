@@ -11,7 +11,7 @@ import {
 import { ResponsiveLine } from "@nivo/line";
 import { LinearScale, LogScale } from "@nivo/scales";
 import React, { useMemo } from "react";
-import { TimeSeriesData } from "../../../client/src/state/useDashboardState";
+import { TimeSeriesData } from "../../state/useDashboardState";
 import { legends, theme, useDataChart } from "./chartUtil";
 interface ErrorState {
   hasError: boolean;
