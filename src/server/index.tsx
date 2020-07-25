@@ -1,21 +1,24 @@
 import express from "express";
 import path from "path";
-import webpack from "webpack";
-import webpackDevMiddleware from "webpack-dev-middleware";
-import webpackHotMiddleware from "webpack-hot-middleware";
 import apolloServer from "./middlewares/graphql/apolloServer";
 import ssr from "./middlewares/ssr";
 
 type ServerArgs = {
   mode: "production" | "development";
-  config: Partial<webpack.Configuration>;
+  config: any;
+  options?: {
+    webpack: (...args: any) => any;
+    webpackDevMiddleware: (...args: any) => any;
+    webpackHotMiddleware: (...args: any) => any;
+  };
 };
 
-const expressServer = ({ mode, config }: ServerArgs) => {
+const expressServer = ({ mode, config, options }: ServerArgs) => {
   const app = express();
   app.use(express.static(path.join(__dirname, "build")));
 
   if (mode === "development") {
+    const { webpack, webpackDevMiddleware, webpackHotMiddleware } = options;
     // @ts-ignore
     config.entry.main[1] = path.resolve(__dirname, "../client/index.tsx");
     config.output.path = path.resolve(__dirname, "./build");

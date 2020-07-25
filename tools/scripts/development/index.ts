@@ -1,6 +1,8 @@
+import webpack from "webpack";
+import webpackDevMiddleware from "webpack-dev-middleware";
+import webpackHotMiddleware from "webpack-hot-middleware";
 import expressServer from "../../../src/server";
 import { clientConfig } from "../../config/webpack.conf";
-
 
 const port = process.env.PORT || 8080;
 
@@ -9,6 +11,11 @@ const startDevServer = () => {
     // @ts-ignore
     config: clientConfig,
     mode: "development",
+    options: {
+      webpack,
+      webpackHotMiddleware,
+      webpackDevMiddleware,
+    },
   });
 
   server.listen(port, (...cb) => {
