@@ -47,11 +47,6 @@ const COLUMNS = [
     accessor: "deaths",
     align: "right",
   },
-  {
-    Header: "Recovered",
-    accessor: "recovered",
-    align: "right",
-  },
 ];
 
 const Home = () => {
@@ -81,28 +76,22 @@ const Home = () => {
       <main className={classes.content}>
         <Container maxWidth="xl">
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard
                 type="confirmed"
                 data={globalStats?.globalStatsWithChange?.confirmed}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard
                 type="deaths"
                 data={globalStats?.globalStatsWithChange?.deaths}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard
                 type="active"
                 data={globalStats?.globalStatsWithChange?.active}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard
-                type="recovered"
-                data={globalStats?.globalStatsWithChange?.recovered}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>

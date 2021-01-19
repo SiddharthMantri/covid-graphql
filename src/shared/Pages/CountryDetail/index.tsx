@@ -118,28 +118,22 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
             <Grid item xs={12}>
               <Typography variant="h4">{country} - at a glance</Typography>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard
                 type="confirmed"
                 data={data?.globalStatsWithChange?.confirmed}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard
                 type="deaths"
                 data={data?.globalStatsWithChange?.deaths}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard
                 type="active"
                 data={data?.globalStatsWithChange?.active}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <LabelCard
-                type="recovered"
-                data={data?.globalStatsWithChange?.recovered}
               />
             </Grid>
             <Grid item container xs={12} sm={12} md={3} lg={3}>

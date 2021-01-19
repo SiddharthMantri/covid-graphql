@@ -1,6 +1,6 @@
 import Data, { DataLoader } from "../../../data/Data";
-import { TimeSeries, DateRecord } from "../../../types";
 import { Stats } from "../../../data/Stats";
+import { DateRecord, TimeSeries } from "../../../types";
 
 export const resolvers = {
   Query: {
