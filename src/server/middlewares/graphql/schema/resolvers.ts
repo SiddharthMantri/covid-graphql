@@ -1,4 +1,4 @@
-import Data, { DataLoader } from "../../../data/Data";
+import { Data, DataLoader } from "../../../data/Data";
 import { Stats } from "../../../data/Stats";
 import { DateRecord, TimeSeries } from "../../../types";
 

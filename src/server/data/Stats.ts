@@ -26,6 +26,7 @@ export const Stats = {
     });
     return result;
   },
+
   async getAllCountryStats() {
     const date = dayjs().subtract(1, "day").format(DATE_FORMAT);
     let results = [] as DateRecord[];

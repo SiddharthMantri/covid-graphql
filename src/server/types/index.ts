@@ -9,10 +9,12 @@ export type DateRecord = {
   lng: string;
   active: number;
 };
+
 export type DateStat = {
   date: string;
   nums: number;
 };
+
 export type TimeSeries = {
   provinceState: string;
   countryRegion: string;
@@ -20,6 +22,7 @@ export type TimeSeries = {
   lng: string;
   data: DateStat[];
 };
+
 export type CountryRegion = {
   name: String;
   region: String;

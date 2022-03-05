@@ -1,11 +1,11 @@
-import React from "react";
-import { RequestHandler } from "express";
-import { InMemoryCache, ApolloClient, ApolloProvider } from "@apollo/client";
-import { ServerStyleSheets, ThemeProvider } from "@material-ui/core";
-import { SchemaLink } from "@apollo/link-schema";
-import { StaticRouterContext, StaticRouter } from "react-router";
-import { renderToString } from "react-dom/server";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { SchemaLink } from "@apollo/client/link/schema";
 import { getMarkupFromTree } from "@apollo/client/react/ssr";
+import { ServerStyleSheets, ThemeProvider } from "@material-ui/core";
+import { RequestHandler } from "express";
+import React from "react";
+import { renderToString } from "react-dom/server";
+import { StaticRouter, StaticRouterContext } from "react-router";
 import Wrapper from "../../../shared/components/Wrapper";
 import { theme } from "../../../shared/theme/theme";
 import { schema } from "../graphql/apolloServer";
@@ -60,7 +60,7 @@ const Html = ({
   </html>
 );
 
-const ssr = (req, res, next) => {
+const ssr: RequestHandler = (req, res, next) => {
   const cache = new InMemoryCache();
   const sheets = new ServerStyleSheets();
 

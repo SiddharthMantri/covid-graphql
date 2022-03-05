@@ -1,6 +1,5 @@
-import { Route, Switch } from "react-router";
-import { Link } from "react-router-dom";
 import React from "react";
+import { Route, Switch } from "react-router";
 import Routes from "./routes";
 
 const Layout = () => (
@@ -10,4 +9,5 @@ const Layout = () => (
     ))}
   </Switch>
 );
+
 export default Layout;

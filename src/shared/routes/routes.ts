@@ -1,5 +1,5 @@
-import Home from "../Pages/Home";
-import CountryDetail from "../Pages/CountryDetail";
+import Home from "../containers/Home";
+import CountryDetail from "../containers/CountryDetail";
 
 const Routes = [
   {

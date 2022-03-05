@@ -12,7 +12,7 @@ const RAW_DATE_DATA = (date: string) =>
 const RAW_TIME_SERIES_DATA = (type: string) =>
   `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${type}_global.csv`;
 
-let cacheService = new Cache({
+const cacheService = new Cache({
   ttlSeconds: HOUR,
 });
 
@@ -46,6 +46,7 @@ export const Data = {
     return cacheService.getCacheStats();
   },
 };
+
 export const DataLoader = {
   getDateData(date = ""): Promise<any> {
     if (date === "") {
@@ -66,5 +67,3 @@ export const DataLoader = {
     return Data.getCacheStats();
   },
 };
-
-export default Data;
