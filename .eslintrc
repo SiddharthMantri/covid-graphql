@@ -42,7 +42,9 @@
     "import/no-extraneous-dependencies": 0,
     "import/extensions": ["error", { "ts": "never", "tsx": "never" }],
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off"
   },
   "overrides": [
     {

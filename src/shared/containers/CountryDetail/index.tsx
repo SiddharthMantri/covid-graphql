@@ -14,14 +14,13 @@ import {
 } from "@material-ui/core";
 import * as H from "history";
 import { useState } from "react";
-import { GlobalChangeStat, TimeSeries } from "../..";
+import { GlobalChangeStat, TimeSeries } from "../../types";
 import { GET_COUNTRY_DATA, LOAD_TIME_SERIES } from "../../apollo/queries";
 import DataChart from "../../components/DataChart";
 import LabelCard from "../../components/LabelCard";
-import { TimeSeriesData } from "../../types";
 
 type TParams = { country: string };
-interface Props extends RouteComponentProps<TParams> {}
+type Props = RouteComponentProps<TParams>;
 export interface RouteComponentProps<P> {
   match: match<P>;
   location: H.Location;
@@ -70,7 +69,7 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   };
   const [chartType, setChartType] = useState<"deaths" | "confirmed">("deaths");
 
-  const { loading, data, error } = useQuery<
+  const { data, error } = useQuery<
     Partial<{
       globalStatsWithChange: GlobalChangeStat;
       confirmed: TimeSeries[];
@@ -83,10 +82,6 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
   const { data: dailyData, error: dailyError } = useQuery(LOAD_TIME_SERIES, {
     variables,
   });
-
-  const onTypeClick = (type) => () => {
-    setChartType(type);
-  };
 
   const ListItems = [
     {
@@ -116,7 +111,7 @@ const CountryDetail = ({ match }: RouteComponentProps<TParams>) => {
               </Breadcrumbs>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h4">{country} - at a glance</Typography>
+              <Typography variant="h4">{country}- at a glance</Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <LabelCard

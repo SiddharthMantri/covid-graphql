@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { useMemo } from "react";
 import { useSortBy, useTable, useFilters } from "react-table";
-import { DateRecord } from "../..";
+import { DateRecord } from "../../types";
 
 const useStyles = makeStyles((theme) => ({
   root: {

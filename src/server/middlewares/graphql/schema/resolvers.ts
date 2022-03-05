@@ -10,7 +10,7 @@ export const resolvers = {
       context: any,
       info: any
     ) => {
-      let datedData = DataLoader.getDateData(args.date);
+      const datedData = DataLoader.getDateData(args.date);
       if (args.countryRegion && args.countryRegion !== "") {
         return datedData.then((data) =>
           data.filter(
@@ -26,7 +26,7 @@ export const resolvers = {
       context: any,
       info: any
     ) => {
-      let seriesData = DataLoader.getTimeSeries(args.type);
+      const seriesData = DataLoader.getTimeSeries(args.type);
       if (args.countryRegion && args.countryRegion !== "") {
         return seriesData.then((data) =>
           data.filter(
@@ -42,7 +42,7 @@ export const resolvers = {
       context: any,
       info: any
     ) => {
-      let seriesData = DataLoader.getDailySeries(args.type);
+      const seriesData = DataLoader.getDailySeries(args.type);
       if (args.countryRegion && args.countryRegion !== "") {
         return seriesData.then((data) =>
           data.filter(
@@ -53,7 +53,7 @@ export const resolvers = {
       return seriesData;
     },
     country: (obj: any, args: { name: string }, context: any, info: any) => {
-      let countries = DataLoader.getCountries();
+      const countries = DataLoader.getCountries();
       if (args.name && args.name !== "") {
         return countries.then((data) =>
           data.filter((item: any) => item.name === args.name)

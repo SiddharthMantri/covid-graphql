@@ -26,13 +26,13 @@ export type TimeSeries = {
 };
 
 export type CountryRegion = {
-  name: String;
-  region: String;
+  name: string;
+  region: string;
 };
 
 export type Country = {
   name: string;
-  regions: Array<{ name: String }>;
+  regions: Array<{ name: string }>;
   lat: string;
   lng: string;
 };

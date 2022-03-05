@@ -59,12 +59,13 @@ const Wrapper = () => {
             >
               Covid-19 Tracker
             </Typography>
-            <div className={classes.grow}></div>
+            <div className={classes.grow} />
             <div>
               <a
                 href="https://www.github.com/SiddharthMantri/covid-graphql"
                 target="_blank"
                 className={classes.icon}
+                rel="noreferrer"
               >
                 <GitHubIcon />
               </a>
@@ -75,7 +76,7 @@ const Wrapper = () => {
           style={{
             minHeight: "64px",
           }}
-        ></div>
+        />
         <Switch>
           {Routes.map((route) => (
             <Route key={route.name} {...route} />

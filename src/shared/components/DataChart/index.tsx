@@ -13,6 +13,7 @@ import { LinearScale, LogScale } from "@nivo/scales";
 import { useMemo, Component } from "react";
 import { legends, theme, useDataChart } from "./chartUtil";
 import { TimeSeriesData } from "../../types";
+
 interface ErrorState {
   hasError: boolean;
 }
@@ -88,9 +89,10 @@ const DataChart = ({
           min: "auto",
         };
   const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const colorScheme = useMemo(() => (isDarkMode ? "nivo" : "dark2"), [
-    isDarkMode,
-  ]);
+  const colorScheme = useMemo(
+    () => (isDarkMode ? "nivo" : "dark2"),
+    [isDarkMode]
+  );
   return (
     <Card className={classes.root}>
       <CardContent className={classes.root}>
@@ -153,7 +155,7 @@ const DataChart = ({
               <ErrorBoundary>
                 <ResponsiveLine
                   theme={theme}
-                  animate={true}
+                  animate
                   data={data}
                   margin={{
                     top: 20,
@@ -177,10 +179,10 @@ const DataChart = ({
                     tickValues: "every 5 day",
                     legend: "Dates",
                   }}
-                  enablePointLabel={true}
+                  enablePointLabel
                   pointSize={8}
                   enableSlices={false}
-                  useMesh={true}
+                  useMesh
                   legends={legends}
                 />
               </ErrorBoundary>

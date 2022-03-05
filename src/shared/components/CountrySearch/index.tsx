@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import { ChangeEvent, ReactNode } from "react";
 import { CountryRegion } from "../../types";
 
 const useStyles = makeStyles({
@@ -18,8 +19,8 @@ const useStyles = makeStyles({
 type CountrySearchProps = {
   countries: CountryRegion[];
   onChange: (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
-    child: React.ReactNode
+    event: ChangeEvent<{ name?: string; value: unknown }>,
+    child: ReactNode
   ) => void;
   selectedCountry: string;
 };

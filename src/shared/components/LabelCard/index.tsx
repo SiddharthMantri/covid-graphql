@@ -6,9 +6,9 @@ import {
   Grid,
 } from "@material-ui/core";
 import { blue, red, green, yellow } from "@material-ui/core/colors";
-import { ChangeStat } from "../../index";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import { ChangeStat } from "../../types";
 
 const useStyles = makeStyles({
   root: {

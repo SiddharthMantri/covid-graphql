@@ -19,7 +19,7 @@ const MapContainer = () => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      <CardContent className={classes.cardContent}></CardContent>
+      <CardContent className={classes.cardContent} />
     </Card>
   );
 };

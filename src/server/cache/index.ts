@@ -1,11 +1,11 @@
 import NodeCache from "node-cache";
+import { AxiosResponse, AxiosError } from "axios";
 import {
   transformDateData,
   transformTimeSeries,
   transformCountries,
   transformDailySeries,
 } from "../utils";
-import { AxiosResponse, AxiosError } from "axios";
 import { DateRecord, TimeSeries, CountryRegion, StoreFunction } from "../types";
 
 /**

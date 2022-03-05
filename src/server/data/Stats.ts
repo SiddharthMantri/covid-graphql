@@ -4,10 +4,10 @@ import { DataLoader } from "./Data";
 import { DateRecord } from "../types";
 
 const getPercentageChange = (newValue: number, old: number) => {
-  const val1 = isNaN(newValue) ? 0 : Number(newValue);
-  const val2 = isNaN(old) ? 0 : Number(old);
+  const val1 = Number.isNaN(newValue) ? 0 : Number(newValue);
+  const val2 = Number.isNaN(old) ? 0 : Number(old);
   const percChange = ((val1 - val2) / val2) * 100;
-  return isNaN(percChange) ? 0 : percChange;
+  return Number.isNaN(percChange) ? 0 : percChange;
 };
 
 export const Stats = {
@@ -22,10 +22,10 @@ export const Stats = {
     };
     result = await DataLoader.getDateData(date).then((recs: DateRecord[]) => {
       recs.reduce((acc, next) => {
-        acc.confirmed += isNaN(next.confirmed) ? 0 : next.confirmed;
-        acc.recovered += isNaN(next.recovered) ? 0 : next.recovered;
-        acc.active += isNaN(next.active) ? 0 : next.active;
-        acc.deaths += isNaN(next.deaths) ? 0 : next.deaths;
+        acc.confirmed += Number.isNaN(next.confirmed) ? 0 : next.confirmed;
+        acc.recovered += Number.isNaN(next.recovered) ? 0 : next.recovered;
+        acc.active += Number.isNaN(next.active) ? 0 : next.active;
+        acc.deaths += Number.isNaN(next.deaths) ? 0 : next.deaths;
         acc.updated = next.updated && next.updated !== "" ? next.updated : "";
         return acc;
       }, result);
@@ -39,14 +39,14 @@ export const Stats = {
     let results = [] as DateRecord[];
     results = await DataLoader.getDateData(date).then((recs: DateRecord[]) => {
       recs.forEach((record) => {
-        let rec = results.findIndex(
+        const rec = results.findIndex(
           (item) => item.countryRegion === record.countryRegion
         );
         if (rec > -1) {
-          let confirmed = results[rec].confirmed + record.confirmed;
-          let active = results[rec].active + record.active;
-          let recovered = results[rec].recovered + record.recovered;
-          let deaths = results[rec].deaths + record.deaths;
+          const confirmed = results[rec].confirmed + record.confirmed;
+          const active = results[rec].active + record.active;
+          const recovered = results[rec].recovered + record.recovered;
+          const deaths = results[rec].deaths + record.deaths;
           results[rec] = {
             ...results[rec],
             confirmed,
@@ -87,10 +87,10 @@ export const Stats = {
         recs = recs.filter((item) => item.countryRegion === countryRegion);
       }
       recs.reduce((acc, next) => {
-        acc.confirmed += isNaN(next.confirmed) ? 0 : next.confirmed;
-        acc.recovered += isNaN(next.recovered) ? 0 : next.recovered;
-        acc.active += isNaN(next.active) ? 0 : next.active;
-        acc.deaths += isNaN(next.deaths) ? 0 : next.deaths;
+        acc.confirmed += Number.isNaN(next.confirmed) ? 0 : next.confirmed;
+        acc.recovered += Number.isNaN(next.recovered) ? 0 : next.recovered;
+        acc.active += Number.isNaN(next.active) ? 0 : next.active;
+        acc.deaths += Number.isNaN(next.deaths) ? 0 : next.deaths;
         acc.updated = next.updated && next.updated !== "" ? next.updated : "";
         return acc;
       }, result);
@@ -101,10 +101,10 @@ export const Stats = {
         recs = recs.filter((item) => item.countryRegion === countryRegion);
       }
       recs.reduce((acc, next) => {
-        acc.confirmed += isNaN(next.confirmed) ? 0 : next.confirmed;
-        acc.recovered += isNaN(next.recovered) ? 0 : next.recovered;
-        acc.active += isNaN(next.active) ? 0 : next.active;
-        acc.deaths += isNaN(next.deaths) ? 0 : next.deaths;
+        acc.confirmed += Number.isNaN(next.confirmed) ? 0 : next.confirmed;
+        acc.recovered += Number.isNaN(next.recovered) ? 0 : next.recovered;
+        acc.active += Number.isNaN(next.active) ? 0 : next.active;
+        acc.deaths += Number.isNaN(next.deaths) ? 0 : next.deaths;
         acc.updated = next.updated;
         return acc;
       }, res2);

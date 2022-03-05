@@ -4,7 +4,8 @@ import {
   Typography,
   ListItemSecondaryAction,
 } from "@material-ui/core";
-import { ChangeStat } from "../../../shared";
+import { ChangeStat } from "../../types";
+
 const LABELS = {
   recovered: "Recovered",
   confirmed: "Confirmed",
@@ -18,7 +19,7 @@ type CountryListItemProps = {
 };
 
 const CountryListItem = ({ type, data }: CountryListItemProps) => {
-  let value = data ? new Intl.NumberFormat("en-US").format(data.number) : "";
+  const value = data ? new Intl.NumberFormat("en-US").format(data.number) : "";
   return (
     <ListItem disableGutters>
       <ListItemText>

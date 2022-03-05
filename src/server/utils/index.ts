@@ -1,4 +1,5 @@
 import Papa from "papaparse";
+import { timeStamp } from "console";
 import {
   CountryRegion,
   TimeSeries,
@@ -6,7 +7,6 @@ import {
   DateRecord,
   Country,
 } from "../types";
-import { timeStamp } from "console";
 
 const parseCsv = (string: string) =>
   Papa.parse(string, {
@@ -16,8 +16,8 @@ const parseCsv = (string: string) =>
   });
 
 export const transformDateData = (csvString: string): DateRecord[] => {
-  let json = parseCsv(csvString);
-  let { data: array } = json;
+  const json = parseCsv(csvString);
+  const { data: array } = json;
   return array.map((item) => ({
     provinceState: item["Province/State"] || item["Province_State"],
     countryRegion: item["Country/Region"] || item["Country_Region"],
@@ -32,16 +32,16 @@ export const transformDateData = (csvString: string): DateRecord[] => {
 };
 
 export const transformTimeSeries = (csvString: string): TimeSeries[] => {
-  let json = parseCsv(csvString);
-  let { data: array } = json;
+  const json = parseCsv(csvString);
+  const { data: array } = json;
   return array.map((item) => {
-    let newItem = {
+    const newItem = {
       provinceState: item["Province/State"],
       countryRegion: item["Country/Region"],
       lat: item["Lat"],
       lng: item["Long"],
     };
-    let data: DateStat[] = [];
+    const data: DateStat[] = [];
     Object.keys(item).forEach((key) => {
       if (
         ["Province/State", "Country/Region", "Lat", "Long"].indexOf(key) < 0
@@ -57,16 +57,16 @@ export const transformTimeSeries = (csvString: string): TimeSeries[] => {
 };
 
 export const transformCountries = (csvString: string): Country[] => {
-  let dateRecords = transformDateData(csvString);
-  let countrySet = new Set(dateRecords.map((item) => item.countryRegion));
-  let response = [...countrySet].sort().map((item) => ({
+  const dateRecords = transformDateData(csvString);
+  const countrySet = new Set(dateRecords.map((item) => item.countryRegion));
+  const response = [...countrySet].sort().map((item) => ({
     name: item,
     regions: [],
     lat: "",
     lng: "",
   }));
   dateRecords.forEach((record) => {
-    let object = response.find((item) => item.name === record.countryRegion);
+    const object = response.find((item) => item.name === record.countryRegion);
     if (object && object.regions) {
       if (record.provinceState && record.provinceState !== "") {
         object.lat = record.lat;
@@ -81,16 +81,16 @@ export const transformCountries = (csvString: string): Country[] => {
 };
 
 export const transformDailySeries = (csvString: string): TimeSeries[] => {
-  let json = parseCsv(csvString);
-  let { data: array } = json;
-  let timerSeries = array.map((item) => {
-    let newItem = {
+  const json = parseCsv(csvString);
+  const { data: array } = json;
+  const timerSeries = array.map((item) => {
+    const newItem = {
       provinceState: item["Province/State"],
       countryRegion: item["Country/Region"],
       lat: item["Lat"],
       lng: item["Long"],
     };
-    let data: DateStat[] = [];
+    const data: DateStat[] = [];
     Object.keys(item).forEach((key) => {
       if (
         ["Province/State", "Country/Region", "Lat", "Long"].indexOf(key) < 0
@@ -107,11 +107,11 @@ export const transformDailySeries = (csvString: string): TimeSeries[] => {
 
   for (let i = 0; i < timerSeries.length; i++) {
     const dataObject = timerSeries[i];
-    let calculatedData = [];
+    const calculatedData = [];
     for (let k = 1; k < dataObject.data.length; k++) {
       const dataRow = dataObject.data[k];
       const prevDataRow = dataObject.data[k - 1];
-      let objectRow = {} as DateStat;
+      const objectRow = {} as DateStat;
       objectRow.date = dataRow.date;
       objectRow.nums =
         dataRow.nums - prevDataRow.nums > -1

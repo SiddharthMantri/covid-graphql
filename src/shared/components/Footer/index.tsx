@@ -17,7 +17,7 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <>
-      <Divider></Divider>
+      <Divider />
       <Container maxWidth="xl" className={classes.padded}>
         <Grid container spacing={3}>
           <Typography variant="body1">Sources: </Typography>

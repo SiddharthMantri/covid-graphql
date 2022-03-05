@@ -6,7 +6,7 @@ import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../../apollo/queries";
 import CountryList from "../../components/CountryList";
 import DataChart from "../../components/DataChart";
 import LabelCard from "../../components/LabelCard";
-import { ChangeStat, TimeSeriesRecord } from "../..";
+import { ChangeStat, TimeSeriesRecord } from "../../types";
 
 const drawerWidth = 240;
 
@@ -105,7 +105,7 @@ const Home = () => {
               <DataChart
                 timeSeries={countryTimeSeries}
                 country={selectedCountry}
-                detailLink={true}
+                detailLink
               />
             </Grid>
           </Grid>
