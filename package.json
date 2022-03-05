@@ -21,7 +21,7 @@
     "@material-ui/icons": "^4.9.1",
     "@nivo/line": "^0.61.1",
     "apollo-server-express": "3.6.3",
-    "axios": "0.19.2",
+    "axios": "0.21.2",
     "cross-fetch": "3.0.5",
     "dayjs": "^1.8.29",
     "express": "^4.17.1",
