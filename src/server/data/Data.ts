@@ -31,7 +31,9 @@ export const Data = {
   },
   getCountries() {
     const key = "covid_data_countries";
-    let date = dayjs().subtract(1, "day").format(DATE_FORMAT);
+
+    const date = dayjs().subtract(1, "day").format(DATE_FORMAT);
+
     return cacheService
       .getCountries(key, () => axios.get(RAW_DATE_DATA(date)))
       .then((result: any) => result);

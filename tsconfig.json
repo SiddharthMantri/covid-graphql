@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "tools/config/webpack.server.js"]
 }

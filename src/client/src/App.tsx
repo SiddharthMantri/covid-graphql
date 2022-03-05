@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@material-ui/core/styles";
-import React from "react";
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import Wrapper from "../../shared/components/Wrapper";

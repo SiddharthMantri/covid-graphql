@@ -1,5 +1,5 @@
 import { LegendProps } from "@nivo/legends";
-import React, { useMemo, useState, SetStateAction } from "react";
+import { useMemo, useState, SetStateAction } from "react";
 import { TimeSeriesData } from "../../types";
 import { DataChartProps } from "./index";
 import dayjs from "dayjs";

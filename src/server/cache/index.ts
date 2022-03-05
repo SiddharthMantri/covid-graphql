@@ -6,7 +6,7 @@ import {
   transformDailySeries,
 } from "../utils";
 import { AxiosResponse, AxiosError } from "axios";
-import { DateRecord, TimeSeries, CountryRegion } from "../types";
+import { DateRecord, TimeSeries, CountryRegion, StoreFunction } from "../types";
 
 /**
  *
@@ -15,6 +15,7 @@ import { DateRecord, TimeSeries, CountryRegion } from "../types";
  */
 class Cache {
   cache: NodeCache;
+
   constructor({ ttlSeconds }: { ttlSeconds: number }) {
     this.cache = new NodeCache({
       stdTTL: ttlSeconds,
@@ -22,7 +23,8 @@ class Cache {
       useClones: false,
     });
   }
-  getCachedDateData(key: string, storeFunction: Function) {
+
+  async getCachedDateData(key: string, storeFunction: StoreFunction) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -30,16 +32,15 @@ class Cache {
     }
 
     console.log(`Data for ${key} not found. Requesting data from JHU repo`);
-    return storeFunction()
-      .then((result: AxiosResponse<any>) => {
-        console.log(`Data loaded. Cached into ${key}`);
-        let transformed = transformDateData(result.data);
-        this.cache.set(key, transformed);
-        return transformed;
-      })
-      .catch((err: AxiosError): DateRecord[] => []);
+
+    const result = await storeFunction();
+    console.log(`Data loaded. Cached into ${key}`);
+    const transformed = transformDateData(result.data);
+    this.cache.set(key, transformed);
+    return transformed;
   }
-  getCachedTimeSeriesData(key: string, storeFunction: Function) {
+
+  async getCachedTimeSeriesData(key: string, storeFunction: StoreFunction) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -47,17 +48,15 @@ class Cache {
     }
 
     console.log(`Data for ${key} not found. Requesting data from JHU repo`);
-    return storeFunction()
-      .then((result: AxiosResponse<any>) => {
-        console.log(`Data loaded. Cached into ${key}`);
-        let transformed = transformTimeSeries(result.data);
-        this.cache.set(key, transformed);
-        return transformed;
-      })
-      .catch((err: AxiosError): TimeSeries[] => []);
+
+    const result = await storeFunction();
+    console.log(`Data loaded. Cached into ${key}`);
+    const transformed = transformTimeSeries(result.data);
+    this.cache.set(key, transformed);
+    return transformed;
   }
 
-  getCachedDailySeries(key: string, storeFunction: Function) {
+  async getCachedDailySeries(key: string, storeFunction: StoreFunction) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -65,17 +64,15 @@ class Cache {
     }
 
     console.log(`Data for ${key} not found. Requesting data from JHU repo`);
-    return storeFunction()
-      .then((result: AxiosResponse<any>) => {
-        console.log(`Data loaded. Cached into ${key}`);
-        let transformed = transformDailySeries(result.data);
-        this.cache.set(key, transformed);
-        return transformed;
-      })
-      .catch((err: AxiosError): TimeSeries[] => []);
+
+    const result = await storeFunction();
+    console.log(`Data loaded. Cached into ${key}`);
+    const transformed = transformDailySeries(result.data);
+    this.cache.set(key, transformed);
+    return transformed;
   }
 
-  getCountries(key: string, storeFunction: Function) {
+  async getCountries(key: string, storeFunction: StoreFunction) {
     const value = this.cache.get(key);
     if (value) {
       console.log(`Data for ${key} found.`);
@@ -84,14 +81,12 @@ class Cache {
     console.log(
       `Data for ${key} not found. Requesting data from restCountries API`
     );
-    return storeFunction()
-      .then((result: AxiosResponse<any>) => {
-        console.log(`Data loaded. Cached into ${key}`);
-        let transformed = transformCountries(result.data);
-        this.cache.set(key, transformed);
-        return transformed;
-      })
-      .catch((err: AxiosError): CountryRegion[] => []);
+
+    const result = await storeFunction();
+    console.log(`Data loaded. Cached into ${key}`);
+    const transformed = transformCountries(result.data);
+    this.cache.set(key, transformed);
+    return transformed;
   }
 
   getCacheStats() {

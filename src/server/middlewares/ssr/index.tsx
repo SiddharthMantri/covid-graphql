@@ -3,7 +3,6 @@ import { SchemaLink } from "@apollo/client/link/schema";
 import { getMarkupFromTree } from "@apollo/client/react/ssr";
 import { ServerStyleSheets, ThemeProvider } from "@material-ui/core";
 import { RequestHandler } from "express";
-import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter, StaticRouterContext } from "react-router";
 import Wrapper from "../../../shared/components/Wrapper";
@@ -60,7 +59,7 @@ const ssr: RequestHandler = (req, res, next) => {
   const sheets = new ServerStyleSheets();
 
   const client = new ApolloClient({
-    ssrMode: false,
+    ssrMode: true,
     link: new SchemaLink({ schema }),
     cache,
   });

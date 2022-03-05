@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as H from "history";
-import React, { useState } from "react";
+import { useState } from "react";
 import { GlobalChangeStat, TimeSeries } from "../..";
 import { GET_COUNTRY_DATA, LOAD_TIME_SERIES } from "../../apollo/queries";
 import DataChart from "../../components/DataChart";

@@ -1,7 +1,7 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_GLOBAL_STATS, LOAD_TIME_SERIES } from "../../apollo/queries";
 import CountryList from "../../components/CountryList";
 import DataChart from "../../components/DataChart";
@@ -60,10 +60,10 @@ const Home = () => {
 
   const [getTimeSeries, { data: timeSeries }] = useLazyQuery(LOAD_TIME_SERIES);
 
-  const onClickCountry = useCallback((countryRegion: string) => {
+  const onClickCountry = (countryRegion: string) => {
     setSelectedCountry(countryRegion);
     getTimeSeries({ variables: { name: countryRegion } });
-  }, []);
+  };
 
   useEffect(() => {
     if (timeSeries) {

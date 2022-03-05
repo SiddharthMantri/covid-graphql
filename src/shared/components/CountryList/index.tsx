@@ -11,7 +11,7 @@ import {
   TableSortLabel,
   Typography,
 } from "@material-ui/core";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useSortBy, useTable, useFilters } from "react-table";
 import { DateRecord } from "../..";
 

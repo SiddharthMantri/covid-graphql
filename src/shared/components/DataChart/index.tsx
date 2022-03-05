@@ -10,12 +10,13 @@ import {
 } from "@material-ui/core";
 import { ResponsiveLine } from "@nivo/line";
 import { LinearScale, LogScale } from "@nivo/scales";
-import React, { useMemo } from "react";
+import { useMemo, Component } from "react";
 import { legends, theme, useDataChart } from "./chartUtil";
 import { TimeSeriesData } from "../../types";
 interface ErrorState {
   hasError: boolean;
 }
+
 export type DataChartProps = {
   separate?: boolean;
   country?: string;
@@ -27,7 +28,7 @@ export type DataChartProps = {
   detailLink?: boolean;
   showType?: "deaths" | "confirmed";
 };
-class ErrorBoundary extends React.Component<{}, ErrorState> {
+class ErrorBoundary extends Component<{}, ErrorState> {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
@@ -190,4 +191,5 @@ const DataChart = ({
     </Card>
   );
 };
+
 export default DataChart;

@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios";
+
 export type DateRecord = {
   provinceState: string;
   countryRegion: string;
@@ -34,3 +36,5 @@ export type Country = {
   lat: string;
   lng: string;
 };
+
+export type StoreFunction = () => Promise<AxiosResponse<any>>;

@@ -5,7 +5,6 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
-import React from "react";
 import { blue, red, green, yellow } from "@material-ui/core/colors";
 import { ChangeStat } from "../../index";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
