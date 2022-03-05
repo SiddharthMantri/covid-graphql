@@ -50,11 +50,6 @@ const Html = ({
           )};`,
         }}
       />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(){console.log(window.__APOLLO_STATE__)})()`,
-        }}
-      />
       <script src="/main.js" />
     </body>
   </html>
@@ -65,7 +60,7 @@ const ssr: RequestHandler = (req, res, next) => {
   const sheets = new ServerStyleSheets();
 
   const client = new ApolloClient({
-    ssrMode: true,
+    ssrMode: false,
     link: new SchemaLink({ schema }),
     cache,
   });

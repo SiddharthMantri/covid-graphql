@@ -3,6 +3,13 @@ import { DATE_FORMAT } from "../utils/constants";
 import { DataLoader } from "./Data";
 import { DateRecord } from "../types";
 
+const getPercentageChange = (newValue: number, old: number) => {
+  const val1 = isNaN(newValue) ? 0 : Number(newValue);
+  const val2 = isNaN(old) ? 0 : Number(old);
+  const percChange = ((val1 - val2) / val2) * 100;
+  return isNaN(percChange) ? 0 : percChange;
+};
+
 export const Stats = {
   async getGlobalStats() {
     const date = dayjs().subtract(1, "day").format(DATE_FORMAT);
@@ -58,6 +65,7 @@ export const Stats = {
   async getGlobalStatsWithChange(countryRegion?: string) {
     const date = dayjs().subtract(1, "day").format(DATE_FORMAT);
     const dateM2 = dayjs().subtract(2, "day").format(DATE_FORMAT);
+
     let result = {
       confirmed: 0,
       recovered: 0,
@@ -65,6 +73,7 @@ export const Stats = {
       active: 0,
       updated: "",
     };
+
     let res2 = {
       confirmed: 0,
       recovered: 0,
@@ -72,6 +81,7 @@ export const Stats = {
       active: 0,
       updated: "",
     };
+
     result = await DataLoader.getDateData(date).then((recs: DateRecord[]) => {
       if (countryRegion) {
         recs = recs.filter((item) => item.countryRegion === countryRegion);
@@ -105,22 +115,22 @@ export const Stats = {
       confirmed: {
         number: result.confirmed,
         change: result.confirmed - res2.confirmed,
-        perc: ((result.confirmed - res2.confirmed) / res2.confirmed) * 100,
+        perc: getPercentageChange(result.confirmed, res2.confirmed),
       },
       active: {
         number: result.active,
         change: result.active - res2.active,
-        perc: ((result.active - res2.active) / res2.active) * 100,
+        perc: getPercentageChange(result.active, res2.active),
       },
       recovered: {
         number: result.recovered,
         change: result.recovered - res2.recovered,
-        perc: ((result.recovered - res2.recovered) / res2.recovered) * 100,
+        perc: getPercentageChange(result.recovered, res2.recovered),
       },
       deaths: {
         number: result.deaths,
         change: result.deaths - res2.deaths,
-        perc: ((result.deaths - res2.deaths) / res2.deaths) * 100,
+        perc: getPercentageChange(result.recovered, res2.recovered),
       },
     };
 
