@@ -1,5 +1,6 @@
 import { ApolloServer } from "apollo-server-express";
-import { makeExecutableSchema } from "graphql-tools";
+import { ApolloServerPluginLandingPageGraphQLPlayground as GqlPlayground } from "apollo-server-core";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { typeDefs, resolvers } from "../schema";
 
 export const schema = makeExecutableSchema({
@@ -11,8 +12,7 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
-  playground: true,
-  uploads: false,
+  plugins: [GqlPlayground],
 });
 
 export default apolloServer;

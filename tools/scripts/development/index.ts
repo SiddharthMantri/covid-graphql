@@ -18,11 +18,13 @@ const startDevServer = () => {
     },
   });
 
-  server.listen(port, (...cb) => {
-    if (cb && cb.length) {
-      console.log(cb);
-    }
-    console.log(`Listening on: ${port}`);
+  server.then((app) => {
+    app.listen(port, (...cb) => {
+      if (cb && cb.length) {
+        console.log(cb);
+      }
+      console.log(`Listening on: ${port}`);
+    });
   });
 };
 

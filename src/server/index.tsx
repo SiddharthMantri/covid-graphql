@@ -13,7 +13,7 @@ type ServerArgs = {
   };
 };
 
-const expressServer = ({ mode, config, options }: ServerArgs) => {
+const expressServer = async ({ mode, config, options }: ServerArgs) => {
   const app = express();
   app.use(express.static(path.join(__dirname, "build")));
 
@@ -37,6 +37,8 @@ const expressServer = ({ mode, config, options }: ServerArgs) => {
       })
     );
   }
+
+  await apolloServer.start();
   apolloServer.applyMiddleware({ app });
   app.use(ssr);
   return app;
