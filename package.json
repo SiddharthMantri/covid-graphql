@@ -22,7 +22,7 @@
     "@nivo/line": "^0.61.1",
     "apollo-server-express": "3.6.3",
     "axios": "0.21.2",
-    "cross-fetch": "3.0.5",
+    "cross-fetch": "3.1.5",
     "dayjs": "^1.8.29",
     "express": "^4.17.1",
     "graphql": "16.3.0",
